@@ -1,9 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
-import { MacbookAir } from "./screens/MacbookAir/MacbookAir";
+import { App } from "./App";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
-    <MacbookAir />
+    <App />
   </StrictMode>,
 );
