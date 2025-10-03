@@ -6,22 +6,41 @@ import { Card } from '../../components/ui/card';
 import { useAuth } from '../../contexts/AuthContext';
 
 export const Login = (): JSX.Element => {
-  const { signIn } = useAuth();
+  const { signIn, signUp } = useAuth();
+  const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [role, setRole] = useState<'admin' | 'client'>('client');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
-    const { error } = await signIn(email, password);
-
-    if (error) {
-      setError(error.message || 'Failed to sign in');
-      setLoading(false);
+    if (isSignUp) {
+      const { error } = await signUp(email, password, fullName, role);
+      if (error) {
+        setError(error.message || 'Failed to sign up');
+        setLoading(false);
+      } else {
+        setSuccess('Account created successfully! You can now sign in.');
+        setIsSignUp(false);
+        setEmail('');
+        setPassword('');
+        setFullName('');
+        setLoading(false);
+      }
+    } else {
+      const { error } = await signIn(email, password);
+      if (error) {
+        setError(error.message || 'Failed to sign in');
+        setLoading(false);
+      }
     }
   };
 
@@ -33,17 +52,39 @@ export const Login = (): JSX.Element => {
             <img className="w-12 h-12" alt="Logo" src="/v.png" />
           </div>
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-3xl mb-2">
-            Welcome Back
+            {isSignUp ? 'Create Account' : 'Welcome Back'}
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-600">
-            Sign in to access your dashboard
+            {isSignUp ? 'Sign up to get started' : 'Sign in to access your dashboard'}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {error && (
-            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg [font-family:'Lexend',Helvetica]">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg [font-family:'Lexend',Helvetica] text-sm">
               {error}
+            </div>
+          )}
+
+          {success && (
+            <div className="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg [font-family:'Lexend',Helvetica] text-sm">
+              {success}
+            </div>
+          )}
+
+          {isSignUp && (
+            <div>
+              <Label className="[font-family:'Lexend',Helvetica] font-semibold text-gray-700 mb-2 block">
+                Full Name
+              </Label>
+              <Input
+                type="text"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#023c97] [font-family:'Lexend',Helvetica]"
+                placeholder="John Doe"
+                required
+              />
             </div>
           )}
 
@@ -75,33 +116,45 @@ export const Login = (): JSX.Element => {
             />
           </div>
 
+          {isSignUp && (
+            <div>
+              <Label className="[font-family:'Lexend',Helvetica] font-semibold text-gray-700 mb-2 block">
+                Role
+              </Label>
+              <select
+                value={role}
+                onChange={(e) => setRole(e.target.value as 'admin' | 'client')}
+                className="w-full h-12 rounded-lg border-2 border-gray-300 focus:border-[#023c97] [font-family:'Lexend',Helvetica] px-4"
+                required
+              >
+                <option value="client">Client</option>
+                <option value="admin">Admin</option>
+              </select>
+            </div>
+          )}
+
           <Button
             type="submit"
             disabled={loading}
             className="w-full h-12 bg-[#023c97] hover:bg-[#022d70] text-white rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
           >
-            {loading ? 'Signing in...' : 'Sign In'}
+            {loading ? (isSignUp ? 'Creating Account...' : 'Signing in...') : (isSignUp ? 'Sign Up' : 'Sign In')}
           </Button>
         </form>
 
         <div className="mt-6 text-center">
           <p className="[font-family:'Lexend',Helvetica] text-gray-600 text-sm">
-            Don't have an account?{' '}
-            <a href="#signup" className="text-[#023c97] font-semibold hover:underline">
-              Contact your administrator
-            </a>
-          </p>
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-gray-200">
-          <p className="[font-family:'Lexend',Helvetica] text-gray-500 text-xs text-center">
-            Demo Credentials:
-          </p>
-          <p className="[font-family:'Lexend',Helvetica] text-gray-500 text-xs text-center mt-1">
-            Admin: admin@demo.com / Password: admin123
-          </p>
-          <p className="[font-family:'Lexend',Helvetica] text-gray-500 text-xs text-center">
-            Client: client@demo.com / Password: client123
+            {isSignUp ? 'Already have an account?' : "Don't have an account?"}{' '}
+            <button
+              onClick={() => {
+                setIsSignUp(!isSignUp);
+                setError('');
+                setSuccess('');
+              }}
+              className="text-[#023c97] font-semibold hover:underline"
+            >
+              {isSignUp ? 'Sign In' : 'Sign Up'}
+            </button>
           </p>
         </div>
       </Card>
