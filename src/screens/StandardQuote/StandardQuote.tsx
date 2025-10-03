@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
@@ -10,6 +11,8 @@ import { ClientInfoSection } from '../MacbookAir/sections/ClientInfoSection/Clie
 import { DateSelectionSection } from '../MacbookAir/sections/DateSelectionSection/DateSelectionSection';
 
 export const StandardQuote = (): JSX.Element => {
+  const navigate = useNavigate();
+  const [currentStep, setCurrentStep] = useState<'basic' | 'standard' | 'premium'>('standard');
   const [formData, setFormData] = useState({
     crewPerSetup: '',
     weightProductionToProfit: '',
@@ -20,18 +23,33 @@ export const StandardQuote = (): JSX.Element => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
+  const handleNext = () => {
+    navigate('/quote/premium');
+  };
+
+  const handleCancel = () => {
+    navigate('/dashboard');
+  };
+
+  const handleSaveProgress = () => {
+    alert('Progress saved!');
+  };
+
   const actionButtons = [
     {
       text: 'Cancel',
       className: 'bg-[#5a5a5a] hover:bg-[#4a4a4a]',
+      onClick: handleCancel,
     },
     {
       text: 'Save Progress',
       className: 'bg-[#007c89] hover:bg-[#006670]',
+      onClick: handleSaveProgress,
     },
     {
       text: 'Next',
       className: 'bg-[#023c97] hover:bg-[#022d70]',
+      onClick: handleNext,
     },
   ];
 
@@ -48,7 +66,7 @@ export const StandardQuote = (): JSX.Element => {
           </div>
 
           <div className="flex-1 mt-8">
-            <NavigationSection />
+            <NavigationSection currentStep={currentStep} onStepChange={setCurrentStep} />
           </div>
         </div>
 
@@ -148,6 +166,7 @@ export const StandardQuote = (): JSX.Element => {
             {actionButtons.map((button, index) => (
               <Button
                 key={index}
+                onClick={button.onClick}
                 className={`h-[45px] px-5 py-[7px] rounded-[10px] ${button.className}`}
               >
                 <span className="[font-family:'Lexend',Helvetica] font-bold text-white text-[25px] tracking-[0] leading-[normal]">
