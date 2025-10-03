@@ -4,10 +4,12 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar } from 'lucide-react';
+import { FileText, Download, Mail, Calendar, LogOut, PlusCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const ClientDashboard = (): JSX.Element => {
-  const { profile } = useAuth();
+  const { profile, signOut } = useAuth();
+  const navigate = useNavigate();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -59,6 +61,11 @@ export const ClientDashboard = (): JSX.Element => {
   const pendingQuotes = quotes.filter(q => q.status === 'draft').length;
   const completedQuotes = quotes.filter(q => q.status === 'done').length;
 
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -85,11 +92,27 @@ export const ClientDashboard = (): JSX.Element => {
           </a>
         </nav>
 
-        <Avatar className="w-12 h-12 bg-[#75c4cc]">
-          <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
-            {profile?.full_name?.charAt(0) || 'C'}
-          </div>
-        </Avatar>
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={() => navigate('/create-quote')}
+            className="bg-[#75c4cc] hover:bg-[#60b0b8] text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-semibold flex items-center gap-2"
+          >
+            <PlusCircle className="w-5 h-5" />
+            Create Quote
+          </Button>
+          <Button
+            onClick={handleLogout}
+            className="bg-transparent hover:bg-white/10 text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-semibold flex items-center gap-2"
+          >
+            <LogOut className="w-5 h-5" />
+            Logout
+          </Button>
+          <Avatar className="w-12 h-12 bg-[#75c4cc]">
+            <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
+              {profile?.full_name?.charAt(0) || 'C'}
+            </div>
+          </Avatar>
+        </div>
       </header>
 
       <div className="max-w-[1400px] mx-auto px-8 py-12">

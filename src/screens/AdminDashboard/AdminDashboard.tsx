@@ -4,10 +4,12 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote, DashboardStats } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { Users, DollarSign, FileText, Download, Mail, TrendingUp } from 'lucide-react';
+import { Users, DollarSign, FileText, Download, Mail, TrendingUp, LogOut } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 export const AdminDashboard = (): JSX.Element => {
-  const { profile } = useAuth();
+  const { profile, signOut } = useAuth();
+  const navigate = useNavigate();
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
@@ -81,6 +83,11 @@ export const AdminDashboard = (): JSX.Element => {
     }
   };
 
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
@@ -102,19 +109,31 @@ export const AdminDashboard = (): JSX.Element => {
           <a href="#dashboard" className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors">
             DASHBOARD
           </a>
-          <a href="#create-quote" className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors">
+          <button
+            onClick={() => navigate('/create-quote')}
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+          >
             CREATE QUOTE
-          </a>
+          </button>
           <a href="#all-quotes" className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors">
             ALL QUOTES
           </a>
         </nav>
 
-        <Avatar className="w-12 h-12 bg-[#75c4cc]">
-          <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
-            {profile?.full_name?.charAt(0) || 'A'}
-          </div>
-        </Avatar>
+        <div className="flex items-center gap-4">
+          <Button
+            onClick={handleLogout}
+            className="bg-transparent hover:bg-white/10 text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-semibold flex items-center gap-2"
+          >
+            <LogOut className="w-5 h-5" />
+            Logout
+          </Button>
+          <Avatar className="w-12 h-12 bg-[#75c4cc]">
+            <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
+              {profile?.full_name?.charAt(0) || 'A'}
+            </div>
+          </Avatar>
+        </div>
       </header>
 
       <div className="max-w-[1400px] mx-auto px-8 py-12">
