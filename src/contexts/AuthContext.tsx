@@ -24,7 +24,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const initAuth = async () => {
       try {
         console.log('Starting auth initialization...');
-        const { data: { session } } = await supabase.auth.getSession();
+        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
+
+        if (sessionError) {
+          console.error('Session error:', sessionError);
+          await supabase.auth.signOut();
+        }
+
         console.log('Session retrieved:', session ? 'User found' : 'No session');
 
         if (!mounted) return;
@@ -39,6 +45,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (error) {
         console.error('Init auth error:', error);
+        if (mounted) {
+          setUser(null);
+          setProfile(null);
+        }
       } finally {
         if (mounted) {
           console.log('Setting loading to false');
@@ -48,24 +58,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     const timeoutId = setTimeout(() => {
-      console.warn('Auth initialization timeout - forcing loading to false');
-      setLoading(false);
-    }, 3000);
+      if (mounted) {
+        console.warn('Auth initialization timeout - forcing loading to false');
+        setLoading(false);
+        setUser(null);
+        setProfile(null);
+      }
+    }, 5000);
 
     initAuth().finally(() => {
       clearTimeout(timeoutId);
     });
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      if (!mounted) return;
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      (async () => {
+        if (!mounted) return;
 
-      if (session?.user) {
-        setUser(session.user);
-        await loadProfile(session.user.id);
-      } else {
-        setUser(null);
-        setProfile(null);
-      }
+        if (session?.user) {
+          setUser(session.user);
+          await loadProfile(session.user.id);
+        } else {
+          setUser(null);
+          setProfile(null);
+        }
+      })();
     });
 
     return () => {
