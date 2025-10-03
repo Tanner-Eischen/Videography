@@ -19,7 +19,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let mounted = true;
+
     supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!mounted) return;
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
@@ -30,6 +33,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       (async () => {
+        if (!mounted) return;
         setUser(session?.user ?? null);
         if (session?.user) {
           await fetchProfile(session.user.id);
@@ -40,10 +44,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       })();
     });
 
-    return () => subscription.unsubscribe();
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, []);
 
   const fetchProfile = async (userId: string) => {
+    const timeoutId = setTimeout(() => {
+      console.warn('Profile fetch timeout - stopping loading');
+      setLoading(false);
+    }, 5000);
+
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -51,12 +63,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .eq('id', userId)
         .maybeSingle();
 
+      clearTimeout(timeoutId);
+
       if (data) {
         setProfile(data as Profile);
       } else if (error) {
         console.error('Error fetching profile:', error);
+      } else {
+        console.warn('No profile found for user:', userId);
       }
     } catch (err) {
+      clearTimeout(timeoutId);
       console.error('Exception fetching profile:', err);
     } finally {
       setLoading(false);
