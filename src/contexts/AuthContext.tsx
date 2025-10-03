@@ -23,11 +23,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     const initAuth = async () => {
       try {
+        console.log('Starting auth initialization...');
         const { data: { session } } = await supabase.auth.getSession();
+        console.log('Session retrieved:', session ? 'User found' : 'No session');
 
         if (!mounted) return;
 
         if (session?.user) {
+          console.log('Loading profile for user:', session.user.id);
           setUser(session.user);
           await loadProfile(session.user.id);
         } else {
@@ -38,12 +41,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         console.error('Init auth error:', error);
       } finally {
         if (mounted) {
+          console.log('Setting loading to false');
           setLoading(false);
         }
       }
     };
 
-    initAuth();
+    const timeoutId = setTimeout(() => {
+      console.warn('Auth initialization timeout - forcing loading to false');
+      setLoading(false);
+    }, 3000);
+
+    initAuth().finally(() => {
+      clearTimeout(timeoutId);
+    });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (!mounted) return;
@@ -65,11 +76,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const loadProfile = async (userId: string) => {
     try {
+      console.log('Fetching profile from database...');
       const { data, error } = await supabase
         .from('profiles')
         .select('*')
         .eq('id', userId)
         .maybeSingle();
+
+      console.log('Profile query result:', { data, error });
 
       if (error) {
         console.error('Error loading profile:', error);
@@ -77,6 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
 
       if (data) {
+        console.log('Profile loaded successfully:', data.role);
         setProfile(data as Profile);
       } else {
         console.warn('No profile found for user:', userId);
