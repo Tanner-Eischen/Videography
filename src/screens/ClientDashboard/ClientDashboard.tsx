@@ -4,7 +4,7 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar, LogOut, PlusCircle } from 'lucide-react';
+import { FileText, Download, Mail, Calendar, LogOut, CirclePlus as PlusCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const ClientDashboard = (): JSX.Element => {
