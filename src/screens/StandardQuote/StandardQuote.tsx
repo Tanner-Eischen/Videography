@@ -6,21 +6,36 @@ import { Label } from '../../components/ui/label';
 import { QuoteHeaderSection } from '../MacbookAir/sections/QuoteHeaderSection/QuoteHeaderSection';
 import { NavigationSection } from '../MacbookAir/sections/NavigationSection/NavigationSection';
 import { QuoteContainerSection } from '../MacbookAir/sections/QuoteContainerSection/QuoteContainerSection';
-import { QuoteFormSection } from '../MacbookAir/sections/QuoteFormSection/QuoteFormSection';
-import { ClientInfoSection } from '../MacbookAir/sections/ClientInfoSection/ClientInfoSection';
-import { DateSelectionSection } from '../MacbookAir/sections/DateSelectionSection/DateSelectionSection';
+import { Minus, Plus } from 'lucide-react';
 
 export const StandardQuote = (): JSX.Element => {
   const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState<'basic' | 'standard' | 'premium'>('standard');
   const [formData, setFormData] = useState({
-    crewPerSetup: '',
-    weightProductionToProfit: '',
-    discount: '',
+    numDeliverables: 3,
+    avgLengthPerDeliverable: '4 Hr 30mins',
+    filmingDays: 3,
+    hoursPerDay: '4 Hr 30mins',
+    numLocations: 5,
+    milesFromServiceRep: 0,
   });
 
-  const handleInputChange = (field: string, value: string) => {
+  const handleInputChange = (field: string, value: string | number) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const incrementValue = (field: string, max: number) => {
+    const currentValue = formData[field as keyof typeof formData];
+    if (typeof currentValue === 'number' && currentValue < max) {
+      setFormData(prev => ({ ...prev, [field]: currentValue + 1 }));
+    }
+  };
+
+  const decrementValue = (field: string, min: number) => {
+    const currentValue = formData[field as keyof typeof formData];
+    if (typeof currentValue === 'number' && currentValue > min) {
+      setFormData(prev => ({ ...prev, [field]: currentValue - 1 }));
+    }
   };
 
   const handleNext = () => {
@@ -75,89 +90,132 @@ export const StandardQuote = (): JSX.Element => {
             <QuoteContainerSection />
           </div>
 
-          <div className="px-8">
-            <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[25px] tracking-[0] leading-[normal] mb-6">
-              Client Information
-            </h2>
-
-            <QuoteFormSection />
-          </div>
-
-          <div className="px-8 mt-8">
-            <div className="flex items-center gap-8 mb-4">
-              <div className="flex-1">
-                <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal]">
-                  Project Start Date
-                </Label>
-              </div>
-
-              <div className="flex items-center gap-4">
-                <img className="w-11 h-11" alt="Subtract" src="/subtract.png" />
-              </div>
-
-              <div className="flex-1">
-                <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal]">
-                  Project End Date
-                </Label>
-              </div>
-            </div>
-
-            <div className="flex gap-8">
-              <div className="flex-1">
-                <ClientInfoSection />
-              </div>
-              <div className="flex-1">
-                <DateSelectionSection />
-              </div>
-            </div>
-          </div>
-
-          <div className="px-8 mt-8">
-            <div className="w-[741px]">
-              <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal] mb-4 block">
-                Production Company Name
-              </Label>
-              <Input className="h-[61px] rounded-xl border border-solid border-[#5a5a5a]" />
-            </div>
-          </div>
-
           <div className="px-8 mt-8">
             <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[25px] tracking-[0] leading-[normal] mb-6">
               Project Information
             </h2>
 
-            <div className="space-y-6 max-w-[741px]">
+            <div className="grid grid-cols-2 gap-6 max-w-[900px]">
               <div>
                 <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal] mb-2 block">
-                  Crew per Setup (DP + Other) (1-7)
+                  Number of Deliverables
+                </Label>
+                <div className="flex items-center gap-4">
+                  <Button
+                    onClick={() => decrementValue('numDeliverables', 1)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Minus className="w-6 h-6" />
+                  </Button>
+                  <Input
+                    className="h-[61px] rounded-xl border border-solid border-[#5a5a5a] text-center"
+                    value={formData.numDeliverables}
+                    readOnly
+                  />
+                  <Button
+                    onClick={() => incrementValue('numDeliverables', 20)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Plus className="w-6 h-6" />
+                  </Button>
+                </div>
+              </div>
+
+              <div>
+                <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal] mb-2 block">
+                  Average Length per Deliverable
                 </Label>
                 <Input
                   className="h-[61px] rounded-xl border border-solid border-[#5a5a5a]"
-                  value={formData.crewPerSetup}
-                  onChange={(e) => handleInputChange('crewPerSetup', e.target.value)}
+                  value={formData.avgLengthPerDeliverable}
+                  onChange={(e) => handleInputChange('avgLengthPerDeliverable', e.target.value)}
                 />
               </div>
 
               <div>
                 <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal] mb-2 block">
-                  Weight (Production to Profit) (40-80%)
+                  Filming Days
+                </Label>
+                <div className="flex items-center gap-4">
+                  <Button
+                    onClick={() => decrementValue('filmingDays', 1)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Minus className="w-6 h-6" />
+                  </Button>
+                  <Input
+                    className="h-[61px] rounded-xl border border-solid border-[#5a5a5a] text-center"
+                    value={formData.filmingDays}
+                    readOnly
+                  />
+                  <Button
+                    onClick={() => incrementValue('filmingDays', 30)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Plus className="w-6 h-6" />
+                  </Button>
+                </div>
+              </div>
+
+              <div>
+                <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal] mb-2 block">
+                  Hours per Day
                 </Label>
                 <Input
                   className="h-[61px] rounded-xl border border-solid border-[#5a5a5a]"
-                  value={formData.weightProductionToProfit}
-                  onChange={(e) => handleInputChange('weightProductionToProfit', e.target.value)}
+                  value={formData.hoursPerDay}
+                  onChange={(e) => handleInputChange('hoursPerDay', e.target.value)}
                 />
               </div>
 
               <div>
                 <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal] mb-2 block">
-                  Discount (0-20%)
+                  Number of Locations
                 </Label>
-                <Input
-                  className="h-[61px] rounded-xl border border-solid border-[#5a5a5a]"
-                  value={formData.discount}
-                  onChange={(e) => handleInputChange('discount', e.target.value)}
-                />
+                <div className="flex items-center gap-4">
+                  <Button
+                    onClick={() => decrementValue('numLocations', 1)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Minus className="w-6 h-6" />
+                  </Button>
+                  <Input
+                    className="h-[61px] rounded-xl border border-solid border-[#5a5a5a] text-center"
+                    value={formData.numLocations}
+                    readOnly
+                  />
+                  <Button
+                    onClick={() => incrementValue('numLocations', 50)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Plus className="w-6 h-6" />
+                  </Button>
+                </div>
+              </div>
+
+              <div>
+                <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg tracking-[0] leading-[normal] mb-2 block">
+                  Miles from Service Rep
+                </Label>
+                <div className="flex items-center gap-4">
+                  <Button
+                    onClick={() => decrementValue('milesFromServiceRep', 0)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Minus className="w-6 h-6" />
+                  </Button>
+                  <Input
+                    className="h-[61px] rounded-xl border border-solid border-[#5a5a5a] text-center"
+                    value={formData.milesFromServiceRep}
+                    readOnly
+                  />
+                  <Button
+                    onClick={() => incrementValue('milesFromServiceRep', 1000)}
+                    className="w-12 h-12 bg-[#75c4cc] hover:bg-[#60b0b8] rounded-lg"
+                  >
+                    <Plus className="w-6 h-6" />
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
