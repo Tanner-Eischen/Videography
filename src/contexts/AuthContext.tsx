@@ -21,27 +21,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     let mounted = true;
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!mounted) return;
-      setUser(session?.user ?? null);
-      if (session?.user) {
-        fetchProfile(session.user.id);
-      } else {
-        setLoading(false);
-      }
-    });
+    const initAuth = async () => {
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      (async () => {
         if (!mounted) return;
-        setUser(session?.user ?? null);
+
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          setUser(session.user);
+          await loadProfile(session.user.id);
         } else {
+          setUser(null);
           setProfile(null);
+        }
+      } catch (error) {
+        console.error('Init auth error:', error);
+      } finally {
+        if (mounted) {
           setLoading(false);
         }
-      })();
+      }
+    };
+
+    initAuth();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+      if (!mounted) return;
+
+      if (session?.user) {
+        setUser(session.user);
+        await loadProfile(session.user.id);
+      } else {
+        setUser(null);
+        setProfile(null);
+      }
     });
 
     return () => {
@@ -50,12 +63,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const fetchProfile = async (userId: string) => {
-    const timeoutId = setTimeout(() => {
-      console.warn('Profile fetch timeout - stopping loading');
-      setLoading(false);
-    }, 5000);
-
+  const loadProfile = async (userId: string) => {
     try {
       const { data, error } = await supabase
         .from('profiles')
@@ -63,20 +71,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .eq('id', userId)
         .maybeSingle();
 
-      clearTimeout(timeoutId);
+      if (error) {
+        console.error('Error loading profile:', error);
+        return;
+      }
 
       if (data) {
         setProfile(data as Profile);
-      } else if (error) {
-        console.error('Error fetching profile:', error);
       } else {
         console.warn('No profile found for user:', userId);
+        setProfile(null);
       }
     } catch (err) {
-      clearTimeout(timeoutId);
-      console.error('Exception fetching profile:', err);
-    } finally {
-      setLoading(false);
+      console.error('Exception loading profile:', err);
     }
   };
 
@@ -107,32 +114,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
       if (!authData.user) {
         return { error: { message: 'Failed to create user' } };
-      }
-
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: authData.user.id,
-          email,
-          full_name: fullName,
-          role,
-        });
-
-      if (profileError) {
-        console.error('Profile creation error:', profileError);
-        return { error: profileError };
-      }
-
-      if (authData.session) {
-        setUser(authData.user);
-        setProfile({
-          id: authData.user.id,
-          email,
-          full_name: fullName,
-          role,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        });
       }
 
       return { error: null };
