@@ -28,12 +28,10 @@ export const Login = (): JSX.Element => {
         setError(error.message || 'Failed to sign up');
         setLoading(false);
       } else {
-        setSuccess('Account created successfully! You can now sign in.');
-        setIsSignUp(false);
-        setEmail('');
-        setPassword('');
-        setFullName('');
-        setLoading(false);
+        setSuccess('Account created successfully! Redirecting to dashboard...');
+        setTimeout(() => {
+          setLoading(false);
+        }, 1000);
       }
     } else {
       const { error } = await signIn(email, password);

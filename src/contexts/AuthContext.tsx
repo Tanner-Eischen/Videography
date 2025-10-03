@@ -44,16 +44,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const fetchProfile = async (userId: string) => {
-    const { data, error } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', userId)
-      .maybeSingle();
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
+        .maybeSingle();
 
-    if (data) {
-      setProfile(data as Profile);
+      if (data) {
+        setProfile(data as Profile);
+      } else if (error) {
+        console.error('Error fetching profile:', error);
+      }
+    } catch (err) {
+      console.error('Exception fetching profile:', err);
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   const signIn = async (email: string, password: string) => {
@@ -65,16 +72,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signUp = async (email: string, password: string, fullName: string, role: 'admin' | 'client') => {
-    const { data: authData, error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-    });
+    try {
+      const { data: authData, error: authError } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: fullName,
+            role: role,
+          },
+        },
+      });
 
-    if (authError) {
-      return { error: authError };
-    }
+      if (authError) {
+        return { error: authError };
+      }
 
-    if (authData.user) {
+      if (!authData.user) {
+        return { error: { message: 'Failed to create user' } };
+      }
+
       const { error: profileError } = await supabase
         .from('profiles')
         .insert({
@@ -85,11 +102,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         });
 
       if (profileError) {
+        console.error('Profile creation error:', profileError);
         return { error: profileError };
       }
-    }
 
-    return { error: null };
+      if (authData.session) {
+        setUser(authData.user);
+        setProfile({
+          id: authData.user.id,
+          email,
+          full_name: fullName,
+          role,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
+      }
+
+      return { error: null };
+    } catch (err) {
+      console.error('Signup exception:', err);
+      return { error: err };
+    }
   };
 
   const signOut = async () => {
