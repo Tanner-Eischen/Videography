@@ -71,23 +71,23 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
         Create a New Quote
       </h1>
 
-      <div className="space-y-3 relative">
-        <div className="absolute left-[5px] top-[20px] bottom-0 w-[5px] bg-[#0050c8] rounded-full"></div>
+      <div className="space-y-4 relative">
+        <div className="absolute left-[20px] top-[24px] bottom-0 w-[6px] bg-[#5c8bb0] rounded-full"></div>
 
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
             <div
-              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all cursor-pointer relative ml-[16px] ${
+              className={`flex items-center gap-4 px-6 py-4 rounded-xl transition-all cursor-pointer relative ml-[50px] ${
                 isStepActive(step.number)
-                  ? "bg-white shadow-md"
-                  : "bg-white/30"
+                  ? "bg-white shadow-lg"
+                  : "bg-white/40"
               }`}
               onClick={() => {
                 onStepChange(step.number);
               }}
             >
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 absolute -left-[21px] ${
+                className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 absolute -left-[56px] ${
                   isStepCompleted(step.number)
                     ? "bg-[#0050c8] text-white"
                     : isStepActive(step.number)
@@ -98,13 +98,13 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
                 {isStepCompleted(step.number) ? (
                   <Check className="w-5 h-5 stroke-[3]" />
                 ) : (
-                  <span className="[font-family:'Lexend',Helvetica] font-bold text-lg">
+                  <span className="[font-family:'Lexend',Helvetica] font-bold text-xl">
                     {step.number}
                   </span>
                 )}
               </div>
               <span
-                className={`[font-family:'Lexend',Helvetica] font-bold text-lg ml-6 ${
+                className={`[font-family:'Lexend',Helvetica] font-bold text-xl ${
                   isStepActive(step.number) || isStepCompleted(step.number)
                     ? "text-[#0050c8]"
                     : "text-[#5c8bb0]"
@@ -115,15 +115,15 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
             </div>
 
             {step.subSteps && isStepActive(step.number) && (
-              <div className="relative ml-[36px] mt-3 mb-2 space-y-3">
+              <div className="relative ml-[68px] mt-4 mb-2 space-y-4">
                 {step.subSteps.map((subStep, subIndex) => (
                   <div key={subIndex} className="flex items-center gap-3 relative">
-                    <div className="w-[14px] h-[14px] rounded-full bg-[#0050c8] flex-shrink-0 flex items-center justify-center absolute -left-[26px]">
+                    <div className="w-[16px] h-[16px] rounded-full bg-[#0050c8] flex-shrink-0 flex items-center justify-center absolute -left-[54px]">
                       {isSubStepCompleted(step.number, subStep.label) && (
-                        <Check className="w-[9px] h-[9px] text-white stroke-[3]" />
+                        <Check className="w-[10px] h-[10px] text-white stroke-[3]" />
                       )}
                     </div>
-                    <span className="[font-family:'Lexend',Helvetica] text-[#0050c8] text-[15px] leading-tight">
+                    <span className="[font-family:'Lexend',Helvetica] text-[#0050c8] text-base leading-tight">
                       {subStep.label}
                     </span>
                   </div>
