@@ -74,13 +74,41 @@ export const AdminDashboard = (): JSX.Element => {
         return 'text-green-600';
       case 'draft':
         return 'text-gray-600';
-      case 'exported':
+      case 'downloaded':
         return 'text-orange-600';
       case 'emailed':
         return 'text-blue-600';
       default:
         return 'text-gray-600';
     }
+  };
+
+  const handleDownload = async (quoteId: string) => {
+    // Update quote status to 'downloaded'
+    await supabase
+      .from('quotes')
+      .update({ status: 'downloaded' })
+      .eq('id', quoteId);
+
+    // Refresh quotes
+    fetchDashboardData();
+
+    // TODO: Implement actual PDF download
+    console.log('Download quote:', quoteId);
+  };
+
+  const handleEmail = async (quoteId: string) => {
+    // Update quote status to 'emailed'
+    await supabase
+      .from('quotes')
+      .update({ status: 'emailed' })
+      .eq('id', quoteId);
+
+    // Refresh quotes
+    fetchDashboardData();
+
+    // TODO: Implement actual email functionality
+    console.log('Email quote:', quoteId);
   };
 
   const handleLogout = async () => {
@@ -289,13 +317,19 @@ export const AdminDashboard = (): JSX.Element => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
-                        <Button className="bg-transparent hover:bg-gray-100 p-2">
+                        <Button
+                          onClick={() => handleDownload(quote.id)}
+                          className="bg-transparent hover:bg-gray-100 p-2"
+                        >
                           <Download className="w-5 h-5 text-black" />
                           <span className="ml-2 [font-family:'Lexend',Helvetica] font-semibold text-black">
                             Download
                           </span>
                         </Button>
-                        <Button className="bg-transparent hover:bg-gray-100 p-2">
+                        <Button
+                          onClick={() => handleEmail(quote.id)}
+                          className="bg-transparent hover:bg-gray-100 p-2"
+                        >
                           <Mail className="w-5 h-5 text-black" />
                           <span className="ml-2 [font-family:'Lexend',Helvetica] font-semibold text-black">
                             Email
