@@ -5,6 +5,7 @@ import { QuoteStep } from "../CreateQuote";
 interface StepSidebarProps {
   currentStep: QuoteStep;
   onStepChange: (step: QuoteStep) => void;
+  completedSubSteps?: Record<number, string[]>;
 }
 
 interface SubStep {
@@ -20,6 +21,7 @@ interface Step {
 export const StepSidebar: React.FC<StepSidebarProps> = ({
   currentStep,
   onStepChange,
+  completedSubSteps = {},
 }) => {
   const steps: Step[] = [
     {
@@ -59,51 +61,53 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
     return currentStep === stepNumber;
   };
 
+  const isSubStepCompleted = (stepNumber: QuoteStep, subStepLabel: string) => {
+    return completedSubSteps[stepNumber]?.includes(subStepLabel) || false;
+  };
+
   return (
-    <div className="w-[400px] bg-[#d4e8ea] flex flex-col pt-16 px-12">
-      <h1 className="[font-family:'Lexend',Helvetica] font-bold text-black text-[40px] tracking-[0] leading-[1.2] mb-12">
+    <div className="w-[280px] bg-[#d4e8ea] flex flex-col pt-16 px-8">
+      <h1 className="[font-family:'Lexend',Helvetica] font-bold text-black text-[32px] tracking-[0] leading-[1.2] mb-12">
         Create a New Quote
       </h1>
 
-      <div className="space-y-6">
+      <div className="space-y-3">
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
             <div
-              className={`flex items-center gap-4 p-4 rounded-lg transition-all cursor-pointer ${
+              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all cursor-pointer ${
                 isStepActive(step.number)
-                  ? "bg-white shadow-md"
+                  ? "bg-white shadow-sm"
                   : isStepCompleted(step.number)
-                  ? "bg-white/50"
-                  : "bg-transparent"
+                  ? "bg-white/60"
+                  : "bg-transparent hover:bg-white/30"
               }`}
               onClick={() => {
-                if (step.number <= currentStep || isStepCompleted(step.number)) {
-                  onStepChange(step.number);
-                }
+                onStepChange(step.number);
               }}
             >
               <div
-                className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                   isStepCompleted(step.number)
-                    ? "bg-[#023c97] text-white"
+                    ? "bg-[#0050c8] text-white"
                     : isStepActive(step.number)
-                    ? "bg-[#023c97] text-white"
-                    : "bg-white text-[#023c97]"
+                    ? "bg-[#0050c8] text-white"
+                    : "bg-[#5c8bb0] text-white"
                 }`}
               >
                 {isStepCompleted(step.number) ? (
-                  <Check className="w-6 h-6" />
+                  <Check className="w-5 h-5 stroke-[3]" />
                 ) : (
-                  <span className="[font-family:'Lexend',Helvetica] font-bold text-xl">
+                  <span className="[font-family:'Lexend',Helvetica] font-bold text-lg">
                     {step.number}
                   </span>
                 )}
               </div>
               <span
-                className={`[font-family:'Lexend',Helvetica] font-bold text-xl ${
+                className={`[font-family:'Lexend',Helvetica] font-bold text-lg ${
                   isStepActive(step.number) || isStepCompleted(step.number)
-                    ? "text-[#023c97]"
-                    : "text-gray-600"
+                    ? "text-[#0050c8]"
+                    : "text-[#5c8bb0]"
                 }`}
               >
                 {step.title}
@@ -111,16 +115,16 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
             </div>
 
             {step.subSteps && isStepActive(step.number) && (
-              <div className="ml-[52px] mt-4 space-y-3 relative">
-                <div className="absolute left-2 top-0 bottom-0 w-[2px] bg-[#023c97]"></div>
+              <div className="ml-[28px] mt-3 mb-2 space-y-3 relative">
+                <div className="absolute left-[7px] top-0 bottom-0 w-[3px] bg-[#0050c8]"></div>
                 {step.subSteps.map((subStep, subIndex) => (
-                  <div key={subIndex} className="flex items-center gap-3 relative">
-                    <div className="w-4 h-4 rounded-full bg-[#023c97] flex-shrink-0 z-10 flex items-center justify-center">
-                      {subIndex === 0 && (
-                        <Check className="w-3 h-3 text-white" />
+                  <div key={subIndex} className="flex items-center gap-3 relative pl-4">
+                    <div className="w-[14px] h-[14px] rounded-full bg-[#0050c8] flex-shrink-0 z-10 flex items-center justify-center -ml-4">
+                      {isSubStepCompleted(step.number, subStep.label) && (
+                        <Check className="w-[10px] h-[10px] text-white stroke-[3]" />
                       )}
                     </div>
-                    <span className="[font-family:'Lexend',Helvetica] text-[#023c97] text-base">
+                    <span className="[font-family:'Lexend',Helvetica] text-[#0050c8] text-[15px] leading-tight">
                       {subStep.label}
                     </span>
                   </div>
@@ -130,8 +134,8 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
 
             {index < steps.length - 1 && (
               <div
-                className={`ml-6 w-[2px] h-8 my-2 ${
-                  isStepCompleted(step.number) ? "bg-[#023c97]" : "bg-gray-300"
+                className={`ml-5 w-[3px] h-6 my-1 ${
+                  isStepCompleted(step.number) ? "bg-[#0050c8]" : "bg-[#a8c8d8]"
                 }`}
               ></div>
             )}

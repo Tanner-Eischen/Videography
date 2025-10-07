@@ -122,7 +122,7 @@ export const CreateQuote = (): JSX.Element => {
 
   return (
     <div className="bg-[#ffffff] w-full min-h-screen flex flex-col">
-      <header className="bg-[#023c97] h-[70px] flex items-center justify-between px-8">
+      <header className="bg-[#003d99] h-[70px] flex items-center justify-between px-8">
         <div className="flex items-center gap-4">
           <div className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center">
             <img className="w-8 h-8" alt="Logo" src="/v.png" />
@@ -132,19 +132,19 @@ export const CreateQuote = (): JSX.Element => {
         <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate("/dashboard")}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-medium text-white text-lg hover:opacity-80 transition-opacity"
           >
             Dashboard
           </button>
           <button
             onClick={() => navigate("/create-quote")}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-medium text-white text-lg hover:opacity-80 transition-opacity"
           >
             Create Quote
           </button>
           <button
             onClick={() => navigate("/all-quotes")}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-medium text-white text-lg hover:opacity-80 transition-opacity"
           >
             All Quotes
           </button>
@@ -157,7 +157,7 @@ export const CreateQuote = (): JSX.Element => {
           >
             <LogOut className="w-5 h-5" />
           </Button>
-          <Avatar className="w-12 h-12 bg-[#75c4cc]">
+          <Avatar className="w-12 h-12 bg-[#8bb4d4]">
             <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
               {profile?.full_name?.charAt(0) || "A"}
             </div>
