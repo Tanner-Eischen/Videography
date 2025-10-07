@@ -74,6 +74,14 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
       <div className="space-y-0">
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
+            {index > 0 && (
+              <div
+                className={`absolute left-[20px] top-0 w-[3px] h-3 ${
+                  isStepCompleted(steps[index - 1].number) ? "bg-[#0050c8]" : "bg-[#a8c8d8]"
+                }`}
+              ></div>
+            )}
+
             <div
               className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all cursor-pointer ${
                 isStepActive(step.number)
@@ -134,7 +142,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
 
             {index < steps.length - 1 && (
               <div
-                className={`ml-5 w-[3px] h-6 ${
+                className={`absolute left-[20px] bottom-0 w-[3px] h-3 ${
                   isStepCompleted(step.number) ? "bg-[#0050c8]" : "bg-[#a8c8d8]"
                 }`}
               ></div>

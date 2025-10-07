@@ -122,7 +122,7 @@ export const CreateQuote = (): JSX.Element => {
 
   return (
     <div className="bg-[#ffffff] w-full min-h-screen flex flex-col">
-      <header className="bg-[#003d9] h-[70px] flex items-center justify-between px-8">
+      <header className="bg-[#023c97] h-[70px] flex items-center justify-between px-8">
         <div className="flex items-center gap-4">
           <div className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center">
             <img className="w-8 h-8" alt="Logo" src="/v.png" />
