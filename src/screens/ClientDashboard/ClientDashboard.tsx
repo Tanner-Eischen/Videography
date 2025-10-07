@@ -84,12 +84,18 @@ export const ClientDashboard = (): JSX.Element => {
         </div>
 
         <nav className="flex items-center gap-8">
-          <a href="#dashboard" className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors">
-            DASHBOARD
-          </a>
-          <a href="#my-quotes" className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors">
-            MY QUOTES
-          </a>
+          <button
+            onClick={() => navigate('/dashboard')}
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+          >
+            Dashboard
+          </button>
+          <button
+            onClick={() => navigate('/all-quotes')}
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+          >
+            My Quotes
+          </button>
         </nav>
 
         <div className="flex items-center gap-4">
