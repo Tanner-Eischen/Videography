@@ -72,7 +72,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
       </h1>
 
       <div className="space-y-4 relative">
-        <div className="absolute left-[23px] top-[30px] w-[6px] bg-[#5c8bb0] rounded-full" style={{ height: 'calc(100% - 78px)' }}></div>
+        <div className="absolute left-[20px] top-[30px] w-[6px] bg-[#5c8bb0] rounded-full" style={{ height: 'calc(100% - 78px)' }}></div>
 
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
