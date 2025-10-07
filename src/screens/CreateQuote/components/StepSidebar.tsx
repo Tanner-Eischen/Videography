@@ -115,30 +115,32 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
             </div>
 
             {step.subSteps && isStepActive(step.number) && (
-              <div className="relative ml-[50px] mt-4 mb-2 space-y-4">
+              <div className="relative ml-[50px] mt-4 mb-2">
                 {/* Connecting bar for substeps */}
                 {step.subSteps.length > 1 && (
                   <div
                     className="absolute left-[11px] w-[2px] bg-[#0050c8]"
                     style={{
                       top: '8px',
-                      height: `calc(100% - 8px)`
+                      bottom: `calc(${100 / step.subSteps.length}% - 8px)`
                     }}
                   ></div>
                 )}
 
-                {step.subSteps.map((subStep, subIndex) => (
-                  <div key={subIndex} className="flex items-start gap-3 pl-6">
-                    <div className="w-[16px] h-[16px] rounded-full bg-[#0050c8] flex-shrink-0 flex items-center justify-center absolute left-[4px]">
-                      {isSubStepCompleted(step.number, subStep.label) && (
-                        <Check className="w-[10px] h-[10px] text-white stroke-[3]" />
-                      )}
+                <div className="space-y-4">
+                  {step.subSteps.map((subStep, subIndex) => (
+                    <div key={subIndex} className="flex items-start gap-3 pl-6">
+                      <div className="w-[16px] h-[16px] rounded-full bg-[#0050c8] flex-shrink-0 flex items-center justify-center absolute left-[4px]">
+                        {isSubStepCompleted(step.number, subStep.label) && (
+                          <Check className="w-[10px] h-[10px] text-white stroke-[3]" />
+                        )}
+                      </div>
+                      <span className="[font-family:'Lexend',Helvetica] text-[#0050c8] text-base leading-tight max-w-[140px]">
+                        {subStep.label}
+                      </span>
                     </div>
-                    <span className="[font-family:'Lexend',Helvetica] text-[#0050c8] text-base leading-tight max-w-[140px]">
-                      {subStep.label}
-                    </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
             )}
           </div>
