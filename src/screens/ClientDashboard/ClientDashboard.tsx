@@ -4,7 +4,7 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar, LogOut, CirclePlus as PlusCircle } from 'lucide-react';
+import { FileText, Download, Mail, Calendar, LogOut } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const ClientDashboard = (): JSX.Element => {
@@ -96,16 +96,15 @@ export const ClientDashboard = (): JSX.Element => {
           >
             My Quotes
           </button>
+          <button
+            onClick={() => navigate('/create-quote')}
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+          >
+            Create Quote
+          </button>
         </nav>
 
         <div className="flex items-center gap-4">
-          <Button
-            onClick={() => navigate('/create-quote')}
-            className="bg-[#75c4cc] hover:bg-[#60b0b8] text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-semibold flex items-center gap-2"
-          >
-            <PlusCircle className="w-5 h-5" />
-            Create Quote
-          </Button>
           <Button
             onClick={handleLogout}
             className="bg-transparent hover:bg-white/10 text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-semibold flex items-center gap-2"
