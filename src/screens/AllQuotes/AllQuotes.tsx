@@ -188,18 +188,12 @@ export const AllQuotes = (): JSX.Element => {
           </table>
         </Card>
 
-        <div className="flex justify-between mt-8">
+        <div className="flex justify-start mt-8">
           <Button
             onClick={() => navigate('/dashboard')}
             className="bg-[#5a5a5a] hover:bg-[#4a4a4a] text-white px-8 py-4 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
           >
             Back to Dashboard
-          </Button>
-          <Button
-            onClick={() => navigate('/create-quote')}
-            className="bg-[#023c97] hover:bg-[#022d70] text-white px-8 py-4 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
-          >
-            Create New Quote
           </Button>
         </div>
       </div>
