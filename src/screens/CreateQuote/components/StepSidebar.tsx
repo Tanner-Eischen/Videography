@@ -71,19 +71,23 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
         Create a New Quote
       </h1>
 
-      <div className="space-y-0 relative">
-        <div className="absolute left-[36px] top-[48px] bottom-0 w-[5px] bg-[#0050c8] rounded-full"></div>
+      <div className="space-y-3 relative">
+        <div className="absolute left-[5px] top-[20px] bottom-0 w-[5px] bg-[#0050c8] rounded-full"></div>
 
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
             <div
-              className="flex items-center gap-4 px-4 py-3 rounded-lg transition-all cursor-pointer relative z-10 bg-white/30"
+              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all cursor-pointer relative ml-[16px] ${
+                isStepActive(step.number)
+                  ? "bg-white shadow-md"
+                  : "bg-white/30"
+              }`}
               onClick={() => {
                 onStepChange(step.number);
               }}
             >
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 relative z-20 ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 absolute -left-[21px] ${
                   isStepCompleted(step.number)
                     ? "bg-[#0050c8] text-white"
                     : isStepActive(step.number)
@@ -100,7 +104,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
                 )}
               </div>
               <span
-                className={`[font-family:'Lexend',Helvetica] font-bold text-lg ${
+                className={`[font-family:'Lexend',Helvetica] font-bold text-lg ml-6 ${
                   isStepActive(step.number) || isStepCompleted(step.number)
                     ? "text-[#0050c8]"
                     : "text-[#5c8bb0]"
@@ -111,10 +115,10 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
             </div>
 
             {step.subSteps && isStepActive(step.number) && (
-              <div className="relative ml-[52px] mt-3 mb-3 space-y-3">
+              <div className="relative ml-[36px] mt-3 mb-2 space-y-3">
                 {step.subSteps.map((subStep, subIndex) => (
                   <div key={subIndex} className="flex items-center gap-3 relative">
-                    <div className="w-[14px] h-[14px] rounded-full bg-[#0050c8] flex-shrink-0 z-20 flex items-center justify-center absolute -left-[36px]">
+                    <div className="w-[14px] h-[14px] rounded-full bg-[#0050c8] flex-shrink-0 flex items-center justify-center absolute -left-[26px]">
                       {isSubStepCompleted(step.number, subStep.label) && (
                         <Check className="w-[9px] h-[9px] text-white stroke-[3]" />
                       )}
