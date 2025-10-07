@@ -76,6 +76,14 @@ function AppRoutes() {
         }
       />
       <Route
+        path="/client-dashboard"
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <ClientDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
         path="/create-quote"
         element={
           <ProtectedRoute>

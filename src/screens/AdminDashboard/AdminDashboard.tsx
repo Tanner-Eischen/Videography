@@ -13,7 +13,6 @@ export const AdminDashboard = (): JSX.Element => {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeView, setActiveView] = useState<'admin' | 'client'>('admin');
 
   useEffect(() => {
     if (profile?.id) {
@@ -256,22 +255,14 @@ export const AdminDashboard = (): JSX.Element => {
 
         <div className="flex justify-end gap-4 mb-6">
           <Button
-            onClick={() => setActiveView('admin')}
-            className={`px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg ${
-              activeView === 'admin'
-                ? 'bg-[#75c4cc] text-white'
-                : 'bg-white text-[#75c4cc] border-2 border-[#75c4cc]'
-            }`}
+            onClick={() => navigate('/dashboard')}
+            className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-[#75c4cc] text-white"
           >
             My View
           </Button>
           <Button
-            onClick={() => setActiveView('client')}
-            className={`px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg ${
-              activeView === 'client'
-                ? 'bg-[#75c4cc] text-white'
-                : 'bg-white text-[#75c4cc] border-2 border-[#75c4cc]'
-            }`}
+            onClick={() => navigate('/client-dashboard')}
+            className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-white text-[#75c4cc] border-2 border-[#75c4cc]"
           >
             Client View
           </Button>
