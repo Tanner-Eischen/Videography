@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { Avatar } from "../../components/ui/avatar";
-import { LogOut } from "lucide-react";
+import { LogOut, User } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { StepSidebar } from "./components/StepSidebar";
 import { ClientInfoStep } from "./steps/ClientInfoStep";
@@ -132,19 +132,19 @@ export const CreateQuote = (): JSX.Element => {
         <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate("/dashboard")}
-            className="[font-family:'Lexend',Helvetica] font-medium text-white text-lg hover:opacity-80 transition-opacity"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
           >
             Dashboard
           </button>
           <button
             onClick={() => navigate("/create-quote")}
-            className="[font-family:'Lexend',Helvetica] font-medium text-white text-lg hover:opacity-80 transition-opacity"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
           >
             Create Quote
           </button>
           <button
             onClick={() => navigate("/all-quotes")}
-            className="[font-family:'Lexend',Helvetica] font-medium text-white text-lg hover:opacity-80 transition-opacity"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
           >
             All Quotes
           </button>
@@ -157,9 +157,9 @@ export const CreateQuote = (): JSX.Element => {
           >
             <LogOut className="w-5 h-5" />
           </Button>
-          <Avatar className="w-12 h-12 bg-[#2c8fba]">
-            <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
-              {profile?.full_name?.charAt(0) || "A"}
+          <Avatar className="w-12 h-12 bg-[#5c8bb0]">
+            <div className="w-full h-full flex items-center justify-center text-white">
+              <User className="w-6 h-6" />
             </div>
           </Avatar>
         </div>
