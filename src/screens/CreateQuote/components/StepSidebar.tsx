@@ -118,7 +118,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
               <div className="relative ml-[68px] mt-4 mb-2 space-y-4">
                 {step.subSteps.map((subStep, subIndex) => (
                   <div key={subIndex} className="flex items-center gap-3 relative">
-                    <div className="w-[16px] h-[16px] rounded-full bg-[#0050c8] flex-shrink-0 flex items-center justify-center absolute -left-[54px]">
+                    <div className="w-[16px] h-[16px] rounded-full bg-[#0050c8] flex-shrink-0 flex items-center justify-center absolute -left-[42px]">
                       {isSubStepCompleted(step.number, subStep.label) && (
                         <Check className="w-[10px] h-[10px] text-white stroke-[3]" />
                       )}
