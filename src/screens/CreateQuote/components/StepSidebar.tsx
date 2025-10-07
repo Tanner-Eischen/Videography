@@ -122,7 +122,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
                     className="absolute left-[11px] w-[2px] bg-[#0050c8]"
                     style={{
                       top: '8px',
-                      bottom: `calc(${100 / step.subSteps.length}% - 8px)`
+                      height: `calc(100% - ${100 / step.subSteps.length}% - 8px)`
                     }}
                   ></div>
                 )}
