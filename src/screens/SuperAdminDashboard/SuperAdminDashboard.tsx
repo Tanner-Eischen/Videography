@@ -2,32 +2,55 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '../../components/ui/button';
 import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
-import { supabase, Quote } from '../../lib/supabase';
+import { supabase, Quote, DashboardStats } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar, LogOut, User } from 'lucide-react';
+import { Users, DollarSign, FileText, Download, Mail, TrendingUp, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-export const ClientDashboard = (): JSX.Element => {
+export const SuperAdminDashboard = (): JSX.Element => {
   const { profile, signOut } = useAuth();
   const navigate = useNavigate();
+  const [stats, setStats] = useState<DashboardStats | null>(null);
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
-  const isAdmin = profile?.role === 'admin';
 
   useEffect(() => {
     if (profile?.id) {
-      fetchClientQuotes();
+      fetchDashboardData();
     }
   }, [profile]);
 
-  const fetchClientQuotes = async () => {
+  const fetchDashboardData = async () => {
     if (!profile?.id) return;
+
+    const { data: statsData } = await supabase
+      .from('dashboard_stats')
+      .select('*')
+      .eq('user_id', profile.id)
+      .maybeSingle();
+
+    if (statsData) {
+      setStats(statsData as DashboardStats);
+    } else {
+      const defaultStats: Partial<DashboardStats> = {
+        user_id: profile.id,
+        total_clients: 673,
+        total_revenue: 19000,
+        total_quotes: 1083,
+        clients_change_percent: 19,
+        revenue_change_percent: 15,
+        quotes_change_percent: 27,
+      };
+
+      await supabase.from('dashboard_stats').insert(defaultStats);
+      setStats(defaultStats as DashboardStats);
+    }
 
     const { data: quotesData } = await supabase
       .from('quotes')
       .select('*')
-      .eq('client_id', profile.id)
-      .order('created_at', { ascending: false });
+      .order('created_at', { ascending: false })
+      .limit(5);
 
     if (quotesData) {
       setQuotes(quotesData as Quote[]);
@@ -47,20 +70,45 @@ export const ClientDashboard = (): JSX.Element => {
   const getStatusColor = (status: string) => {
     switch (status) {
       case 'done':
-        return 'bg-green-100 text-green-800';
+        return 'text-green-600';
       case 'draft':
-        return 'bg-gray-100 text-gray-800';
-      case 'exported':
-        return 'bg-orange-100 text-orange-800';
+        return 'text-gray-600';
+      case 'downloaded':
+        return 'text-orange-600';
       case 'emailed':
-        return 'bg-blue-100 text-blue-800';
+        return 'text-blue-600';
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'text-gray-600';
     }
   };
 
-  const pendingQuotes = quotes.filter(q => q.status === 'draft').length;
-  const completedQuotes = quotes.filter(q => q.status === 'done').length;
+  const handleDownload = async (quoteId: string) => {
+    // Update quote status to 'downloaded'
+    await supabase
+      .from('quotes')
+      .update({ status: 'downloaded' })
+      .eq('id', quoteId);
+
+    // Refresh quotes
+    fetchDashboardData();
+
+    // TODO: Implement actual PDF download
+    console.log('Download quote:', quoteId);
+  };
+
+  const handleEmail = async (quoteId: string) => {
+    // Update quote status to 'emailed'
+    await supabase
+      .from('quotes')
+      .update({ status: 'emailed' })
+      .eq('id', quoteId);
+
+    // Refresh quotes
+    fetchDashboardData();
+
+    // TODO: Implement actual email functionality
+    console.log('Email quote:', quoteId);
+  };
 
   const handleLogout = async () => {
     await signOut();
@@ -92,16 +140,16 @@ export const ClientDashboard = (): JSX.Element => {
             Dashboard
           </button>
           <button
-            onClick={() => navigate('/all-quotes')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
-          >
-            My Quotes
-          </button>
-          <button
             onClick={() => navigate('/create-quote')}
             className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
           >
             Create Quote
+          </button>
+          <button
+            onClick={() => navigate('/all-quotes')}
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+          >
+            All Quotes
           </button>
         </nav>
 
@@ -124,10 +172,10 @@ export const ClientDashboard = (): JSX.Element => {
       <div className="max-w-[1400px] mx-auto px-8 py-12">
         <div className="mb-8">
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-4xl mb-2">
-            Welcome, {profile?.full_name || 'Client'}!
+            Welcome, {profile?.full_name || 'Daniel'}!
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-lg">
-            Here are your quotes and project information.
+            Here is what is happening with your business today.
           </p>
         </div>
 
@@ -136,7 +184,55 @@ export const ClientDashboard = (): JSX.Element => {
             <div className="flex items-start justify-between mb-4">
               <div className="bg-[#75c4cc] text-white rounded-lg px-6 py-3">
                 <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
-                  {quotes.length}
+                  {stats?.total_clients || 673}
+                </div>
+              </div>
+              <Users className="w-12 h-12 text-[#75c4cc]" />
+            </div>
+            <div className="space-y-1">
+              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Total</div>
+              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Clients</div>
+              <div className="flex items-center gap-2 text-green-600">
+                <TrendingUp className="w-4 h-4" />
+                <span className="[font-family:'Lexend',Helvetica] font-semibold">
+                  + {stats?.clients_change_percent || 19}%
+                </span>
+              </div>
+              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                higher than last month
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-6 bg-white rounded-xl border-2 border-[#023c97] hover:shadow-lg transition-shadow">
+            <div className="flex items-start justify-between mb-4">
+              <div className="bg-[#75c4cc] text-white rounded-lg px-6 py-3">
+                <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
+                  {(stats?.total_revenue || 19000) / 1000}k
+                </div>
+              </div>
+              <DollarSign className="w-12 h-12 text-[#75c4cc]" />
+            </div>
+            <div className="space-y-1">
+              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Total</div>
+              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Revenue</div>
+              <div className="flex items-center gap-2 text-green-600">
+                <TrendingUp className="w-4 h-4" />
+                <span className="[font-family:'Lexend',Helvetica] font-semibold">
+                  + {stats?.revenue_change_percent || 15}%
+                </span>
+              </div>
+              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                higher than last month
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-[#75c4cc] transition-colors">
+            <div className="flex items-start justify-between mb-4">
+              <div className="bg-[#75c4cc] text-white rounded-lg px-6 py-3">
+                <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
+                  {stats?.total_quotes || 1083}
                 </div>
               </div>
               <FileText className="w-12 h-12 text-[#75c4cc]" />
@@ -144,70 +240,32 @@ export const ClientDashboard = (): JSX.Element => {
             <div className="space-y-1">
               <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Total</div>
               <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Quotes</div>
-              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600 mt-2">
-                All your project quotes
+              <div className="flex items-center gap-2 text-green-600">
+                <TrendingUp className="w-4 h-4" />
+                <span className="[font-family:'Lexend',Helvetica] font-semibold">
+                  + {stats?.quotes_change_percent || 27}%
+                </span>
               </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 bg-white rounded-xl border-2 border-[#023c97] hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between mb-4">
-              <div className="bg-[#fbbf24] text-white rounded-lg px-6 py-3">
-                <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
-                  {pendingQuotes}
-                </div>
-              </div>
-              <Calendar className="w-12 h-12 text-[#fbbf24]" />
-            </div>
-            <div className="space-y-1">
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Pending</div>
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Quotes</div>
-              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600 mt-2">
-                Awaiting completion
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-[#75c4cc] transition-colors">
-            <div className="flex items-start justify-between mb-4">
-              <div className="bg-green-500 text-white rounded-lg px-6 py-3">
-                <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
-                  {completedQuotes}
-                </div>
-              </div>
-              <FileText className="w-12 h-12 text-green-500" />
-            </div>
-            <div className="space-y-1">
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Completed</div>
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Quotes</div>
-              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600 mt-2">
-                Ready for review
+              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                higher than last month
               </div>
             </div>
           </Card>
         </div>
 
-        {isAdmin && (
-          <div className="flex justify-end gap-4 mb-6">
-            <Button
-              onClick={() => navigate('/dashboard')}
-              className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-white text-[#75c4cc] border-2 border-[#75c4cc]"
-            >
-              My View
-            </Button>
-            <Button
-              onClick={() => navigate('/client-dashboard')}
-              className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-[#75c4cc] text-white"
-            >
-              Client View
-            </Button>
-          </div>
-        )}
-
-        <div className="mb-6">
-          <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-2xl mb-4">
-            My Quotes
-          </h2>
+        <div className="flex justify-end gap-4 mb-6">
+          <Button
+            onClick={() => navigate('/dashboard')}
+            className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-[#75c4cc] text-white"
+          >
+            My View
+          </Button>
+          <Button
+            onClick={() => navigate('/admin-dashboard')}
+            className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-white text-[#75c4cc] border-2 border-[#75c4cc]"
+          >
+            Admin View
+          </Button>
         </div>
 
         <Card className="bg-white rounded-xl overflow-hidden">
@@ -215,7 +273,7 @@ export const ClientDashboard = (): JSX.Element => {
             <thead className="bg-[#023c97]">
               <tr>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
-                  PROJECT
+                  CLIENT NAME
                 </th>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
                   DATE CREATED
@@ -224,10 +282,7 @@ export const ClientDashboard = (): JSX.Element => {
                   STATUS
                 </th>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
-                  TIER
-                </th>
-                <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
-                  ACTIONS
+                  DOWNLOAD/EMAIL
                 </th>
               </tr>
             </thead>
@@ -236,34 +291,39 @@ export const ClientDashboard = (): JSX.Element => {
                 quotes.map((quote, index) => (
                   <tr key={quote.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                     <td className="px-6 py-4">
-                      <div className="space-y-1">
-                        <div className="[font-family:'Lexend',Helvetica] font-semibold text-lg">
-                          {quote.production_company || 'Untitled Project'}
-                        </div>
-                        <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                      <div className="flex items-center gap-3">
+                        <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                        <span className="[font-family:'Lexend',Helvetica] font-medium text-lg">
                           {quote.client_name}
-                        </div>
+                        </span>
                       </div>
                     </td>
                     <td className="px-6 py-4 [font-family:'Lexend',Helvetica] text-lg">
                       {formatDate(quote.created_at)}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-3 py-1 rounded-full [font-family:'Lexend',Helvetica] font-semibold text-sm capitalize ${getStatusColor(quote.status)}`}>
+                      <span className={`[font-family:'Lexend',Helvetica] font-semibold text-lg capitalize ${getStatusColor(quote.status)}`}>
                         {quote.status}
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="[font-family:'Lexend',Helvetica] font-medium text-lg capitalize">
-                        {quote.tier || 'N/A'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex items-center gap-2">
-                        <Button className="bg-[#023c97] hover:bg-[#022d70] text-white px-4 py-2 rounded-lg">
-                          <Download className="w-4 h-4 mr-2" />
-                          <span className="[font-family:'Lexend',Helvetica] font-semibold text-sm">
+                      <div className="flex items-center gap-4">
+                        <Button
+                          onClick={() => handleDownload(quote.id)}
+                          className="bg-transparent hover:bg-gray-100 p-2"
+                        >
+                          <Download className="w-5 h-5 text-black" />
+                          <span className="ml-2 [font-family:'Lexend',Helvetica] font-semibold text-black">
                             Download
+                          </span>
+                        </Button>
+                        <Button
+                          onClick={() => handleEmail(quote.id)}
+                          className="bg-transparent hover:bg-gray-100 p-2"
+                        >
+                          <Mail className="w-5 h-5 text-black" />
+                          <span className="ml-2 [font-family:'Lexend',Helvetica] font-semibold text-black">
+                            Email
                           </span>
                         </Button>
                       </div>
@@ -272,16 +332,8 @@ export const ClientDashboard = (): JSX.Element => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center">
-                    <div className="flex flex-col items-center justify-center">
-                      <FileText className="w-16 h-16 text-gray-300 mb-4" />
-                      <div className="[font-family:'Lexend',Helvetica] text-gray-500 text-lg">
-                        No quotes yet
-                      </div>
-                      <div className="[font-family:'Lexend',Helvetica] text-gray-400 text-sm mt-2">
-                        Contact your account manager to create your first quote
-                      </div>
-                    </div>
+                  <td colSpan={4} className="px-6 py-12 text-center [font-family:'Lexend',Helvetica] text-gray-500">
+                    No quotes found
                   </td>
                 </tr>
               )}
@@ -289,20 +341,14 @@ export const ClientDashboard = (): JSX.Element => {
           </table>
         </Card>
 
-        {quotes.length > 0 && (
-          <div className="mt-8 p-6 bg-white rounded-xl border-2 border-gray-200">
-            <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl mb-4">
-              Need help?
-            </h3>
-            <p className="[font-family:'Lexend',Helvetica] text-gray-700 mb-4">
-              If you have any questions about your quotes or need assistance, please contact your account manager.
-            </p>
-            <Button className="bg-[#75c4cc] hover:bg-[#60b0b8] text-white px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold">
-              <Mail className="w-5 h-5 mr-2" />
-              Contact Support
-            </Button>
-          </div>
-        )}
+        <div className="flex justify-end mt-8">
+          <Button
+            onClick={() => navigate('/all-quotes')}
+            className="bg-[#023c97] hover:bg-[#022d70] text-white px-8 py-4 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
+          >
+            See All Quotes
+          </Button>
+        </div>
       </div>
     </div>
   );

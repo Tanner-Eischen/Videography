@@ -12,7 +12,7 @@ export const Login = (): JSX.Element => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [fullName, setFullName] = useState('');
-  const [role, setRole] = useState<'admin' | 'client'>('client');
+  const [role, setRole] = useState<'superadmin' | 'admin'>('admin');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
@@ -122,12 +122,12 @@ export const Login = (): JSX.Element => {
               </Label>
               <select
                 value={role}
-                onChange={(e) => setRole(e.target.value as 'admin' | 'client')}
+                onChange={(e) => setRole(e.target.value as 'superadmin' | 'admin')}
                 className="w-full h-12 rounded-lg border-2 border-gray-300 focus:border-[#023c97] [font-family:'Lexend',Helvetica] px-4"
                 required
               >
-                <option value="client">Client</option>
                 <option value="admin">Admin</option>
+                <option value="superadmin">Super Admin</option>
               </select>
             </div>
           )}

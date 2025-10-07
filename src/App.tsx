@@ -2,15 +2,15 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Login } from './screens/Login/Login';
+import { SuperAdminDashboard } from './screens/SuperAdminDashboard/SuperAdminDashboard';
 import { AdminDashboard } from './screens/AdminDashboard/AdminDashboard';
-import { ClientDashboard } from './screens/ClientDashboard/ClientDashboard';
 import { CreateQuote } from './screens/CreateQuote/CreateQuote';
 import { AllQuotes } from './screens/AllQuotes/AllQuotes';
 import { MacbookAir } from './screens/MacbookAir/MacbookAir';
 import { StandardQuote } from './screens/StandardQuote/StandardQuote';
 import { PremiumQuote } from './screens/PremiumQuote/PremiumQuote';
 
-function ProtectedRoute({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: ('admin' | 'client')[] }) {
+function ProtectedRoute({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: ('superadmin' | 'admin')[] }) {
   const { user, profile, loading } = useAuth();
 
   if (loading) {
@@ -43,11 +43,11 @@ function DashboardRouter() {
     );
   }
 
-  if (profile?.role === 'admin') {
-    return <AdminDashboard />;
+  if (profile?.role === 'superadmin') {
+    return <SuperAdminDashboard />;
   }
 
-  return <ClientDashboard />;
+  return <AdminDashboard />;
 }
 
 function AppRoutes() {
@@ -76,10 +76,10 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/client-dashboard"
+        path="/admin-dashboard"
         element={
-          <ProtectedRoute allowedRoles={['admin']}>
-            <ClientDashboard />
+          <ProtectedRoute allowedRoles={['superadmin']}>
+            <AdminDashboard />
           </ProtectedRoute>
         }
       />
