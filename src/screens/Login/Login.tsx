@@ -4,6 +4,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Card } from '../../components/ui/card';
 import { useAuth } from '../../contexts/AuthContext';
+import { User } from 'lucide-react';
 
 export const Login = (): JSX.Element => {
   const { signIn, signUp } = useAuth();
@@ -47,7 +48,7 @@ export const Login = (): JSX.Element => {
       <Card className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
         <div className="mb-8 text-center">
           <div className="w-20 h-20 bg-[#023c97] rounded-full mx-auto mb-4 flex items-center justify-center">
-            <img className="w-12 h-12" alt="Logo" src="/v.png" />
+            <User className="w-10 h-10 text-white" />
           </div>
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-3xl mb-2">
             {isSignUp ? 'Create Account' : 'Welcome Back'}
