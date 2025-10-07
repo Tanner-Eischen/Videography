@@ -157,7 +157,7 @@ export const CreateQuote = (): JSX.Element => {
           >
             <LogOut className="w-5 h-5" />
           </Button>
-          <Avatar className="w-12 h-12 bg-[#8bb4d4]">
+          <Avatar className="w-12 h-12 bg-[#2c8fba]">
             <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
               {profile?.full_name?.charAt(0) || "A"}
             </div>
