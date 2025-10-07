@@ -74,16 +74,8 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
       <div className="space-y-0">
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
-            {index > 0 && (
-              <div
-                className={`absolute left-[20px] top-0 w-[3px] h-3 ${
-                  isStepCompleted(steps[index - 1].number) ? "bg-[#0050c8]" : "bg-[#a8c8d8]"
-                }`}
-              ></div>
-            )}
-
             <div
-              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all cursor-pointer ${
+              className={`flex items-center gap-4 px-4 py-3 rounded-lg transition-all cursor-pointer relative z-10 ${
                 isStepActive(step.number)
                   ? "bg-white shadow-sm"
                   : isStepCompleted(step.number)
@@ -95,7 +87,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
               }}
             >
               <div
-                className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
+                className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 relative z-10 ${
                   isStepCompleted(step.number)
                     ? "bg-[#0050c8] text-white"
                     : isStepActive(step.number)
@@ -123,13 +115,13 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
             </div>
 
             {step.subSteps && isStepActive(step.number) && (
-              <div className="ml-5 mt-2 mb-1 space-y-2 relative">
-                <div className="absolute left-[15px] top-0 bottom-0 w-[3px] bg-[#0050c8]"></div>
+              <div className="relative ml-[16px] pl-[24px] mt-3 mb-3 space-y-3">
+                <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#0050c8] rounded-full"></div>
                 {step.subSteps.map((subStep, subIndex) => (
                   <div key={subIndex} className="flex items-center gap-3 relative">
-                    <div className="w-[14px] h-[14px] rounded-full bg-[#0050c8] flex-shrink-0 z-10 flex items-center justify-center ml-[8px]">
+                    <div className="w-[16px] h-[16px] rounded-full bg-[#0050c8] flex-shrink-0 z-10 flex items-center justify-center absolute -left-[30px]">
                       {isSubStepCompleted(step.number, subStep.label) && (
-                        <Check className="w-[9px] h-[9px] text-white stroke-[3]" />
+                        <Check className="w-[10px] h-[10px] text-white stroke-[3]" />
                       )}
                     </div>
                     <span className="[font-family:'Lexend',Helvetica] text-[#0050c8] text-[15px] leading-tight">
@@ -142,9 +134,15 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
 
             {index < steps.length - 1 && (
               <div
-                className={`absolute left-[20px] bottom-0 w-[3px] h-3 ${
-                  isStepCompleted(step.number) ? "bg-[#0050c8]" : "bg-[#a8c8d8]"
+                className={`absolute left-[20px] w-[4px] rounded-full ${
+                  isStepCompleted(step.number) ? "bg-[#0050c8]" : "bg-[#5c8bb0]"
                 }`}
+                style={{
+                  top: step.subSteps && isStepActive(step.number) ? 'calc(48px + 12px)' : '48px',
+                  height: step.subSteps && isStepActive(step.number)
+                    ? `calc(100% - 48px - ${step.subSteps.length * 28 + 36}px)`
+                    : '24px'
+                }}
               ></div>
             )}
           </div>
