@@ -70,9 +70,9 @@ export const AllQuotes = (): JSX.Element => {
     <div className="bg-[#f8f9fa] min-h-screen">
       <header className="bg-[#023c97] h-[70px] flex items-center justify-between px-8">
         <div className="flex items-center gap-4">
-          <div className="w-[60px] h-[60px] bg-white rounded-full flex items-center justify-center">
-            <img className="w-8 h-8" alt="Logo" src="/v.png" />
-          </div>
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
+            Vid-QUO
+          </h1>
         </div>
 
         <nav className="flex items-center gap-8">
