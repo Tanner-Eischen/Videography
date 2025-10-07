@@ -4,7 +4,7 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote, DashboardStats } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { Users, DollarSign, FileText, Download, Mail, TrendingUp, LogOut } from 'lucide-react';
+import { Users, DollarSign, FileText, Download, Mail, TrendingUp, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 export const AdminDashboard = (): JSX.Element => {
@@ -134,9 +134,9 @@ export const AdminDashboard = (): JSX.Element => {
             <LogOut className="w-5 h-5" />
             Logout
           </Button>
-          <Avatar className="w-12 h-12 bg-[#75c4cc]">
-            <div className="w-full h-full flex items-center justify-center text-white font-bold text-lg">
-              {profile?.full_name?.charAt(0) || 'A'}
+          <Avatar className="w-12 h-12 bg-[#5c8bb0]">
+            <div className="w-full h-full flex items-center justify-center text-white">
+              <User className="w-6 h-6" />
             </div>
           </Avatar>
         </div>
