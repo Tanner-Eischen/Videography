@@ -4,7 +4,7 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar, LogOut, User, Clock, DollarSign, CheckCircle } from 'lucide-react';
+import { FileText, Download, Mail, Calendar, LogOut, User, Clock, DollarSign, CheckCircle, TrendingUp, AlertCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { CircularGauge, SemiCircleGauge, ProgressBarGauge } from '../../components/ui/gauge';
 import { calculateDashboardMetrics } from '../../lib/dashboardMetrics';
@@ -294,6 +294,103 @@ export const AdminDashboard = (): JSX.Element => {
                   </div>
                   <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
                     Days Accepted
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6 mb-8">
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
+                Quotes Pending Response
+              </h3>
+              <AlertCircle className="w-8 h-8 text-orange-500" />
+            </div>
+            <div className="flex items-center justify-center py-8">
+              <div className="text-center">
+                <div className="[font-family:'Lexend',Helvetica] font-bold text-6xl text-orange-500 mb-2">
+                  {metrics.quotesPending}
+                </div>
+                <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                  quotes awaiting client response
+                </div>
+              </div>
+            </div>
+            {metrics.quotesPending > 0 && (
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 text-center">
+                  Follow up with clients to improve conversion rate
+                </div>
+              </div>
+            )}
+          </Card>
+
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
+                Month-over-Month Growth
+              </h3>
+              <TrendingUp className="w-8 h-8 text-[#10b981]" />
+            </div>
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
+                    Revenue Growth
+                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.revenueGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                      {metrics.revenueGrowthPercent > 0 ? '+' : ''}{metrics.revenueGrowthPercent}%
+                    </span>
+                  </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mt-3">
+                  <div className="bg-gray-50 p-3 rounded-lg">
+                    <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
+                      Last Month
+                    </div>
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-gray-600">
+                      ${metrics.lastMonthRevenue.toLocaleString()}
+                    </div>
+                  </div>
+                  <div className="bg-[#10b981]/10 p-3 rounded-lg">
+                    <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
+                      This Month
+                    </div>
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-[#10b981]">
+                      ${metrics.currentMonthRevenue.toLocaleString()}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="pt-4 border-t border-gray-200">
+                <div className="flex items-center justify-between mb-2">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
+                    Quotes Growth
+                  </span>
+                  <span className={`[font-family:'Lexend',Helvetica] text-xl font-bold ${metrics.quotesGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                    {metrics.quotesGrowthPercent > 0 ? '+' : ''}{metrics.quotesGrowthPercent}%
+                  </span>
+                </div>
+                <div className="grid grid-cols-2 gap-4 mt-3">
+                  <div className="text-center">
+                    <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
+                      Last Month
+                    </div>
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-xl text-gray-600">
+                      {metrics.lastMonthQuotes}
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
+                      This Month
+                    </div>
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-xl text-[#10b981]">
+                      {metrics.currentMonthQuotes}
+                    </div>
                   </div>
                 </div>
               </div>
