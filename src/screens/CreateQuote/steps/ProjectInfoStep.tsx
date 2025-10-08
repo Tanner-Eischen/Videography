@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Button } from "../../../components/ui/button";
 import { Label } from "../../../components/ui/label";
 import { Plus, Minus, ChevronUp, ChevronDown } from "lucide-react";
+import { LocationWithDistance } from "../components/LocationWithDistance";
 
 interface ProjectInfoStepProps {
   formData: any;
@@ -346,268 +347,22 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                         </Label>
                         <div className="space-y-4">
                           {detail.locations.map(
-                            (location: any, locationIndex: number) => (
-                              <div key={locationIndex} className="space-y-3">
-                                {locationIndex === 0 ? (
-                                  <>
-                                    <div>
-                                      <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600 mb-2">
-                                        Starting Location
-                                      </div>
-                                      <div className="flex items-center gap-3">
-                                        <div className="flex-1 flex items-center gap-3 border-2 border-gray-300 rounded-lg px-4 py-2">
-                                          <svg
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                            xmlns="http://www.w3.org/2000/svg"
-                                          >
-                                            <path
-                                              d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
-                                              stroke="#5a5a5a"
-                                              strokeWidth="2"
-                                            />
-                                            <circle
-                                              cx="12"
-                                              cy="10"
-                                              r="3"
-                                              stroke="#5a5a5a"
-                                              strokeWidth="2"
-                                            />
-                                          </svg>
-                                          <input
-                                            type="text"
-                                            placeholder="123 Address City"
-                                            value={location.address}
-                                            onChange={(e) =>
-                                              updateLocation(
-                                                dayIndex,
-                                                locationIndex,
-                                                "address",
-                                                e.target.value
-                                              )
-                                            }
-                                            className="flex-1 outline-none [font-family:'Lexend',Helvetica] text-base"
-                                          />
-                                        </div>
-                                        <button className="p-2 hover:bg-gray-100 rounded">
-                                          <svg
-                                            width="20"
-                                            height="20"
-                                            viewBox="0 0 24 24"
-                                            fill="none"
-                                          >
-                                            <circle
-                                              cx="12"
-                                              cy="12"
-                                              r="10"
-                                              stroke="#5a5a5a"
-                                              strokeWidth="2"
-                                            />
-                                            <path
-                                              d="M12 8v8m-4-4h8"
-                                              stroke="#5a5a5a"
-                                              strokeWidth="2"
-                                            />
-                                          </svg>
-                                        </button>
-                                      </div>
-                                    </div>
-                                    <div className="flex items-center justify-between pl-8">
-                                      <div className="flex items-center gap-3">
-                                        <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                          Miles
-                                        </span>
-                                        <input
-                                          type="number"
-                                          min="0"
-                                          value={location.miles}
-                                          onChange={(e) =>
-                                            updateLocation(
-                                              dayIndex,
-                                              locationIndex,
-                                              "miles",
-                                              parseInt(e.target.value) || 0
-                                            )
-                                          }
-                                          className="w-20 h-8 text-center border border-gray-300 rounded [font-family:'Lexend',Helvetica]"
-                                        />
-                                      </div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                          Setup required?
-                                        </span>
-                                        <label className="flex items-center gap-2">
-                                          <input
-                                            type="radio"
-                                            name={`setup-${dayIndex}-${locationIndex}`}
-                                            checked={location.requiresSetup === true}
-                                            onChange={() =>
-                                              updateLocation(
-                                                dayIndex,
-                                                locationIndex,
-                                                "requiresSetup",
-                                                true
-                                              )
-                                            }
-                                            className="w-4 h-4"
-                                          />
-                                          <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                            Yes
-                                          </span>
-                                        </label>
-                                        <label className="flex items-center gap-2">
-                                          <input
-                                            type="radio"
-                                            name={`setup-${dayIndex}-${locationIndex}`}
-                                            checked={location.requiresSetup === false}
-                                            onChange={() =>
-                                              updateLocation(
-                                                dayIndex,
-                                                locationIndex,
-                                                "requiresSetup",
-                                                false
-                                              )
-                                            }
-                                            className="w-4 h-4"
-                                          />
-                                          <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                            No
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </>
-                                ) : (
-                                  <div className="pl-8">
-                                    <div className="flex items-center gap-3">
-                                      <div className="flex-1 flex items-center gap-3 border-2 border-gray-300 rounded-lg px-4 py-2">
-                                        <svg
-                                          width="20"
-                                          height="20"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"
-                                            stroke="#5a5a5a"
-                                            strokeWidth="2"
-                                          />
-                                          <circle
-                                            cx="12"
-                                            cy="10"
-                                            r="3"
-                                            stroke="#5a5a5a"
-                                            strokeWidth="2"
-                                          />
-                                        </svg>
-                                        <input
-                                          type="text"
-                                          placeholder="Additional location"
-                                          value={location.address}
-                                          onChange={(e) =>
-                                            updateLocation(
-                                              dayIndex,
-                                              locationIndex,
-                                              "address",
-                                              e.target.value
-                                            )
-                                          }
-                                          className="flex-1 outline-none [font-family:'Lexend',Helvetica] text-base"
-                                        />
-                                      </div>
-                                      <button className="p-2 hover:bg-gray-100 rounded">
-                                        <svg
-                                          width="20"
-                                          height="20"
-                                          viewBox="0 0 24 24"
-                                          fill="none"
-                                        >
-                                          <circle
-                                            cx="12"
-                                            cy="12"
-                                            r="10"
-                                            stroke="#5a5a5a"
-                                            strokeWidth="2"
-                                          />
-                                          <path
-                                            d="M12 8v8m-4-4h8"
-                                            stroke="#5a5a5a"
-                                            strokeWidth="2"
-                                          />
-                                        </svg>
-                                      </button>
-                                    </div>
-                                    <div className="flex items-center justify-between pl-0 mt-3">
-                                      <div className="flex items-center gap-3">
-                                        <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                          Miles
-                                        </span>
-                                        <input
-                                          type="number"
-                                          min="0"
-                                          value={location.miles}
-                                          onChange={(e) =>
-                                            updateLocation(
-                                              dayIndex,
-                                              locationIndex,
-                                              "miles",
-                                              parseInt(e.target.value) || 0
-                                            )
-                                          }
-                                          className="w-20 h-8 text-center border border-gray-300 rounded [font-family:'Lexend',Helvetica]"
-                                        />
-                                      </div>
-                                      <div className="flex items-center gap-2">
-                                        <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                          Setup required?
-                                        </span>
-                                        <label className="flex items-center gap-2">
-                                          <input
-                                            type="radio"
-                                            name={`setup-${dayIndex}-${locationIndex}`}
-                                            checked={location.requiresSetup === true}
-                                            onChange={() =>
-                                              updateLocation(
-                                                dayIndex,
-                                                locationIndex,
-                                                "requiresSetup",
-                                                true
-                                              )
-                                            }
-                                            className="w-4 h-4"
-                                          />
-                                          <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                            Yes
-                                          </span>
-                                        </label>
-                                        <label className="flex items-center gap-2">
-                                          <input
-                                            type="radio"
-                                            name={`setup-${dayIndex}-${locationIndex}`}
-                                            checked={location.requiresSetup === false}
-                                            onChange={() =>
-                                              updateLocation(
-                                                dayIndex,
-                                                locationIndex,
-                                                "requiresSetup",
-                                                false
-                                              )
-                                            }
-                                            className="w-4 h-4"
-                                          />
-                                          <span className="[font-family:'Lexend',Helvetica] text-sm">
-                                            No
-                                          </span>
-                                        </label>
-                                      </div>
-                                    </div>
-                                  </div>
-                                )}
-                              </div>
-                            )
+                            (location: any, locationIndex: number) => {
+                              const previousAddress = locationIndex > 0
+                                ? detail.locations[locationIndex - 1].address
+                                : '';
+
+                              return (
+                                <LocationWithDistance
+                                  key={locationIndex}
+                                  locationIndex={locationIndex}
+                                  dayIndex={dayIndex}
+                                  location={location}
+                                  previousAddress={previousAddress}
+                                  updateLocation={updateLocation}
+                                />
+                              );
+                            }
                           )}
                           <button
                             onClick={() => addLocation(dayIndex)}

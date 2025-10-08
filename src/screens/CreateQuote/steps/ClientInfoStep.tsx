@@ -2,9 +2,6 @@ import React from "react";
 import { Button } from "../../../components/ui/button";
 import { Input } from "../../../components/ui/input";
 import { Label } from "../../../components/ui/label";
-import { LocationInput } from "../../../components/ui/LocationInput";
-import { DistanceDisplay } from "../../../components/ui/DistanceDisplay";
-import { useDistanceCalculation } from "../../../hooks/useDistanceCalculation";
 
 interface ClientInfoStepProps {
   formData: any;
@@ -21,11 +18,6 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
   onCancel,
   onSaveProgress,
 }) => {
-  const { result, loading, error } = useDistanceCalculation(
-    formData.pickupAddress || '',
-    formData.dropoffAddress || ''
-  );
-
   return (
     <div className="flex-1 flex flex-col">
       <div className="flex-1 px-16 py-12">
@@ -270,43 +262,6 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
               placeholder="Production Company LLC"
               className="h-[60px] rounded-xl border-2 border-[#5a5a5a] [font-family:'Lexend',Helvetica] text-lg px-6"
             />
-          </div>
-
-          <div className="pt-6 border-t-2 border-gray-200">
-            <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[22px] mb-6">
-              Location & Distance
-            </h3>
-
-            <div className="grid grid-cols-2 gap-6">
-              <div>
-                <LocationInput
-                  label="Pickup Location"
-                  value={formData.pickupAddress || ''}
-                  onChange={(value) => updateFormData({ pickupAddress: value })}
-                  placeholder="Enter pickup address"
-                  onLocationSelect={(address) => updateFormData({ pickupAddress: address })}
-                />
-              </div>
-
-              <div>
-                <LocationInput
-                  label="Dropoff Location"
-                  value={formData.dropoffAddress || ''}
-                  onChange={(value) => updateFormData({ dropoffAddress: value })}
-                  placeholder="Enter dropoff address"
-                  onLocationSelect={(address) => updateFormData({ dropoffAddress: address })}
-                />
-              </div>
-            </div>
-
-            {(result || loading || error) && (
-              <DistanceDisplay
-                distance={result?.distance}
-                duration={result?.duration}
-                loading={loading}
-                error={error || undefined}
-              />
-            )}
           </div>
         </div>
       </div>

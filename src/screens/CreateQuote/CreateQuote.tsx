@@ -17,8 +17,6 @@ interface QuoteFormData {
   fullName: string;
   contactEmail: string;
   productionCompanyName: string;
-  pickupAddress: string;
-  dropoffAddress: string;
   projectStartDate: {
     month: string;
     day: string;
@@ -66,8 +64,6 @@ export const CreateQuote = (): JSX.Element => {
     fullName: "",
     contactEmail: "",
     productionCompanyName: "",
-    pickupAddress: "",
-    dropoffAddress: "",
     projectStartDate: { month: "", day: "", year: "" },
     projectEndDate: { month: "", day: "", year: "" },
     numberOfDeliverables: 3,
