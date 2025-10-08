@@ -147,7 +147,7 @@ export const AdminDashboard = (): JSX.Element => {
               />
             </div>
             <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="flex items-center justify-between text-sm">
+              <div className="flex items-center justify-between text-sm mb-4">
                 <div className="flex items-center gap-2">
                   <div className="w-3 h-3 rounded-full bg-gray-400"></div>
                   <span className="[font-family:'Lexend',Helvetica] text-gray-600">Draft</span>
@@ -157,13 +157,22 @@ export const AdminDashboard = (): JSX.Element => {
                   <span className="[font-family:'Lexend',Helvetica] text-gray-600">Done</span>
                 </div>
               </div>
-              <div className="mt-4">
+              <div className="mb-4">
                 <ProgressBarGauge
                   current={metrics.quotesAccepted}
                   total={metrics.totalQuotes}
                   label="Quotes Accepted"
                   color="#10b981"
                 />
+              </div>
+              <div className="pt-4 border-t border-gray-200 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <AlertCircle className="w-4 h-4 text-orange-500" />
+                  <span className="[font-family:'Lexend',Helvetica] text-xs text-gray-600">Pending Response</span>
+                </div>
+                <span className="[font-family:'Lexend',Helvetica] font-bold text-lg text-orange-500">
+                  {metrics.quotesPending}
+                </span>
               </div>
             </div>
           </Card>
@@ -205,71 +214,6 @@ export const AdminDashboard = (): JSX.Element => {
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center justify-center">
               <SemiCircleGauge
-                value={metrics.acceptedFilmingHours}
-                max={metrics.totalFilmingHours || 1}
-                label="Filming Hours"
-                subtitle={`${metrics.acceptedFilmingHours} hours accepted`}
-                icon={<Clock className="w-6 h-6 text-[#75c4cc]" />}
-                color="#75c4cc"
-              />
-            </div>
-          </Card>
-        </div>
-
-        <div className="grid grid-cols-2 gap-6 mb-8">
-          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
-                Revenue Overview
-              </h3>
-              <DollarSign className="w-8 h-8 text-[#75c4cc]" />
-            </div>
-            <div className="space-y-6">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
-                    Total Potential Revenue
-                  </span>
-                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-gray-400">
-                    ${metrics.totalPotentialRevenue.toLocaleString()}
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-gray-400 rounded-full" style={{ width: '100%' }} />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
-                    Actual Revenue (Accepted)
-                  </span>
-                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-[#10b981]">
-                    ${metrics.actualRevenue.toLocaleString()}
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#10b981] rounded-full transition-all duration-500"
-                    style={{ width: metrics.totalPotentialRevenue > 0 ? `${(metrics.actualRevenue / metrics.totalPotentialRevenue) * 100}%` : '0%' }}
-                  />
-                </div>
-              </div>
-              <div className="pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-between">
-                  <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                    Conversion Rate
-                  </span>
-                  <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#023c97]">
-                    {completionRate}%
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
-            <div className="flex items-center justify-center">
-              <SemiCircleGauge
                 value={metrics.acceptedDaysScheduled}
                 max={metrics.daysScheduled || 1}
                 label="Days Scheduled"
@@ -279,21 +223,27 @@ export const AdminDashboard = (): JSX.Element => {
               />
             </div>
             <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-[#75c4cc]" />
+                  <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">Filming Hours</span>
+                </div>
+              </div>
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl text-[#023c97]">
-                    {metrics.daysScheduled}
+                <div className="text-center p-3 bg-gray-50 rounded-lg">
+                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-gray-600">
+                    {metrics.totalFilmingHours}
                   </div>
                   <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
-                    Total Days
+                    Total Hours
                   </div>
                 </div>
-                <div className="text-center">
-                  <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl text-[#10b981]">
-                    {metrics.acceptedDaysScheduled}
+                <div className="text-center p-3 bg-[#10b981]/10 rounded-lg">
+                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#10b981]">
+                    {metrics.acceptedFilmingHours}
                   </div>
                   <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
-                    Days Accepted
+                    Hours Accepted
                   </div>
                 </div>
               </div>
@@ -302,32 +252,6 @@ export const AdminDashboard = (): JSX.Element => {
         </div>
 
         <div className="grid grid-cols-2 gap-6 mb-8">
-          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
-                Quotes Pending Response
-              </h3>
-              <AlertCircle className="w-8 h-8 text-orange-500" />
-            </div>
-            <div className="flex items-center justify-center py-8">
-              <div className="text-center">
-                <div className="[font-family:'Lexend',Helvetica] font-bold text-6xl text-orange-500 mb-2">
-                  {metrics.quotesPending}
-                </div>
-                <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                  quotes awaiting client response
-                </div>
-              </div>
-            </div>
-            {metrics.quotesPending > 0 && (
-              <div className="mt-4 pt-4 border-t border-gray-200">
-                <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 text-center">
-                  Follow up with clients to improve conversion rate
-                </div>
-              </div>
-            )}
-          </Card>
-
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center justify-between mb-6">
               <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
@@ -392,6 +316,56 @@ export const AdminDashboard = (): JSX.Element => {
                       {metrics.currentMonthQuotes}
                     </div>
                   </div>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
+                Revenue Overview
+              </h3>
+              <DollarSign className="w-8 h-8 text-[#75c4cc]" />
+            </div>
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
+                    Total Potential Revenue
+                  </span>
+                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-gray-400">
+                    ${metrics.totalPotentialRevenue.toLocaleString()}
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-gray-400 rounded-full" style={{ width: '100%' }} />
+                </div>
+              </div>
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
+                    Actual Revenue (Accepted)
+                  </span>
+                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-[#10b981]">
+                    ${metrics.actualRevenue.toLocaleString()}
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#10b981] rounded-full transition-all duration-500"
+                    style={{ width: metrics.totalPotentialRevenue > 0 ? `${(metrics.actualRevenue / metrics.totalPotentialRevenue) * 100}%` : '0%' }}
+                  />
+                </div>
+              </div>
+              <div className="pt-4 border-t border-gray-200">
+                <div className="flex items-center justify-between">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                    Conversion Rate
+                  </span>
+                  <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#023c97]">
+                    {completionRate}%
+                  </span>
                 </div>
               </div>
             </div>
