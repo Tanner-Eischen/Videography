@@ -7,12 +7,15 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Download, Mail, LogOut, User, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { generateQuotePDF, generateQuoteExcel, sendQuoteEmail } from '../../lib/exportUtils';
+import { EditQuoteModal } from '../../components/EditQuoteModal';
 
 export const AllQuotes = (): JSX.Element => {
   const { profile, signOut } = useAuth();
   const navigate = useNavigate();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
+  const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     fetchQuotes();
@@ -82,8 +85,13 @@ export const AllQuotes = (): JSX.Element => {
     fetchQuotes();
   };
 
-  const handleEditQuote = (quoteId: string) => {
-    navigate(`/edit-quote/${quoteId}`);
+  const handleEditQuote = (quote: Quote) => {
+    setEditingQuote(quote);
+    setIsModalOpen(true);
+  };
+
+  const handleModalSuccess = () => {
+    fetchQuotes();
   };
 
   if (loading) {
@@ -173,7 +181,7 @@ export const AllQuotes = (): JSX.Element => {
                   <tr key={quote.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                     <td className="px-6 py-4">
                       <button
-                        onClick={() => handleEditQuote(quote.id)}
+                        onClick={() => handleEditQuote(quote)}
                         className="flex items-center gap-3 hover:opacity-75 transition-opacity text-left w-full"
                       >
                         <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
@@ -245,6 +253,15 @@ export const AllQuotes = (): JSX.Element => {
           </Button>
         </div>
       </div>
+
+      {editingQuote && (
+        <EditQuoteModal
+          quote={editingQuote}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          onSuccess={handleModalSuccess}
+        />
+      )}
     </div>
   );
 };
