@@ -43,10 +43,6 @@ function DashboardRouter() {
     );
   }
 
-  if (profile?.role === 'superadmin') {
-    return <SuperAdminDashboard />;
-  }
-
   return <AdminDashboard />;
 }
 
@@ -78,8 +74,16 @@ function AppRoutes() {
       <Route
         path="/admin-dashboard"
         element={
-          <ProtectedRoute allowedRoles={['superadmin']}>
+          <ProtectedRoute>
             <AdminDashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin"
+        element={
+          <ProtectedRoute allowedRoles={['superadmin']}>
+            <SuperAdminDashboard />
           </ProtectedRoute>
         }
       />
