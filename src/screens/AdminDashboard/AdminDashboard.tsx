@@ -4,8 +4,10 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar, LogOut, User } from 'lucide-react';
+import { FileText, Download, Mail, Calendar, LogOut, User, Clock, DollarSign, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { CircularGauge, SemiCircleGauge, ProgressBarGauge } from '../../components/ui/gauge';
+import { calculateDashboardMetrics } from '../../lib/dashboardMetrics';
 
 export const AdminDashboard = (): JSX.Element => {
   const { profile, signOut } = useAuth();
@@ -59,8 +61,10 @@ export const AdminDashboard = (): JSX.Element => {
     }
   };
 
-  const pendingQuotes = quotes.filter(q => q.status === 'draft').length;
-  const completedQuotes = quotes.filter(q => q.status === 'done').length;
+  const metrics = calculateDashboardMetrics(quotes);
+  const completionRate = metrics.totalQuotes > 0
+    ? Math.round((metrics.quotesAccepted / metrics.totalQuotes) * 100)
+    : 0;
 
   const handleLogout = async () => {
     await signOut();
@@ -124,64 +128,174 @@ export const AdminDashboard = (): JSX.Element => {
       <div className="max-w-[1400px] mx-auto px-8 py-12">
         <div className="mb-8">
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-4xl mb-2">
-            Welcome, {profile?.full_name || 'Client'}!
+            Welcome back, {profile?.full_name || 'Admin'}!
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-lg">
-            Here are your quotes and project information.
+            You've completed <span className="font-bold text-[#75c4cc]">{metrics.quotesAccepted}</span> of your quotes. Way to go!
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 mb-12">
-          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-[#75c4cc] transition-colors">
-            <div className="flex items-start justify-between mb-4">
-              <div className="bg-[#75c4cc] text-white rounded-lg px-6 py-3">
-                <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
-                  {quotes.length}
+        <div className="grid grid-cols-3 gap-6 mb-8">
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-center">
+              <CircularGauge
+                value={metrics.quotesAccepted}
+                max={metrics.totalQuotes || 1}
+                label="Quote Status"
+                color="#75c4cc"
+                size="medium"
+              />
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center justify-between text-sm">
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-gray-400"></div>
+                  <span className="[font-family:'Lexend',Helvetica] text-gray-600">Draft</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <div className="w-3 h-3 rounded-full bg-[#75c4cc]"></div>
+                  <span className="[font-family:'Lexend',Helvetica] text-gray-600">Done</span>
                 </div>
               </div>
-              <FileText className="w-12 h-12 text-[#75c4cc]" />
-            </div>
-            <div className="space-y-1">
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Total</div>
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Quotes</div>
-              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600 mt-2">
-                All your project quotes
+              <div className="mt-4">
+                <ProgressBarGauge
+                  current={metrics.quotesAccepted}
+                  total={metrics.totalQuotes}
+                  label="Quotes Accepted"
+                  color="#10b981"
+                />
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white rounded-xl border-2 border-[#023c97] hover:shadow-lg transition-shadow">
-            <div className="flex items-start justify-between mb-4">
-              <div className="bg-[#fbbf24] text-white rounded-lg px-6 py-3">
-                <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
-                  {pendingQuotes}
+          <Card className="p-4 bg-white rounded-xl border-2 border-gray-200">
+            <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-lg mb-4 text-center">
+              Quote Actions
+            </h3>
+            <div className="space-y-4">
+              <div className="flex items-center gap-4 p-4 bg-[#75c4cc]/10 rounded-lg">
+                <div className="flex items-center justify-center w-14 h-14 bg-[#75c4cc] rounded-full">
+                  <Mail className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#023c97]">
+                    {metrics.quotesEmailed}
+                  </div>
+                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                    quotes emailed to clients
+                  </div>
                 </div>
               </div>
-              <Calendar className="w-12 h-12 text-[#fbbf24]" />
-            </div>
-            <div className="space-y-1">
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Pending</div>
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Quotes</div>
-              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600 mt-2">
-                Awaiting completion
+              <div className="flex items-center gap-4 p-4 bg-[#75c4cc]/10 rounded-lg">
+                <div className="flex items-center justify-center w-14 h-14 bg-[#75c4cc] rounded-full">
+                  <Download className="w-7 h-7 text-white" />
+                </div>
+                <div>
+                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#023c97]">
+                    {metrics.quotesExported}
+                  </div>
+                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                    quotes exported for clients
+                  </div>
+                </div>
               </div>
             </div>
           </Card>
 
-          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-[#75c4cc] transition-colors">
-            <div className="flex items-start justify-between mb-4">
-              <div className="bg-green-500 text-white rounded-lg px-6 py-3">
-                <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl">
-                  {completedQuotes}
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-center">
+              <SemiCircleGauge
+                value={metrics.acceptedFilmingHours}
+                max={metrics.totalFilmingHours || 1}
+                label="Filming Hours"
+                subtitle={`${metrics.acceptedFilmingHours} hours accepted`}
+                icon={<Clock className="w-6 h-6 text-[#75c4cc]" />}
+                color="#75c4cc"
+              />
+            </div>
+          </Card>
+        </div>
+
+        <div className="grid grid-cols-2 gap-6 mb-8">
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
+                Revenue Overview
+              </h3>
+              <DollarSign className="w-8 h-8 text-[#75c4cc]" />
+            </div>
+            <div className="space-y-6">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
+                    Total Potential Revenue
+                  </span>
+                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-gray-400">
+                    ${metrics.totalPotentialRevenue.toLocaleString()}
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div className="h-full bg-gray-400 rounded-full" style={{ width: '100%' }} />
                 </div>
               </div>
-              <FileText className="w-12 h-12 text-green-500" />
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
+                    Actual Revenue (Accepted)
+                  </span>
+                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-[#10b981]">
+                    ${metrics.actualRevenue.toLocaleString()}
+                  </span>
+                </div>
+                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-[#10b981] rounded-full transition-all duration-500"
+                    style={{ width: metrics.totalPotentialRevenue > 0 ? `${(metrics.actualRevenue / metrics.totalPotentialRevenue) * 100}%` : '0%' }}
+                  />
+                </div>
+              </div>
+              <div className="pt-4 border-t border-gray-200">
+                <div className="flex items-center justify-between">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                    Conversion Rate
+                  </span>
+                  <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#023c97]">
+                    {completionRate}%
+                  </span>
+                </div>
+              </div>
             </div>
-            <div className="space-y-1">
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Completed</div>
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-lg">Quotes</div>
-              <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600 mt-2">
-                Ready for review
+          </Card>
+
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-center">
+              <SemiCircleGauge
+                value={metrics.acceptedDaysScheduled}
+                max={metrics.daysScheduled || 1}
+                label="Days Scheduled"
+                subtitle={`${metrics.acceptedDaysScheduled} days accepted`}
+                icon={<Calendar className="w-6 h-6 text-[#75c4cc]" />}
+                color="#75c4cc"
+              />
+            </div>
+            <div className="mt-6 pt-6 border-t border-gray-200">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center">
+                  <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl text-[#023c97]">
+                    {metrics.daysScheduled}
+                  </div>
+                  <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
+                    Total Days
+                  </div>
+                </div>
+                <div className="text-center">
+                  <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl text-[#10b981]">
+                    {metrics.acceptedDaysScheduled}
+                  </div>
+                  <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
+                    Days Accepted
+                  </div>
+                </div>
               </div>
             </div>
           </Card>
@@ -189,7 +303,7 @@ export const AdminDashboard = (): JSX.Element => {
 
         <div className="mb-6">
           <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-2xl mb-4">
-            My Quotes
+            Recent Quotes
           </h2>
         </div>
 
@@ -198,7 +312,7 @@ export const AdminDashboard = (): JSX.Element => {
             <thead className="bg-[#023c97]">
               <tr>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
-                  PROJECT
+                  CLIENT NAME
                 </th>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
                   DATE CREATED
@@ -207,24 +321,21 @@ export const AdminDashboard = (): JSX.Element => {
                   STATUS
                 </th>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
-                  TIER
-                </th>
-                <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
-                  ACTIONS
+                  ACTION
                 </th>
               </tr>
             </thead>
             <tbody>
               {quotes.length > 0 ? (
-                quotes.map((quote, index) => (
+                quotes.slice(0, 5).map((quote, index) => (
                   <tr key={quote.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                     <td className="px-6 py-4">
                       <div className="space-y-1">
                         <div className="[font-family:'Lexend',Helvetica] font-semibold text-lg">
-                          {quote.production_company || 'Untitled Project'}
+                          {quote.client_name}
                         </div>
                         <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                          {quote.client_name}
+                          {quote.production_company || 'N/A'}
                         </div>
                       </div>
                     </td>
@@ -237,16 +348,17 @@ export const AdminDashboard = (): JSX.Element => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <span className="[font-family:'Lexend',Helvetica] font-medium text-lg capitalize">
-                        {quote.tier || 'N/A'}
-                      </span>
-                    </td>
-                    <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <Button className="bg-[#023c97] hover:bg-[#022d70] text-white px-4 py-2 rounded-lg">
+                          <Mail className="w-4 h-4 mr-2" />
+                          <span className="[font-family:'Lexend',Helvetica] font-semibold text-sm">
+                            Email
+                          </span>
+                        </Button>
+                        <Button className="bg-white hover:bg-gray-50 text-[#023c97] border-2 border-[#023c97] px-4 py-2 rounded-lg">
                           <Download className="w-4 h-4 mr-2" />
                           <span className="[font-family:'Lexend',Helvetica] font-semibold text-sm">
-                            Download
+                            PDF Export
                           </span>
                         </Button>
                       </div>
@@ -255,14 +367,14 @@ export const AdminDashboard = (): JSX.Element => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={5} className="px-6 py-12 text-center">
+                  <td colSpan={4} className="px-6 py-12 text-center">
                     <div className="flex flex-col items-center justify-center">
                       <FileText className="w-16 h-16 text-gray-300 mb-4" />
                       <div className="[font-family:'Lexend',Helvetica] text-gray-500 text-lg">
                         No quotes yet
                       </div>
                       <div className="[font-family:'Lexend',Helvetica] text-gray-400 text-sm mt-2">
-                        Contact your account manager to create your first quote
+                        Create your first quote to get started
                       </div>
                     </div>
                   </td>
@@ -271,21 +383,6 @@ export const AdminDashboard = (): JSX.Element => {
             </tbody>
           </table>
         </Card>
-
-        {quotes.length > 0 && (
-          <div className="mt-8 p-6 bg-white rounded-xl border-2 border-gray-200">
-            <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl mb-4">
-              Need help?
-            </h3>
-            <p className="[font-family:'Lexend',Helvetica] text-gray-700 mb-4">
-              If you have any questions about your quotes or need assistance, please contact your account manager.
-            </p>
-            <Button className="bg-[#75c4cc] hover:bg-[#60b0b8] text-white px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold">
-              <Mail className="w-5 h-5 mr-2" />
-              Contact Support
-            </Button>
-          </div>
-        )}
       </div>
     </div>
   );

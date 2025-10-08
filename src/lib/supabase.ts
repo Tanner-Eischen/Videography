@@ -28,9 +28,13 @@ export type Quote = {
   project_start_date: string | null;
   project_end_date: string | null;
   tier: 'standard' | 'premium' | null;
-  status: 'draft' | 'done' | 'exported' | 'emailed';
+  status: 'draft' | 'done' | 'exported' | 'emailed' | 'downloaded';
   created_at: string;
   updated_at: string;
+  filming_hours: number;
+  revenue: number;
+  is_accepted: boolean;
+  accepted_at: string | null;
 };
 
 export type DashboardStats = {
