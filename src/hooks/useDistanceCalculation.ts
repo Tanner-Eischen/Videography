@@ -19,14 +19,27 @@ interface DistanceResult {
   };
 }
 
-export const useDistanceCalculation = (origin: string, destination: string) => {
+interface UseDistanceCalculationOptions {
+  debounceMs?: number;
+  includeMetrics?: boolean;
+}
+
+export const useDistanceCalculation = (
+  origin: string,
+  destination: string,
+  options: UseDistanceCalculationOptions = {}
+) => {
+  const { debounceMs = 1500, includeMetrics = true } = options;
+
   const [result, setResult] = useState<DistanceResult | null>(null);
+  const [distance, setDistance] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const calculateDistance = useCallback(async () => {
-    if (!origin.trim() || !destination.trim()) {
+    if (!origin?.trim() || !destination?.trim()) {
       setResult(null);
+      setDistance(null);
       setError(null);
       return;
     }
@@ -43,47 +56,41 @@ export const useDistanceCalculation = (origin: string, destination: string) => {
     try {
       const geocoder = window.google?.maps ? new google.maps.Geocoder() : null;
 
-      let originCoords: { lat: number; lng: number } | null = null;
-      let destCoords: { lat: number; lng: number } | null = null;
-
-      if (geocoder) {
-        const originGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
-          geocoder.geocode({ address: origin }, (results, status) => {
-            if (status === 'OK' && results && results[0]) {
-              resolve(results[0]);
-            } else {
-              reject(new Error('Origin geocoding failed'));
-            }
-          });
-        });
-
-        const destGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
-          geocoder.geocode({ address: destination }, (results, status) => {
-            if (status === 'OK' && results && results[0]) {
-              resolve(results[0]);
-            } else {
-              reject(new Error('Destination geocoding failed'));
-            }
-          });
-        });
-
-        originCoords = {
-          lat: originGeocode.geometry.location.lat(),
-          lng: originGeocode.geometry.location.lng(),
-        };
-
-        destCoords = {
-          lat: destGeocode.geometry.location.lat(),
-          lng: destGeocode.geometry.location.lng(),
-        };
-      }
-
-      if (!originCoords || !destCoords) {
-        setError('Unable to geocode addresses');
-        setResult(null);
+      if (!geocoder) {
+        setError('Google Maps not loaded');
         setLoading(false);
         return;
       }
+
+      const originGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
+        geocoder.geocode({ address: origin }, (results, status) => {
+          if (status === 'OK' && results && results[0]) {
+            resolve(results[0]);
+          } else {
+            reject(new Error('Origin geocoding failed'));
+          }
+        });
+      });
+
+      const destGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
+        geocoder.geocode({ address: destination }, (results, status) => {
+          if (status === 'OK' && results && results[0]) {
+            resolve(results[0]);
+          } else {
+            reject(new Error('Destination geocoding failed'));
+          }
+        });
+      });
+
+      const originCoords = {
+        lat: originGeocode.geometry.location.lat(),
+        lng: originGeocode.geometry.location.lng(),
+      };
+
+      const destCoords = {
+        lat: destGeocode.geometry.location.lat(),
+        lng: destGeocode.geometry.location.lng(),
+      };
 
       const requestBody = {
         origin: {
@@ -133,6 +140,7 @@ export const useDistanceCalculation = (origin: string, destination: string) => {
       if (!data.routes || data.routes.length === 0) {
         setError('No route found between the addresses.');
         setResult(null);
+        setDistance(null);
         setLoading(false);
         return;
       }
@@ -142,6 +150,7 @@ export const useDistanceCalculation = (origin: string, destination: string) => {
       const durationSeconds = parseInt(route.duration.replace('s', ''));
 
       const miles = distanceMeters * 0.000621371;
+      const roundedMiles = Math.round(miles);
       const minutes = Math.round(durationSeconds / 60);
       const hours = Math.floor(minutes / 60);
       const remainingMinutes = minutes % 60;
@@ -153,36 +162,41 @@ export const useDistanceCalculation = (origin: string, destination: string) => {
         durationText = `${minutes} min${minutes !== 1 ? 's' : ''}`;
       }
 
-      setResult({
-        distance: {
-          miles: miles,
-          km: distanceMeters / 1000,
-        },
-        duration: {
-          minutes: minutes,
-          text: durationText,
-        },
-        origin: originCoords,
-        destination: destCoords,
-      });
+      setDistance(roundedMiles);
+
+      if (includeMetrics) {
+        setResult({
+          distance: {
+            miles: miles,
+            km: distanceMeters / 1000,
+          },
+          duration: {
+            minutes: minutes,
+            text: durationText,
+          },
+          origin: originCoords,
+          destination: destCoords,
+        });
+      }
 
       setError(null);
     } catch (err) {
       console.error('Distance calculation error:', err);
       setError('Failed to calculate distance. Please try again.');
       setResult(null);
+      setDistance(null);
     } finally {
       setLoading(false);
     }
-  }, [origin, destination]);
+  }, [origin, destination, includeMetrics]);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       calculateDistance();
-    }, 1000);
+    }, debounceMs);
 
     return () => clearTimeout(timeoutId);
-  }, [calculateDistance]);
+  }, [calculateDistance, debounceMs]);
 
-  return { result, loading, error, recalculate: calculateDistance };
+  return { result, distance, loading, error, recalculate: calculateDistance };
 };

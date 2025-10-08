@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { LocationInput } from '../../../components/ui/LocationInput';
-import { useLocationDistance } from '../../../hooks/useLocationDistance';
-import { ArrowDownRight } from 'lucide-react';
+import { useDistanceCalculation } from '../../../hooks/useDistanceCalculation';
+import { ArrowDownRight, Clock } from 'lucide-react';
 
 interface LocationWithDistanceProps {
   locationIndex: number;
@@ -27,9 +27,10 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
   previousAddress,
   updateLocation,
 }) => {
-  const { distance, loading } = useLocationDistance(
+  const { distance, result, loading } = useDistanceCalculation(
     previousAddress,
-    location.address
+    location.address,
+    { debounceMs: 1500, includeMetrics: true }
   );
 
   useEffect(() => {
@@ -139,6 +140,14 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
                     {loading ? 'calculating...' : 'miles to'}
                   </span>
                 </div>
+                {!loading && result?.duration && (
+                  <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-blue-300">
+                    <Clock className="w-4 h-4 text-[#023c97]" />
+                    <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-700">
+                      {result.duration.text}
+                    </span>
+                  </div>
+                )}
               </div>
 
               <LocationInput
