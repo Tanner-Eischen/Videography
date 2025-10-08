@@ -31,8 +31,9 @@ export const useDistanceCalculation = (origin: string, destination: string) => {
       return;
     }
 
-    if (!window.google || !window.google.maps) {
-      setError('Google Maps is not loaded');
+    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
+      setError('Google Maps API key not configured');
       return;
     }
 
@@ -40,76 +41,129 @@ export const useDistanceCalculation = (origin: string, destination: string) => {
     setError(null);
 
     try {
-      const service = new google.maps.DistanceMatrixService();
-      const geocoder = new google.maps.Geocoder();
+      const geocoder = window.google?.maps ? new google.maps.Geocoder() : null;
 
-      const distanceResult = await new Promise<google.maps.DistanceMatrixResponse>((resolve, reject) => {
-        service.getDistanceMatrix(
-          {
-            origins: [origin],
-            destinations: [destination],
-            travelMode: google.maps.TravelMode.DRIVING,
-            unitSystem: google.maps.UnitSystem.IMPERIAL,
-          },
-          (response, status) => {
-            if (status === google.maps.DistanceMatrixStatus.OK && response) {
-              resolve(response);
+      let originCoords: { lat: number; lng: number } | null = null;
+      let destCoords: { lat: number; lng: number } | null = null;
+
+      if (geocoder) {
+        const originGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
+          geocoder.geocode({ address: origin }, (results, status) => {
+            if (status === 'OK' && results && results[0]) {
+              resolve(results[0]);
             } else {
-              reject(new Error(`Distance Matrix failed: ${status}`));
+              reject(new Error('Origin geocoding failed'));
             }
-          }
-        );
-      });
+          });
+        });
 
-      const element = distanceResult.rows[0]?.elements[0];
+        const destGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
+          geocoder.geocode({ address: destination }, (results, status) => {
+            if (status === 'OK' && results && results[0]) {
+              resolve(results[0]);
+            } else {
+              reject(new Error('Destination geocoding failed'));
+            }
+          });
+        });
 
-      if (!element || element.status !== 'OK') {
-        setError('Unable to calculate distance. Please check the addresses.');
+        originCoords = {
+          lat: originGeocode.geometry.location.lat(),
+          lng: originGeocode.geometry.location.lng(),
+        };
+
+        destCoords = {
+          lat: destGeocode.geometry.location.lat(),
+          lng: destGeocode.geometry.location.lng(),
+        };
+      }
+
+      if (!originCoords || !destCoords) {
+        setError('Unable to geocode addresses');
         setResult(null);
         setLoading(false);
         return;
       }
 
-      const originGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
-        geocoder.geocode({ address: origin }, (results, status) => {
-          if (status === 'OK' && results && results[0]) {
-            resolve(results[0]);
-          } else {
-            reject(new Error('Origin geocoding failed'));
-          }
-        });
+      const requestBody = {
+        origin: {
+          location: {
+            latLng: {
+              latitude: originCoords.lat,
+              longitude: originCoords.lng,
+            },
+          },
+        },
+        destination: {
+          location: {
+            latLng: {
+              latitude: destCoords.lat,
+              longitude: destCoords.lng,
+            },
+          },
+        },
+        travelMode: 'DRIVE',
+        routingPreference: 'TRAFFIC_AWARE',
+        computeAlternativeRoutes: false,
+        routeModifiers: {
+          avoidTolls: false,
+          avoidHighways: false,
+          avoidFerries: false,
+        },
+        languageCode: 'en-US',
+        units: 'IMPERIAL',
+      };
+
+      const response = await fetch('https://routes.googleapis.com/directions/v2:computeRoutes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Goog-Api-Key': apiKey,
+          'X-Goog-FieldMask': 'routes.duration,routes.distanceMeters,routes.polyline.encodedPolyline',
+        },
+        body: JSON.stringify(requestBody),
       });
 
-      const destGeocode = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
-        geocoder.geocode({ address: destination }, (results, status) => {
-          if (status === 'OK' && results && results[0]) {
-            resolve(results[0]);
-          } else {
-            reject(new Error('Destination geocoding failed'));
-          }
-        });
-      });
+      if (!response.ok) {
+        throw new Error(`Routes API error: ${response.status} ${response.statusText}`);
+      }
 
-      const distanceMeters = element.distance.value;
-      const durationSeconds = element.duration.value;
+      const data = await response.json();
+
+      if (!data.routes || data.routes.length === 0) {
+        setError('No route found between the addresses.');
+        setResult(null);
+        setLoading(false);
+        return;
+      }
+
+      const route = data.routes[0];
+      const distanceMeters = route.distanceMeters;
+      const durationSeconds = parseInt(route.duration.replace('s', ''));
+
+      const miles = distanceMeters * 0.000621371;
+      const minutes = Math.round(durationSeconds / 60);
+      const hours = Math.floor(minutes / 60);
+      const remainingMinutes = minutes % 60;
+
+      let durationText = '';
+      if (hours > 0) {
+        durationText = `${hours} hour${hours > 1 ? 's' : ''} ${remainingMinutes} min${remainingMinutes !== 1 ? 's' : ''}`;
+      } else {
+        durationText = `${minutes} min${minutes !== 1 ? 's' : ''}`;
+      }
 
       setResult({
         distance: {
-          miles: distanceMeters * 0.000621371,
+          miles: miles,
           km: distanceMeters / 1000,
         },
         duration: {
-          minutes: Math.round(durationSeconds / 60),
-          text: element.duration.text,
+          minutes: minutes,
+          text: durationText,
         },
-        origin: {
-          lat: originGeocode.geometry.location.lat(),
-          lng: originGeocode.geometry.location.lng(),
-        },
-        destination: {
-          lat: destGeocode.geometry.location.lat(),
-          lng: destGeocode.geometry.location.lng(),
-        },
+        origin: originCoords,
+        destination: destCoords,
       });
 
       setError(null);
