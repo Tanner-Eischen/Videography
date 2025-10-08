@@ -295,29 +295,32 @@ export const AdminDashboard = (): JSX.Element => {
                   </span>
                 </div>
 
-                <div className="relative h-48 mb-4">
-                  <svg width="100%" height="100%" className="overflow-visible">
+                <div className="relative h-48 mb-4 px-4">
+                  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" className="overflow-visible">
                     {metrics.monthlyData.map((data, index) => {
-                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                      const padding = 8;
+                      const x = padding + (index / (metrics.monthlyData.length - 1)) * (100 - 2 * padding);
                       const maxRevenue = Math.max(...metrics.monthlyData.map(d => d.revenue), 1);
                       const y = 100 - (data.revenue / maxRevenue) * 80;
 
                       return (
                         <g key={index}>
                           <line
-                            x1={`${x}%`}
-                            y1="100%"
-                            x2={`${x}%`}
-                            y2="0%"
+                            x1={x}
+                            y1="100"
+                            x2={x}
+                            y2="0"
                             stroke="#f0f0f0"
-                            strokeWidth="1"
+                            strokeWidth="0.3"
+                            vectorEffect="non-scaling-stroke"
                           />
                           <text
-                            x={`${x}%`}
-                            y="100%"
-                            dy="16"
+                            x={x}
+                            y="100"
+                            dy="5"
                             textAnchor="middle"
                             className="[font-family:'Lexend',Helvetica] text-xs fill-gray-500"
+                            style={{ fontSize: '4px' }}
                           >
                             {data.month}
                           </text>
@@ -327,37 +330,42 @@ export const AdminDashboard = (): JSX.Element => {
 
                     <polyline
                       points={metrics.monthlyData.map((data, index) => {
-                        const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                        const padding = 8;
+                        const x = padding + (index / (metrics.monthlyData.length - 1)) * (100 - 2 * padding);
                         const maxRevenue = Math.max(...metrics.monthlyData.map(d => d.revenue), 1);
                         const y = 100 - (data.revenue / maxRevenue) * 80;
-                        return `${x}%,${y}%`;
+                        return `${x},${y}`;
                       }).join(' ')}
                       fill="none"
                       stroke="#10b981"
-                      strokeWidth="3"
+                      strokeWidth="1"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      vectorEffect="non-scaling-stroke"
                     />
 
                     {metrics.monthlyData.map((data, index) => {
-                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                      const padding = 8;
+                      const x = padding + (index / (metrics.monthlyData.length - 1)) * (100 - 2 * padding);
                       const maxRevenue = Math.max(...metrics.monthlyData.map(d => d.revenue), 1);
                       const y = 100 - (data.revenue / maxRevenue) * 80;
 
                       return (
                         <g key={index}>
                           <circle
-                            cx={`${x}%`}
-                            cy={`${y}%`}
-                            r="4"
+                            cx={x}
+                            cy={y}
+                            r="1.5"
                             fill="#10b981"
+                            vectorEffect="non-scaling-stroke"
                           />
                           <text
-                            x={`${x}%`}
-                            y={`${y}%`}
-                            dy="-10"
+                            x={x}
+                            y={y}
+                            dy="-3"
                             textAnchor="middle"
                             className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#10b981]"
+                            style={{ fontSize: '3.5px' }}
                           >
                             ${(data.revenue / 1000).toFixed(0)}k
                           </text>
@@ -397,27 +405,30 @@ export const AdminDashboard = (): JSX.Element => {
                   </span>
                 </div>
 
-                <div className="relative h-48 mb-4">
-                  <svg width="100%" height="100%" className="overflow-visible">
+                <div className="relative h-48 mb-4 px-4">
+                  <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" className="overflow-visible">
                     {metrics.monthlyData.map((data, index) => {
-                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                      const padding = 8;
+                      const x = padding + (index / (metrics.monthlyData.length - 1)) * (100 - 2 * padding);
 
                       return (
                         <g key={index}>
                           <line
-                            x1={`${x}%`}
-                            y1="100%"
-                            x2={`${x}%`}
-                            y2="0%"
+                            x1={x}
+                            y1="100"
+                            x2={x}
+                            y2="0"
                             stroke="#f0f0f0"
-                            strokeWidth="1"
+                            strokeWidth="0.3"
+                            vectorEffect="non-scaling-stroke"
                           />
                           <text
-                            x={`${x}%`}
-                            y="100%"
-                            dy="16"
+                            x={x}
+                            y="100"
+                            dy="5"
                             textAnchor="middle"
                             className="[font-family:'Lexend',Helvetica] text-xs fill-gray-500"
+                            style={{ fontSize: '4px' }}
                           >
                             {data.month}
                           </text>
@@ -427,37 +438,42 @@ export const AdminDashboard = (): JSX.Element => {
 
                     <polyline
                       points={metrics.monthlyData.map((data, index) => {
-                        const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                        const padding = 8;
+                        const x = padding + (index / (metrics.monthlyData.length - 1)) * (100 - 2 * padding);
                         const maxQuotes = Math.max(...metrics.monthlyData.map(d => d.quotes), 1);
                         const y = 100 - (data.quotes / maxQuotes) * 80;
-                        return `${x}%,${y}%`;
+                        return `${x},${y}`;
                       }).join(' ')}
                       fill="none"
                       stroke="#75c4cc"
-                      strokeWidth="3"
+                      strokeWidth="1"
                       strokeLinecap="round"
                       strokeLinejoin="round"
+                      vectorEffect="non-scaling-stroke"
                     />
 
                     {metrics.monthlyData.map((data, index) => {
-                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                      const padding = 8;
+                      const x = padding + (index / (metrics.monthlyData.length - 1)) * (100 - 2 * padding);
                       const maxQuotes = Math.max(...metrics.monthlyData.map(d => d.quotes), 1);
                       const y = 100 - (data.quotes / maxQuotes) * 80;
 
                       return (
                         <g key={index}>
                           <circle
-                            cx={`${x}%`}
-                            cy={`${y}%`}
-                            r="4"
+                            cx={x}
+                            cy={y}
+                            r="1.5"
                             fill="#75c4cc"
+                            vectorEffect="non-scaling-stroke"
                           />
                           <text
-                            x={`${x}%`}
-                            y={`${y}%`}
-                            dy="-10"
+                            x={x}
+                            y={y}
+                            dy="-3"
                             textAnchor="middle"
                             className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#75c4cc]"
+                            style={{ fontSize: '3.5px' }}
                           >
                             {data.quotes}
                           </text>
