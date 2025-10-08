@@ -4,6 +4,7 @@ import { Button } from "../../components/ui/button";
 import { Avatar } from "../../components/ui/avatar";
 import { LogOut, User } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
+import { useGoogleMaps } from "../../hooks/useGoogleMaps";
 import { StepSidebar } from "./components/StepSidebar";
 import { ClientInfoStep } from "./steps/ClientInfoStep";
 import { ProjectInfoStep } from "./steps/ProjectInfoStep";
@@ -16,6 +17,8 @@ interface QuoteFormData {
   fullName: string;
   contactEmail: string;
   productionCompanyName: string;
+  pickupAddress: string;
+  dropoffAddress: string;
   projectStartDate: {
     month: string;
     day: string;
@@ -55,10 +58,16 @@ export const CreateQuote = (): JSX.Element => {
   const navigate = useNavigate();
   const { profile, signOut } = useAuth();
   const [currentStep, setCurrentStep] = useState<QuoteStep>(1);
+
+  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
+  const { isLoaded: mapsLoaded } = useGoogleMaps({ apiKey: googleMapsApiKey });
+
   const [formData, setFormData] = useState<QuoteFormData>({
     fullName: "",
     contactEmail: "",
     productionCompanyName: "",
+    pickupAddress: "",
+    dropoffAddress: "",
     projectStartDate: { month: "", day: "", year: "" },
     projectEndDate: { month: "", day: "", year: "" },
     numberOfDeliverables: 3,
