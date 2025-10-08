@@ -5,6 +5,7 @@ import { Login } from './screens/Login/Login';
 import { SuperAdminDashboard } from './screens/SuperAdminDashboard/SuperAdminDashboard';
 import { AdminDashboard } from './screens/AdminDashboard/AdminDashboard';
 import { CreateQuote } from './screens/CreateQuote/CreateQuote';
+import { EditQuote } from './screens/EditQuote/EditQuote';
 import { AllQuotes } from './screens/AllQuotes/AllQuotes';
 
 function ProtectedRoute({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: ('superadmin' | 'admin')[] }) {
@@ -97,6 +98,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <AllQuotes />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/edit-quote/:quoteId"
+        element={
+          <ProtectedRoute>
+            <EditQuote />
           </ProtectedRoute>
         }
       />

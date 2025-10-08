@@ -4,8 +4,9 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { Download, Mail, LogOut, User } from 'lucide-react';
+import { Download, Mail, LogOut, User, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { generateQuotePDF, generateQuoteExcel, sendQuoteEmail } from '../../lib/exportUtils';
 
 export const AllQuotes = (): JSX.Element => {
   const { profile, signOut } = useAuth();
@@ -56,6 +57,33 @@ export const AllQuotes = (): JSX.Element => {
   const handleLogout = async () => {
     await signOut();
     navigate('/login');
+  };
+
+  const handleExportPDF = async (quote: Quote) => {
+    await supabase
+      .from('quotes')
+      .update({ status: 'exported' })
+      .eq('id', quote.id);
+
+    generateQuotePDF(quote);
+    fetchQuotes();
+  };
+
+  const handleExportExcel = (quote: Quote) => {
+    generateQuoteExcel(quote);
+  };
+
+  const handleEmail = async (quote: Quote) => {
+    await sendQuoteEmail(quote);
+    await supabase
+      .from('quotes')
+      .update({ status: 'emailed' })
+      .eq('id', quote.id);
+    fetchQuotes();
+  };
+
+  const handleEditQuote = (quoteId: string) => {
+    navigate(`/edit-quote/${quoteId}`);
   };
 
   if (loading) {
@@ -144,12 +172,17 @@ export const AllQuotes = (): JSX.Element => {
                 quotes.map((quote, index) => (
                   <tr key={quote.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-12 h-12 bg-gray-300 rounded-full"></div>
+                      <button
+                        onClick={() => handleEditQuote(quote.id)}
+                        className="flex items-center gap-3 hover:opacity-75 transition-opacity text-left w-full"
+                      >
+                        <div className="w-12 h-12 bg-gray-300 rounded-full flex items-center justify-center">
+                          <Edit className="w-5 h-5 text-gray-600" />
+                        </div>
                         <span className="[font-family:'Lexend',Helvetica] font-medium text-lg">
                           {quote.client_name}
                         </span>
-                      </div>
+                      </button>
                     </td>
                     <td className="px-6 py-4 [font-family:'Lexend',Helvetica] text-lg">
                       {formatDate(quote.created_at)}
@@ -160,14 +193,29 @@ export const AllQuotes = (): JSX.Element => {
                       </span>
                     </td>
                     <td className="px-6 py-4">
-                      <div className="flex items-center gap-4">
-                        <Button className="bg-transparent hover:bg-gray-100 p-2">
+                      <div className="flex items-center gap-2">
+                        <Button
+                          onClick={() => handleExportPDF(quote)}
+                          className="bg-transparent hover:bg-gray-100 p-2"
+                        >
                           <Download className="w-5 h-5 text-black" />
                           <span className="ml-2 [font-family:'Lexend',Helvetica] font-semibold text-black">
-                            Download
+                            PDF
                           </span>
                         </Button>
-                        <Button className="bg-transparent hover:bg-gray-100 p-2">
+                        <Button
+                          onClick={() => handleExportExcel(quote)}
+                          className="bg-transparent hover:bg-gray-100 p-2"
+                        >
+                          <Download className="w-5 h-5 text-black" />
+                          <span className="ml-2 [font-family:'Lexend',Helvetica] font-semibold text-black">
+                            Excel
+                          </span>
+                        </Button>
+                        <Button
+                          onClick={() => handleEmail(quote)}
+                          className="bg-transparent hover:bg-gray-100 p-2"
+                        >
                           <Mail className="w-5 h-5 text-black" />
                           <span className="ml-2 [font-family:'Lexend',Helvetica] font-semibold text-black">
                             Email

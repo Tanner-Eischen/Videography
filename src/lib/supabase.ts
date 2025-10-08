@@ -35,6 +35,7 @@ export type Quote = {
   revenue: number;
   is_accepted: boolean;
   accepted_at: string | null;
+  form_data?: any;
 };
 
 export type DashboardStats = {

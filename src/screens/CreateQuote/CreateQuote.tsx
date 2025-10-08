@@ -13,6 +13,10 @@ import { SummaryStep } from "./steps/SummaryStep";
 
 export type QuoteStep = 1 | 2 | 3 | 4;
 
+interface CreateQuoteProps {
+  existingQuote?: any;
+}
+
 interface QuoteFormData {
   fullName: string;
   contactEmail: string;
@@ -52,7 +56,7 @@ interface QuoteFormData {
   discount: number;
 }
 
-export const CreateQuote = (): JSX.Element => {
+export const CreateQuote = ({ existingQuote }: CreateQuoteProps = {}): JSX.Element => {
   const navigate = useNavigate();
   const { profile, signOut } = useAuth();
   const [currentStep, setCurrentStep] = useState<QuoteStep>(1);
@@ -60,7 +64,11 @@ export const CreateQuote = (): JSX.Element => {
   const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
   const { isLoaded: mapsLoaded } = useGoogleMaps({ apiKey: googleMapsApiKey });
 
-  const [formData, setFormData] = useState<QuoteFormData>({
+  const getInitialFormData = (): QuoteFormData => {
+    if (existingQuote?.form_data) {
+      return existingQuote.form_data;
+    }
+    return {
     fullName: "",
     contactEmail: "",
     productionCompanyName: "",
@@ -93,10 +101,13 @@ export const CreateQuote = (): JSX.Element => {
         locations: [{ address: "", miles: 0, requiresSetup: false }],
       },
     ],
-    crewPerSetup: 0,
-    weight: 0,
-    discount: 0,
-  });
+      crewPerSetup: 0,
+      weight: 0,
+      discount: 0,
+    };
+  };
+
+  const [formData, setFormData] = useState<QuoteFormData>(getInitialFormData());
 
   const handleLogout = async () => {
     await signOut();

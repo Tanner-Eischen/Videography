@@ -4,10 +4,11 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar, LogOut, User, Clock, DollarSign, CheckCircle, TrendingUp, AlertCircle } from 'lucide-react';
+import { FileText, Download, Mail, Calendar, LogOut, User, Clock, DollarSign, CheckCircle, TrendingUp, AlertCircle, Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { CircularGauge, SemiCircleGauge, ProgressBarGauge } from '../../components/ui/gauge';
 import { calculateDashboardMetrics } from '../../lib/dashboardMetrics';
+import { generateQuotePDF, generateQuoteExcel, sendQuoteEmail } from '../../lib/exportUtils';
 
 export const AdminDashboard = (): JSX.Element => {
   const { profile, signOut } = useAuth();
@@ -70,6 +71,29 @@ export const AdminDashboard = (): JSX.Element => {
   const handleLogout = async () => {
     await signOut();
     navigate('/login');
+  };
+
+  const handleExportPDF = async (quote: Quote) => {
+    await supabase
+      .from('quotes')
+      .update({ status: 'exported' })
+      .eq('id', quote.id);
+
+    generateQuotePDF(quote);
+    fetchClientQuotes();
+  };
+
+  const handleEmail = async (quote: Quote) => {
+    await sendQuoteEmail(quote);
+    await supabase
+      .from('quotes')
+      .update({ status: 'emailed' })
+      .eq('id', quote.id);
+    fetchClientQuotes();
+  };
+
+  const handleEditQuote = (quoteId: string) => {
+    navigate(`/edit-quote/${quoteId}`);
   };
 
   if (loading) {
@@ -569,14 +593,18 @@ export const AdminDashboard = (): JSX.Element => {
                 quotes.slice(0, 5).map((quote, index) => (
                   <tr key={quote.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                     <td className="px-6 py-4">
-                      <div className="space-y-1">
-                        <div className="[font-family:'Lexend',Helvetica] font-semibold text-lg">
+                      <button
+                        onClick={() => handleEditQuote(quote.id)}
+                        className="space-y-1 hover:opacity-75 transition-opacity text-left w-full"
+                      >
+                        <div className="[font-family:'Lexend',Helvetica] font-semibold text-lg flex items-center gap-2">
+                          <Edit className="w-4 h-4 text-gray-600" />
                           {quote.client_name}
                         </div>
                         <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
                           {quote.production_company || 'N/A'}
                         </div>
-                      </div>
+                      </button>
                     </td>
                     <td className="px-6 py-4 [font-family:'Lexend',Helvetica] text-lg">
                       {formatDate(quote.created_at)}
@@ -588,13 +616,19 @@ export const AdminDashboard = (): JSX.Element => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
-                        <Button className="bg-[#023c97] hover:bg-[#022d70] text-white px-4 py-2 rounded-lg">
+                        <Button
+                          onClick={() => handleEmail(quote)}
+                          className="bg-[#023c97] hover:bg-[#022d70] text-white px-4 py-2 rounded-lg"
+                        >
                           <Mail className="w-4 h-4 mr-2" />
                           <span className="[font-family:'Lexend',Helvetica] font-semibold text-sm">
                             Email
                           </span>
                         </Button>
-                        <Button className="bg-white hover:bg-gray-50 text-[#023c97] border-2 border-[#023c97] px-4 py-2 rounded-lg">
+                        <Button
+                          onClick={() => handleExportPDF(quote)}
+                          className="bg-white hover:bg-gray-50 text-[#023c97] border-2 border-[#023c97] px-4 py-2 rounded-lg"
+                        >
                           <Download className="w-4 h-4 mr-2" />
                           <span className="[font-family:'Lexend',Helvetica] font-semibold text-sm">
                             PDF Export
