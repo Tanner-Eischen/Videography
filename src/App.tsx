@@ -6,9 +6,6 @@ import { SuperAdminDashboard } from './screens/SuperAdminDashboard/SuperAdminDas
 import { AdminDashboard } from './screens/AdminDashboard/AdminDashboard';
 import { CreateQuote } from './screens/CreateQuote/CreateQuote';
 import { AllQuotes } from './screens/AllQuotes/AllQuotes';
-import { MacbookAir } from './screens/MacbookAir/MacbookAir';
-import { StandardQuote } from './screens/StandardQuote/StandardQuote';
-import { PremiumQuote } from './screens/PremiumQuote/PremiumQuote';
 
 function ProtectedRoute({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: ('superadmin' | 'admin')[] }) {
   const { user, profile, loading } = useAuth();
@@ -100,30 +97,6 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <AllQuotes />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/old-create-quote"
-        element={
-          <ProtectedRoute>
-            <MacbookAir />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/quote/standard"
-        element={
-          <ProtectedRoute>
-            <StandardQuote />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/quote/premium"
-        element={
-          <ProtectedRoute>
-            <PremiumQuote />
           </ProtectedRoute>
         }
       />
