@@ -14,6 +14,7 @@ export const AdminDashboard = (): JSX.Element => {
   const navigate = useNavigate();
   const [quotes, setQuotes] = useState<Quote[]>([]);
   const [loading, setLoading] = useState(true);
+  const [growthView, setGrowthView] = useState<'revenue' | 'quotes'>('revenue');
   const isSuperAdmin = profile?.role === 'superadmin';
 
   useEffect(() => {
@@ -257,21 +258,116 @@ export const AdminDashboard = (): JSX.Element => {
               <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
                 Month-over-Month Growth
               </h3>
-              <TrendingUp className="w-8 h-8 text-[#10b981]" />
+              <div className="flex items-center gap-2">
+                <div className="flex items-center bg-gray-100 rounded-lg p-1">
+                  <button
+                    onClick={() => setGrowthView('revenue')}
+                    className={`px-3 py-1 rounded-md text-xs [font-family:'Lexend',Helvetica] font-medium transition-all ${
+                      growthView === 'revenue'
+                        ? 'bg-[#023c97] text-white'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    Revenue
+                  </button>
+                  <button
+                    onClick={() => setGrowthView('quotes')}
+                    className={`px-3 py-1 rounded-md text-xs [font-family:'Lexend',Helvetica] font-medium transition-all ${
+                      growthView === 'quotes'
+                        ? 'bg-[#023c97] text-white'
+                        : 'text-gray-600 hover:text-gray-900'
+                    }`}
+                  >
+                    Quotes
+                  </button>
+                </div>
+              </div>
             </div>
-            <div className="space-y-6">
+
+            {growthView === 'revenue' ? (
               <div>
-                <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center justify-between mb-4">
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
                     Revenue Growth
                   </span>
-                  <div className="flex items-center gap-2">
-                    <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.revenueGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
-                      {metrics.revenueGrowthPercent > 0 ? '+' : ''}{metrics.revenueGrowthPercent}%
-                    </span>
-                  </div>
+                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.revenueGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                    {metrics.revenueGrowthPercent > 0 ? '+' : ''}{metrics.revenueGrowthPercent}%
+                  </span>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-3">
+
+                <div className="relative h-48 mb-4">
+                  <svg width="100%" height="100%" className="overflow-visible">
+                    {metrics.monthlyData.map((data, index) => {
+                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                      const maxRevenue = Math.max(...metrics.monthlyData.map(d => d.revenue), 1);
+                      const y = 100 - (data.revenue / maxRevenue) * 80;
+
+                      return (
+                        <g key={index}>
+                          <line
+                            x1={`${x}%`}
+                            y1="100%"
+                            x2={`${x}%`}
+                            y2="0%"
+                            stroke="#f0f0f0"
+                            strokeWidth="1"
+                          />
+                          <text
+                            x={`${x}%`}
+                            y="100%"
+                            dy="16"
+                            textAnchor="middle"
+                            className="[font-family:'Lexend',Helvetica] text-xs fill-gray-500"
+                          >
+                            {data.month}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    <polyline
+                      points={metrics.monthlyData.map((data, index) => {
+                        const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                        const maxRevenue = Math.max(...metrics.monthlyData.map(d => d.revenue), 1);
+                        const y = 100 - (data.revenue / maxRevenue) * 80;
+                        return `${x}%,${y}%`;
+                      }).join(' ')}
+                      fill="none"
+                      stroke="#10b981"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+
+                    {metrics.monthlyData.map((data, index) => {
+                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                      const maxRevenue = Math.max(...metrics.monthlyData.map(d => d.revenue), 1);
+                      const y = 100 - (data.revenue / maxRevenue) * 80;
+
+                      return (
+                        <g key={index}>
+                          <circle
+                            cx={`${x}%`}
+                            cy={`${y}%`}
+                            r="4"
+                            fill="#10b981"
+                          />
+                          <text
+                            x={`${x}%`}
+                            y={`${y}%`}
+                            dy="-10"
+                            textAnchor="middle"
+                            className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#10b981]"
+                          >
+                            ${(data.revenue / 1000).toFixed(0)}k
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
                   <div className="bg-gray-50 p-3 rounded-lg">
                     <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
                       Last Month
@@ -290,35 +386,107 @@ export const AdminDashboard = (): JSX.Element => {
                   </div>
                 </div>
               </div>
-              <div className="pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-between mb-2">
+            ) : (
+              <div>
+                <div className="flex items-center justify-between mb-4">
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
                     Quotes Growth
                   </span>
-                  <span className={`[font-family:'Lexend',Helvetica] text-xl font-bold ${metrics.quotesGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.quotesGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
                     {metrics.quotesGrowthPercent > 0 ? '+' : ''}{metrics.quotesGrowthPercent}%
                   </span>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-3">
-                  <div className="text-center">
+
+                <div className="relative h-48 mb-4">
+                  <svg width="100%" height="100%" className="overflow-visible">
+                    {metrics.monthlyData.map((data, index) => {
+                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+
+                      return (
+                        <g key={index}>
+                          <line
+                            x1={`${x}%`}
+                            y1="100%"
+                            x2={`${x}%`}
+                            y2="0%"
+                            stroke="#f0f0f0"
+                            strokeWidth="1"
+                          />
+                          <text
+                            x={`${x}%`}
+                            y="100%"
+                            dy="16"
+                            textAnchor="middle"
+                            className="[font-family:'Lexend',Helvetica] text-xs fill-gray-500"
+                          >
+                            {data.month}
+                          </text>
+                        </g>
+                      );
+                    })}
+
+                    <polyline
+                      points={metrics.monthlyData.map((data, index) => {
+                        const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                        const maxQuotes = Math.max(...metrics.monthlyData.map(d => d.quotes), 1);
+                        const y = 100 - (data.quotes / maxQuotes) * 80;
+                        return `${x}%,${y}%`;
+                      }).join(' ')}
+                      fill="none"
+                      stroke="#75c4cc"
+                      strokeWidth="3"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+
+                    {metrics.monthlyData.map((data, index) => {
+                      const x = (index / (metrics.monthlyData.length - 1)) * 100;
+                      const maxQuotes = Math.max(...metrics.monthlyData.map(d => d.quotes), 1);
+                      const y = 100 - (data.quotes / maxQuotes) * 80;
+
+                      return (
+                        <g key={index}>
+                          <circle
+                            cx={`${x}%`}
+                            cy={`${y}%`}
+                            r="4"
+                            fill="#75c4cc"
+                          />
+                          <text
+                            x={`${x}%`}
+                            y={`${y}%`}
+                            dy="-10"
+                            textAnchor="middle"
+                            className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#75c4cc]"
+                          >
+                            {data.quotes}
+                          </text>
+                        </g>
+                      );
+                    })}
+                  </svg>
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-gray-200">
+                  <div className="bg-gray-50 p-3 rounded-lg">
                     <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
                       Last Month
                     </div>
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-xl text-gray-600">
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-gray-600">
                       {metrics.lastMonthQuotes}
                     </div>
                   </div>
-                  <div className="text-center">
+                  <div className="bg-[#75c4cc]/10 p-3 rounded-lg">
                     <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
                       This Month
                     </div>
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-xl text-[#10b981]">
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-[#75c4cc]">
                       {metrics.currentMonthQuotes}
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
           </Card>
 
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">

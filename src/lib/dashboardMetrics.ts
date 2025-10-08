@@ -1,5 +1,11 @@
 import { Quote } from './supabase';
 
+export interface MonthlyData {
+  month: string;
+  revenue: number;
+  quotes: number;
+}
+
 export interface DashboardMetrics {
   totalQuotes: number;
   quotesAccepted: number;
@@ -18,6 +24,7 @@ export interface DashboardMetrics {
   currentMonthQuotes: number;
   lastMonthQuotes: number;
   quotesGrowthPercent: number;
+  monthlyData: MonthlyData[];
 }
 
 export const calculateDashboardMetrics = (quotes: Quote[]): DashboardMetrics => {
@@ -64,6 +71,28 @@ export const calculateDashboardMetrics = (quotes: Quote[]): DashboardMetrics => 
     ? Math.round(((currentMonthQuotes - lastMonthQuotes) / lastMonthQuotes) * 100)
     : currentMonthQuotes > 0 ? 100 : 0;
 
+  const monthlyData: MonthlyData[] = [];
+  const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+  for (let i = 5; i >= 0; i--) {
+    const targetDate = new Date(currentYear, currentMonth - i, 1);
+    const targetMonth = targetDate.getMonth();
+    const targetYear = targetDate.getFullYear();
+
+    const monthQuotes = acceptedQuotes.filter(q => {
+      const acceptedDate = new Date(q.accepted_at || q.updated_at);
+      return acceptedDate.getMonth() === targetMonth && acceptedDate.getFullYear() === targetYear;
+    });
+
+    const monthRevenue = monthQuotes.reduce((sum, q) => sum + (q.revenue || 0), 0);
+
+    monthlyData.push({
+      month: monthNames[targetMonth],
+      revenue: Math.round(monthRevenue),
+      quotes: monthQuotes.length
+    });
+  }
+
   return {
     totalQuotes,
     quotesAccepted: acceptedQuotes.length,
@@ -82,5 +111,6 @@ export const calculateDashboardMetrics = (quotes: Quote[]): DashboardMetrics => 
     currentMonthQuotes,
     lastMonthQuotes,
     quotesGrowthPercent,
+    monthlyData,
   };
 };
