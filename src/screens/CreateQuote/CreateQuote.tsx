@@ -15,6 +15,7 @@ export type QuoteStep = 1 | 2 | 3 | 4;
 
 interface CreateQuoteProps {
   existingQuote?: any;
+  isEditMode?: boolean;
 }
 
 interface QuoteFormData {
@@ -56,7 +57,7 @@ interface QuoteFormData {
   discount: number;
 }
 
-export const CreateQuote = ({ existingQuote }: CreateQuoteProps = {}): JSX.Element => {
+export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuoteProps = {}): JSX.Element => {
   const navigate = useNavigate();
   const { profile, signOut } = useAuth();
   const [currentStep, setCurrentStep] = useState<QuoteStep>(1);
@@ -138,11 +139,18 @@ export const CreateQuote = ({ existingQuote }: CreateQuoteProps = {}): JSX.Eleme
 
   return (
     <div className="bg-[#ffffff] w-full min-h-screen flex flex-col">
-      <header className="bg-[#023c97] h-[70px] flex items-center justify-between px-8">
+      <header className={`${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#023c97]'} h-[70px] flex items-center justify-between px-8`}>
         <div className="flex items-center gap-4">
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
             Vid-QUO
           </h1>
+          {isEditMode && (
+            <div className="flex items-center gap-2 px-3 py-1 bg-white/20 rounded-lg">
+              <span className="[font-family:'Lexend',Helvetica] font-bold text-white text-sm">
+                EDIT MODE
+              </span>
+            </div>
+          )}
         </div>
 
         <nav className="flex items-center gap-8">
@@ -182,9 +190,23 @@ export const CreateQuote = ({ existingQuote }: CreateQuoteProps = {}): JSX.Eleme
       </header>
 
       <div className="flex flex-1">
-        <StepSidebar currentStep={currentStep} onStepChange={setCurrentStep} />
+        <StepSidebar currentStep={currentStep} onStepChange={setCurrentStep} isEditMode={isEditMode} />
 
         <div className="flex-1 flex flex-col">
+          {isEditMode && existingQuote && (
+            <div className="bg-gradient-to-r from-[#f59e0b] to-[#fb923c] px-8 py-4 shadow-md">
+              <div className="flex items-center justify-between max-w-[1200px] mx-auto">
+                <div>
+                  <h2 className="[font-family:'Lexend',Helvetica] font-bold text-white text-xl mb-1">
+                    Editing Quote for {existingQuote.client_name}
+                  </h2>
+                  <p className="[font-family:'Lexend',Helvetica] text-white/90 text-sm">
+                    Quote ID: {existingQuote.id.slice(0, 8)}... • Status: <span className="font-bold capitalize">{existingQuote.status}</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          )}
           {currentStep === 1 && (
             <ClientInfoStep
               formData={formData}

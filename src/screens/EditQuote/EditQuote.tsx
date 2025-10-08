@@ -42,5 +42,5 @@ export const EditQuote = (): JSX.Element => {
     );
   }
 
-  return <CreateQuote existingQuote={quoteData} />;
+  return <CreateQuote existingQuote={quoteData} isEditMode={true} />;
 };
