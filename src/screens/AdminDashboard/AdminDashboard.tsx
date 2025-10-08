@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { CircularGauge, SemiCircleGauge, ProgressBarGauge } from '../../components/ui/gauge';
 import { calculateDashboardMetrics } from '../../lib/dashboardMetrics';
 import { generateQuotePDF, generateQuoteExcel, sendQuoteEmail } from '../../lib/exportUtils';
+import { EditQuoteModal } from '../../components/EditQuoteModal';
 
 export const AdminDashboard = (): JSX.Element => {
   const { profile, signOut } = useAuth();
@@ -17,6 +18,8 @@ export const AdminDashboard = (): JSX.Element => {
   const [loading, setLoading] = useState(true);
   const [growthView, setGrowthView] = useState<'revenue' | 'quotes'>('revenue');
   const isSuperAdmin = profile?.role === 'superadmin';
+  const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     if (profile?.id) {
@@ -92,8 +95,13 @@ export const AdminDashboard = (): JSX.Element => {
     fetchClientQuotes();
   };
 
-  const handleEditQuote = (quoteId: string) => {
-    navigate(`/edit-quote/${quoteId}`);
+  const handleEditQuote = (quote: Quote) => {
+    setEditingQuote(quote);
+    setIsModalOpen(true);
+  };
+
+  const handleModalSuccess = () => {
+    fetchClientQuotes();
   };
 
   if (loading) {
@@ -594,7 +602,7 @@ export const AdminDashboard = (): JSX.Element => {
                   <tr key={quote.id} className={index % 2 === 0 ? 'bg-gray-50' : 'bg-white'}>
                     <td className="px-6 py-4">
                       <button
-                        onClick={() => handleEditQuote(quote.id)}
+                        onClick={() => handleEditQuote(quote)}
                         className="space-y-1 hover:opacity-75 transition-opacity text-left w-full"
                       >
                         <div className="[font-family:'Lexend',Helvetica] font-semibold text-lg flex items-center gap-2">
@@ -657,6 +665,15 @@ export const AdminDashboard = (): JSX.Element => {
           </table>
         </Card>
       </div>
+
+      {editingQuote && (
+        <EditQuoteModal
+          quote={editingQuote}
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          onSuccess={handleModalSuccess}
+        />
+      )}
     </div>
   );
 };
