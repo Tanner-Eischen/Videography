@@ -187,23 +187,6 @@ export const AdminDashboard = (): JSX.Element => {
           </Card>
         </div>
 
-        {isSuperAdmin && (
-          <div className="flex justify-end gap-4 mb-6">
-            <Button
-              onClick={() => navigate('/dashboard')}
-              className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-white text-[#75c4cc] border-2 border-[#75c4cc]"
-            >
-              My View
-            </Button>
-            <Button
-              onClick={() => navigate('/admin-dashboard')}
-              className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-[#75c4cc] text-white"
-            >
-              Admin View
-            </Button>
-          </div>
-        )}
-
         <div className="mb-6">
           <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-2xl mb-4">
             My Quotes

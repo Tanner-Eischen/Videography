@@ -253,21 +253,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
           </Card>
         </div>
 
-        <div className="flex justify-end gap-4 mb-6">
-          <Button
-            onClick={() => navigate('/dashboard')}
-            className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-[#75c4cc] text-white"
-          >
-            My View
-          </Button>
-          <Button
-            onClick={() => navigate('/admin-dashboard')}
-            className="px-6 py-3 rounded-lg [font-family:'Lexend',Helvetica] font-semibold text-lg bg-white text-[#75c4cc] border-2 border-[#75c4cc]"
-          >
-            Admin View
-          </Button>
-        </div>
-
         <Card className="bg-white rounded-xl overflow-hidden">
           <table className="w-full">
             <thead className="bg-[#023c97]">
