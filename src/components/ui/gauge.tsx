@@ -130,6 +130,7 @@ interface SemiCircleGaugeProps {
   color?: string;
   valueFormatter?: (value: number) => string;
   size?: 'small' | 'medium' | 'large' | number;
+  aspectRatio?: number;
 }
 
 export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
@@ -141,6 +142,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   color = '#5c8bb0',
   valueFormatter,
   size = 'large',
+  aspectRatio = 1,
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
 
@@ -163,19 +165,22 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   }
 
   const strokeWidth = Math.max(radius * 0.35, 10);
-  const normalizedRadius = radius - strokeWidth / 2;
-  const circumference = normalizedRadius * Math.PI;
+  const radiusX = radius * aspectRatio;
+  const radiusY = radius;
+  const normalizedRadiusX = radiusX - strokeWidth / 2;
+  const normalizedRadiusY = radiusY - strokeWidth / 2;
+  const circumference = normalizedRadiusX * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
   const displayValue = valueFormatter ? valueFormatter(value) : value;
 
   const padding = strokeWidth / 2;
   const startX = padding;
-  const endX = startX + (radius * 2);
-  const centerY = radius + padding;
-  const pathD = `M ${startX} ${centerY} A ${radius} ${radius} 0 0 1 ${endX} ${centerY}`;
+  const endX = startX + (radiusX * 2);
+  const centerY = radiusY + padding;
+  const pathD = `M ${startX} ${centerY} A ${radiusX} ${radiusY} 0 0 1 ${endX} ${centerY}`;
 
-  const svgHeight = radius + strokeWidth;
-  const svgWidth = radius * 2 + strokeWidth;
+  const svgHeight = radiusY + strokeWidth;
+  const svgWidth = radiusX * 2 + strokeWidth;
 
   return (
     <div className="flex flex-col items-center justify-center mb-4">
