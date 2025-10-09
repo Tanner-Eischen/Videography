@@ -209,6 +209,13 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
               strokeLinecap="round"
             />
           </g>
+          <rect
+            x={startX - strokeWidth/2}
+            y={centerY - strokeWidth/2}
+            width={strokeWidth}
+            height={strokeWidth}
+            fill="white"
+          />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
           <div className="flex items-center gap-2">
