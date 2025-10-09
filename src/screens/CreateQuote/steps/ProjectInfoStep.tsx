@@ -20,6 +20,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
   onSaveProgress,
 }) => {
   const [expandedDay, setExpandedDay] = useState<number>(0);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
 
   const updateDeliverableCount = (change: number) => {
     const newCount = Math.max(
@@ -428,16 +429,13 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               </div>
               <div
                 className="relative h-12 flex items-center rounded-lg overflow-visible border-2 border-gray-300 cursor-pointer"
-                onClick={(e) => {
-                  const rect = e.currentTarget.getBoundingClientRect();
-                  const x = e.clientX - rect.left;
-                  const percentage = (x / rect.width) * 100;
-                  const newWeight = Math.round(Math.max(40, Math.min(80, percentage)));
-                  updateFormData({ weight: newWeight });
-                }}
                 onMouseDown={(e) => {
+                  setIsDragging(true);
+                  e.preventDefault();
+
+                  const rect = e.currentTarget.getBoundingClientRect();
+
                   const handleMove = (moveEvent: MouseEvent) => {
-                    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
                     const x = moveEvent.clientX - rect.left;
                     const percentage = (x / rect.width) * 100;
                     const newWeight = Math.round(Math.max(40, Math.min(80, percentage)));
@@ -445,9 +443,16 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   };
 
                   const handleUp = () => {
+                    setIsDragging(false);
                     document.removeEventListener('mousemove', handleMove);
                     document.removeEventListener('mouseup', handleUp);
                   };
+
+                  // Initial position update
+                  const x = e.clientX - rect.left;
+                  const percentage = (x / rect.width) * 100;
+                  const newWeight = Math.round(Math.max(40, Math.min(80, percentage)));
+                  updateFormData({ weight: newWeight });
 
                   document.addEventListener('mousemove', handleMove);
                   document.addEventListener('mouseup', handleUp);
@@ -490,7 +495,25 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Profit (+other expense)</span>
                 </div>
               </div>
-              <div className="text-center mt-2 [font-family:'Lexend',Helvetica] text-sm text-gray-700">
+              <div className="flex items-center justify-center gap-3 mt-4">
+                <Label className="[font-family:'Lexend',Helvetica] text-sm text-gray-700">
+                  Manual Input:
+                </Label>
+                <input
+                  type="number"
+                  min="40"
+                  max="80"
+                  value={formData.weight || 60}
+                  onChange={(e) => {
+                    const value = parseInt(e.target.value) || 60;
+                    const clampedValue = Math.max(40, Math.min(80, value));
+                    updateFormData({ weight: clampedValue });
+                  }}
+                  className="w-20 h-10 px-3 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-base bg-white"
+                />
+                <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-700">%</span>
+              </div>
+              <div className="text-center mt-2 [font-family:'Lexend',Helvetica] text-xs text-gray-600">
                 Defaults to 60% profit
               </div>
             </div>
