@@ -1,1 +1,7 @@
 src/components/ui/*
+/home/project/src/screens/SuperAdminDashboard/SuperAdminDashboard.tsx
+/home/project/src/screens/EditQuote/EditQuote.tsx
+/home/project/src/screens/Login/Login.tsx
+/home/project/src/screens/AllQuotes/AllQuotes.tsx
+/home/project/src/screens/AdminDashboard/AdminDashboard.tsx
+/home/project/src/components/ui/*
