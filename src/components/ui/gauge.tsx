@@ -123,16 +123,17 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   valueFormatter,
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = 300;
+  const radius = 72;
   const strokeWidth = 25;
-  const circumference = radius * Math.PI;
+  const normalizedRadius = radius - strokeWidth / 2;
+  const circumference = normalizedRadius * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
   const displayValue = valueFormatter ? valueFormatter(value) : value;
 
   return (
     <div className="flex flex-col items-center justify-center mb-4">
       <div className="relative mb-4">
-        <svg height={radius} width={radius*1.5}>
+        <svg height={radius + strokeWidth} width={radius * 2 + strokeWidth * 2}>
           <path
             d="M 18 100 A 72 72 0 0 1 182 100"
             stroke="#e5e7eb"
