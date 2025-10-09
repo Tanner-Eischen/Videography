@@ -17,7 +17,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   subtitle,
   icon,
   size = 'medium',
-  color = '#5c8bb0',
+  color = '#4a7090',
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
 
