@@ -20,7 +20,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   color = '#75c4cc',
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = size === 'small' ? 60 : size === 'large' ? 60 : 50;
+  const radius = size === 'small' ? 60 : size === 'large' ? 80 : 70;
   const strokeWidth = 20;
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = normalizedRadius * 2 * Math.PI;
