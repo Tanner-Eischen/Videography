@@ -249,7 +249,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.totalFilmingHours} hours`}
                 icon={<Clock className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#5c8bb0"
+                color="#4a7090"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -281,7 +281,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.daysScheduled} days`}
                 icon={<Calendar className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#5c8bb0"
+                color="#4a7090"
               />
             </div>
             <div className="space-y-3 mt-4">
