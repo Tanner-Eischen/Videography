@@ -304,7 +304,7 @@ export const AdminDashboard = (): JSX.Element => {
         <div className="grid grid-cols-2 gap-6 mb-8">
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-black text-xl">
                 Month-over-Month Growth
               </h3>
               <div className="flex items-center gap-2">
