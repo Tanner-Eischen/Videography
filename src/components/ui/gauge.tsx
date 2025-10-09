@@ -111,6 +111,7 @@ interface SemiCircleGaugeProps {
   icon?: React.ReactNode;
   color?: string;
   valueFormatter?: (value: number) => string;
+  size?: 'small' | 'medium' | 'large' | number;
 }
 
 export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
@@ -121,28 +122,56 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   icon,
   color = '#5c8bb0',
   valueFormatter,
+  size = 'medium',
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = 72;
-  const strokeWidth = 25;
+
+  let radius: number;
+  if (typeof size === 'number') {
+    radius = size;
+  } else {
+    switch (size) {
+      case 'small':
+        radius = 50;
+        break;
+      case 'large':
+        radius = 100;
+        break;
+      case 'medium':
+      default:
+        radius = 72;
+        break;
+    }
+  }
+
+  const strokeWidth = Math.max(radius * 0.35, 10);
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = normalizedRadius * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
   const displayValue = valueFormatter ? valueFormatter(value) : value;
 
+  const padding = strokeWidth / 2;
+  const startX = padding;
+  const endX = startX + (radius * 2);
+  const centerY = radius + padding;
+  const pathD = `M ${startX} ${centerY} A ${radius} ${radius} 0 0 1 ${endX} ${centerY}`;
+
+  const svgHeight = radius + strokeWidth;
+  const svgWidth = radius * 2 + strokeWidth;
+
   return (
     <div className="flex flex-col items-center justify-center mb-4">
       <div className="relative mb-4">
-        <svg height={radius + strokeWidth} width={radius * 2 + strokeWidth * 2}>
+        <svg height={svgHeight} width={svgWidth}>
           <path
-            d="M 18 100 A 72 72 0 0 1 182 100"
+            d={pathD}
             stroke="#e5e7eb"
             fill="transparent"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
           <path
-            d="M 18 100 A 72 72 0 0 1 182 100"
+            d={pathD}
             stroke={color}
             fill="transparent"
             strokeWidth={strokeWidth}
