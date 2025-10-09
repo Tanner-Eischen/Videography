@@ -191,7 +191,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
             stroke="#e5e7eb"
             fill="transparent"
             strokeWidth={strokeWidth}
-            strokeLinecap="round"
+            strokeLinecap="square"
           />
           <path
             d={pathD}
@@ -200,7 +200,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
             strokeWidth={strokeWidth}
             strokeDasharray={`${circumference} ${circumference}`}
             style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}
-            strokeLinecap="round"
+            strokeLinecap="square"
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
