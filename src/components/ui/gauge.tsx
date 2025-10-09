@@ -79,7 +79,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
         <div className="absolute inset-0 flex flex-col items-center justify-center">
           <div className="flex items-center gap-2">
             {icon}
-            <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl" style={{ color }}>
+            <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl" style={{ color: '#4a7090' }}>
               {value}
             </div>
           </div>
@@ -233,7 +233,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
         <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
           <div className="flex items-center gap-2">
             {icon}
-            <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl" style={{ color }}>
+            <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl" style={{ color: '#4a7090' }}>
               {displayValue}
             </div>
           </div>
