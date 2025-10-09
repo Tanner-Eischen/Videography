@@ -175,7 +175,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   const pathD = `M ${startX} ${centerY} A ${radius} ${radius} 0 0 1 ${endX} ${centerY}`;
 
   const svgHeight = radius + strokeWidth;
-  const svgWidth = radius * 2.5 + strokeWidth;
+  const svgWidth = radius * 2 + strokeWidth;
 
   return (
     <div className="flex flex-col items-center justify-center mb-4">
