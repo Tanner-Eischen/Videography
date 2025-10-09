@@ -186,22 +186,29 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
     <div className="flex flex-col items-center justify-center mb-4">
       <div className="relative mb-4">
         <svg height={svgHeight} width={svgWidth}>
+          <defs>
+            <clipPath id={`clip-${label.replace(/\s/g, '-')}`}>
+              <rect x={startX - strokeWidth/2} y="0" width={(endX - startX) + strokeWidth} height={svgHeight} />
+            </clipPath>
+          </defs>
           <path
             d={pathD}
             stroke="#e5e7eb"
             fill="transparent"
             strokeWidth={strokeWidth}
-            strokeLinecap="square"
+            strokeLinecap="butt"
           />
-          <path
-            d={pathD}
-            stroke={color}
-            fill="transparent"
-            strokeWidth={strokeWidth}
-            strokeDasharray={`${circumference} ${circumference}`}
-            style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}
-            strokeLinecap="square"
-          />
+          <g clipPath={`url(#clip-${label.replace(/\s/g, '-')})`}>
+            <path
+              d={pathD}
+              stroke={color}
+              fill="transparent"
+              strokeWidth={strokeWidth}
+              strokeDasharray={`${circumference} ${circumference}`}
+              style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}
+              strokeLinecap="round"
+            />
+          </g>
         </svg>
         <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
           <div className="flex items-center gap-2">
