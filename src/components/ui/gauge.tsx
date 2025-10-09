@@ -141,7 +141,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   icon,
   color = '#5c8bb0',
   valueFormatter,
-  size = 125,
+  size = 110,
   aspectRatio = 1.05,
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
