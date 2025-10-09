@@ -64,26 +64,7 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
               </div>
             </div>
           </div>
-          <div className="flex items-center justify-between pl-8">
-            <div className="flex items-center gap-3">
-              <span className="[font-family:'Lexend',Helvetica] text-sm">
-                Miles
-              </span>
-              <input
-                type="number"
-                min="0"
-                value={location.miles}
-                onChange={(e) =>
-                  updateLocation(
-                    dayIndex,
-                    locationIndex,
-                    'miles',
-                    parseInt(e.target.value) || 0
-                  )
-                }
-                className="w-20 h-8 text-center border border-gray-300 rounded [font-family:'Lexend',Helvetica]"
-              />
-            </div>
+          <div className="flex items-center justify-end">
             <div className="flex items-center gap-2">
               <span className="[font-family:'Lexend',Helvetica] text-sm">
                 Setup required?
@@ -121,12 +102,16 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
         </>
       ) : (
         <div className="relative">
+          <div className="absolute left-0 top-0 w-px h-6 bg-[#023c97]" style={{ left: '16px' }}></div>
+          <div className="absolute left-0 top-6 w-4 h-px bg-[#023c97]" style={{ left: '16px' }}></div>
+          <div className="absolute left-4 top-6">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L11 11M11 11V1M11 11H1" stroke="#023c97" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </div>
+
           <div className="pl-8 space-y-3">
             <div className="relative bg-gradient-to-r from-blue-50 to-transparent border-2 border-blue-200 rounded-lg p-4">
-              <div className="absolute -left-4 top-6">
-                <ArrowDownRight className="w-6 h-6 text-[#023c97]" strokeWidth={3} />
-              </div>
-
               <div className="flex items-center gap-3 mb-3">
                 <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-blue-300">
                   {loading ? (
