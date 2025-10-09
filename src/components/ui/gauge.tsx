@@ -164,7 +164,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
     }
   }
 
-  const strokeWidth = Math.max(radius * 0.35, 10);
+  const strokeWidth = Math.max(radius * 0.27, 10);
   const radiusX = radius * aspectRatio;
   const radiusY = radius;
   const normalizedRadiusX = radiusX - strokeWidth / 2;
