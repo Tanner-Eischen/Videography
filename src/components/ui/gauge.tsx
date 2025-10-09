@@ -6,7 +6,7 @@ interface GaugeProps {
   label: string;
   subtitle?: string;
   icon?: React.ReactNode;
-  size?: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large' | number;
   color?: string;
 }
 
@@ -20,8 +20,26 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   color = '#5c8bb0',
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = size === 'small' ? 60 : size === 'large' ? 90 : 90;
-  const strokeWidth = 24;
+
+  let radius: number;
+  if (typeof size === 'number') {
+    radius = size;
+  } else {
+    switch (size) {
+      case 'small':
+        radius = 60;
+        break;
+      case 'large':
+        radius = 120;
+        break;
+      case 'medium':
+      default:
+        radius = 90;
+        break;
+    }
+  }
+
+  const strokeWidth = Math.max(radius * 0.27, 10);
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
