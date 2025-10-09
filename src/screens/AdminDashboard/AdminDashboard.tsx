@@ -217,7 +217,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.totalQuotes} quotes`}
                 icon={<FileText className="w-7 h-7 text-[#5c8bb0]" />}
-                color="#4a7090"
+                color="#023c97"
               />
             </div>
             <div className="space-y-3 mt-4">
