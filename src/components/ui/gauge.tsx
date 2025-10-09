@@ -44,10 +44,18 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
+  const gradientId = `gradient-circular-${label.replace(/\s/g, '-')}`;
+
   return (
     <div className="flex flex-col items-center justify-center">
       <div className="relative">
         <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
+          <defs>
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stopColor={color} stopOpacity="1" />
+              <stop offset="100%" stopColor={color} stopOpacity="0.5" />
+            </linearGradient>
+          </defs>
           <circle
             stroke="#e5e7eb"
             fill="transparent"
@@ -57,7 +65,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
             cy={radius}
           />
           <circle
-            stroke={color}
+            stroke={`url(#${gradientId})`}
             fill="transparent"
             strokeWidth={strokeWidth}
             strokeDasharray={circumference + ' ' + circumference}
@@ -181,12 +189,17 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
 
   const svgHeight = radiusY + strokeWidth;
   const svgWidth = radiusX * 2 + strokeWidth;
+  const gradientId = `gradient-semi-${label.replace(/\s/g, '-')}`;
 
   return (
     <div className="flex flex-col items-center justify-center mb-4">
       <div className="relative mb-4">
         <svg height={svgHeight} width={svgWidth}>
           <defs>
+            <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor={color} stopOpacity="0.5" />
+              <stop offset="100%" stopColor={color} stopOpacity="1" />
+            </linearGradient>
             <clipPath id={`clip-${label.replace(/\s/g, '-')}`}>
               <rect x={startX - strokeWidth/2} y="0" width={(endX - startX) + strokeWidth} height={svgHeight} />
             </clipPath>
@@ -201,7 +214,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
           <g clipPath={`url(#clip-${label.replace(/\s/g, '-')})`}>
             <path
               d={pathD}
-              stroke={color}
+              stroke={`url(#${gradientId})`}
               fill="transparent"
               strokeWidth={strokeWidth}
               strokeDasharray={`${circumference} ${circumference}`}
