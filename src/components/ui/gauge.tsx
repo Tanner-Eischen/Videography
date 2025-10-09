@@ -53,7 +53,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor={color} stopOpacity="1" />
-              <stop offset="100%" stopColor={color} stopOpacity="0.7" />
+              <stop offset="100%" stopColor={color} stopOpacity="0.5" />
             </linearGradient>
           </defs>
           <circle
@@ -197,7 +197,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
         <svg height={svgHeight} width={svgWidth}>
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={color} stopOpacity="0.5" />
+              <stop offset="0%" stopColor={color} stopOpacity="0.65" />
               <stop offset="100%" stopColor={color} stopOpacity="1" />
             </linearGradient>
             <clipPath id={`clip-${label.replace(/\s/g, '-')}`}>
