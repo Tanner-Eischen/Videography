@@ -211,40 +211,14 @@ export const AdminDashboard = (): JSX.Element => {
               </h3>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
-              <div className="relative">
-                <svg height={180} width={180} className="transform -rotate-90">
-                  <circle
-                    stroke="#e5e7eb"
-                    fill="transparent"
-                    strokeWidth={24}
-                    r={78}
-                    cx={90}
-                    cy={90}
-                  />
-                  <circle
-                    stroke="#5c8bb0"
-                    fill="transparent"
-                    strokeWidth={24}
-                    strokeDasharray={`${78 * 2 * Math.PI} ${78 * 2 * Math.PI}`}
-                    style={{ strokeDashoffset: `${78 * 2 * Math.PI - (Math.min((metrics.quotesAccepted / (metrics.totalQuotes || 1)) * 100, 100) / 100) * 78 * 2 * Math.PI}`, transition: 'stroke-dashoffset 0.5s ease' }}
-                    strokeLinecap="round"
-                    r={78}
-                    cx={90}
-                    cy={90}
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center">
-                  <div className="flex items-center gap-2">
-                    <FileText className="w-7 h-7 text-[#5c8bb0]" />
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl text-[#5c8bb0]">
-                      {metrics.quotesAccepted}
-                    </div>
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-500 mt-1">
-                    of {metrics.totalQuotes} quotes
-                  </div>
-                </div>
-              </div>
+              <CircularGauge
+                value={metrics.quotesAccepted}
+                max={metrics.totalQuotes || 1}
+                label=""
+                subtitle={`of ${metrics.totalQuotes} quotes`}
+                icon={<FileText className="w-7 h-7 text-[#5c8bb0]" />}
+                color="#5c8bb0"
+              />
             </div>
             <div className="space-y-3 mt-4">
               <ProgressBarGauge
@@ -269,37 +243,14 @@ export const AdminDashboard = (): JSX.Element => {
               </h3>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
-              <div className="relative mb-4">
-                <svg height={110} width={200} className="transform rotate-180">
-                  <path
-                    d="M 18 100 A 72 72 0 0 1 182 100"
-                    stroke="#e5e7eb"
-                    fill="transparent"
-                    strokeWidth={18}
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M 18 100 A 72 72 0 0 1 182 100"
-                    stroke="#5c8bb0"
-                    fill="transparent"
-                    strokeWidth={18}
-                    strokeDasharray={`${72 * Math.PI} ${72 * Math.PI}`}
-                    style={{ strokeDashoffset: `${72 * Math.PI - (Math.min((metrics.acceptedFilmingHours / (metrics.totalFilmingHours || 1)) * 100, 100) / 100) * 72 * Math.PI}`, transition: 'stroke-dashoffset 0.5s ease' }}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
-                  <div className="flex items-center gap-2">
-                    <Clock className="w-6 h-6 text-[#5c8bb0]" />
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl text-[#5c8bb0]">
-                      {metrics.acceptedFilmingHours}
-                    </div>
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-500 mt-1">
-                    of {metrics.totalFilmingHours} hours
-                  </div>
-                </div>
-              </div>
+              <SemiCircleGauge
+                value={metrics.acceptedFilmingHours}
+                max={metrics.totalFilmingHours || 1}
+                label=""
+                subtitle={`of ${metrics.totalFilmingHours} hours`}
+                icon={<Clock className="w-6 h-6 text-[#5c8bb0]" />}
+                color="#5c8bb0"
+              />
             </div>
             <div className="space-y-3 mt-4">
               <ProgressBarGauge
@@ -324,37 +275,14 @@ export const AdminDashboard = (): JSX.Element => {
               </h3>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
-              <div className="relative mb-4">
-                <svg height={110} width={200} className="transform rotate-180">
-                  <path
-                    d="M 18 100 A 72 72 0 0 1 182 100"
-                    stroke="#e5e7eb"
-                    fill="transparent"
-                    strokeWidth={18}
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M 18 100 A 72 72 0 0 1 182 100"
-                    stroke="#5c8bb0"
-                    fill="transparent"
-                    strokeWidth={18}
-                    strokeDasharray={`${72 * Math.PI} ${72 * Math.PI}`}
-                    style={{ strokeDashoffset: `${72 * Math.PI - (Math.min((metrics.acceptedDaysScheduled / (metrics.daysScheduled || 1)) * 100, 100) / 100) * 72 * Math.PI}`, transition: 'stroke-dashoffset 0.5s ease' }}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-6 h-6 text-[#5c8bb0]" />
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl text-[#5c8bb0]">
-                      {metrics.acceptedDaysScheduled}
-                    </div>
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-500 mt-1">
-                    of {metrics.daysScheduled} days
-                  </div>
-                </div>
-              </div>
+              <SemiCircleGauge
+                value={metrics.acceptedDaysScheduled}
+                max={metrics.daysScheduled || 1}
+                label=""
+                subtitle={`of ${metrics.daysScheduled} days`}
+                icon={<Calendar className="w-6 h-6 text-[#5c8bb0]" />}
+                color="#5c8bb0"
+              />
             </div>
             <div className="space-y-3 mt-4">
               <ProgressBarGauge
@@ -617,37 +545,15 @@ export const AdminDashboard = (): JSX.Element => {
               </h3>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
-              <div className="relative mb-4">
-                <svg height={110} width={200} className="transform rotate-180">
-                  <path
-                    d="M 18 100 A 72 72 0 0 1 182 100"
-                    stroke="#e5e7eb"
-                    fill="transparent"
-                    strokeWidth={18}
-                    strokeLinecap="round"
-                  />
-                  <path
-                    d="M 18 100 A 72 72 0 0 1 182 100"
-                    stroke="#5c8bb0"
-                    fill="transparent"
-                    strokeWidth={18}
-                    strokeDasharray={`${72 * Math.PI} ${72 * Math.PI}`}
-                    style={{ strokeDashoffset: `${72 * Math.PI - (Math.min((metrics.actualRevenue / (metrics.totalPotentialRevenue || 1)) * 100, 100) / 100) * 72 * Math.PI}`, transition: 'stroke-dashoffset 0.5s ease' }}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
-                  <div className="flex items-center gap-2">
-                    <DollarSign className="w-6 h-6 text-[#5c8bb0]" />
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl text-[#5c8bb0]">
-                      ${(metrics.actualRevenue / 1000).toFixed(1)}k
-                    </div>
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-500 mt-1">
-                    of ${(metrics.totalPotentialRevenue / 1000).toFixed(1)}k
-                  </div>
-                </div>
-              </div>
+              <SemiCircleGauge
+                value={metrics.actualRevenue}
+                max={metrics.totalPotentialRevenue || 1}
+                label=""
+                subtitle={`of $${(metrics.totalPotentialRevenue / 1000).toFixed(1)}k`}
+                icon={<DollarSign className="w-6 h-6 text-[#5c8bb0]" />}
+                color="#5c8bb0"
+                valueFormatter={(val) => `$${(val / 1000).toFixed(1)}k`}
+              />
             </div>
             <div className="space-y-3 mt-4">
               <ProgressBarGauge

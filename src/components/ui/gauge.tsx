@@ -17,18 +17,18 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   subtitle,
   icon,
   size = 'medium',
-  color = '#75c4cc',
+  color = '#5c8bb0',
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = size === 'small' ? 60 : size === 'large' ? 80 : 70;
-  const strokeWidth = 20;
+  const radius = size === 'small' ? 60 : size === 'large' ? 90 : 90;
+  const strokeWidth = 24;
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
 
   return (
-    <div className="flex flex-col items-center justify-center p-6">
-      <div className="relative mb-4">
+    <div className="flex flex-col items-center justify-center">
+      <div className="relative">
         <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
           <circle
             stroke="#e5e7eb"
@@ -51,21 +51,18 @@ export const CircularGauge: React.FC<GaugeProps> = ({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#75c4cc]">
-            {value}
+          <div className="flex items-center gap-2">
+            {icon}
+            <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl" style={{ color }}>
+              {value}
+            </div>
           </div>
-          {icon && <div className="mt-1">{icon}</div>}
+          {subtitle && (
+            <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-500 mt-1">
+              {subtitle}
+            </div>
+          )}
         </div>
-      </div>
-      <div className="text-center">
-        <div className="[font-family:'Lexend',Helvetica] font-semibold text-base text-gray-800">
-          {label}
-        </div>
-        {subtitle && (
-          <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
-            {subtitle}
-          </div>
-        )}
       </div>
     </div>
   );
@@ -113,6 +110,7 @@ interface SemiCircleGaugeProps {
   subtitle?: string;
   icon?: React.ReactNode;
   color?: string;
+  valueFormatter?: (value: number) => string;
 }
 
 export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
@@ -121,55 +119,49 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   label,
   subtitle,
   icon,
-  color = '#75c4cc',
+  color = '#5c8bb0',
+  valueFormatter,
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = 200;
-  const strokeWidth = 12;
-  const normalizedRadius = radius - strokeWidth / 2;
-  const circumference = normalizedRadius * Math.PI;
+  const radius = 72;
+  const strokeWidth = 18;
+  const circumference = radius * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
+  const displayValue = valueFormatter ? valueFormatter(value) : value;
 
   return (
-    <div className="flex flex-col items-center justify-center p-6">
-      <div className="relative mb-2">
-        <svg height={radius + 10} width={radius * 2 + 20} className="transform rotate-180">
+    <div className="flex flex-col items-center justify-center mb-4">
+      <div className="relative mb-4">
+        <svg height={110} width={200} className="transform rotate-180">
           <path
-            d={`M ${strokeWidth / 2 + 10} ${radius} A ${normalizedRadius} ${normalizedRadius} 0 0 1 ${
-              radius * 2 - strokeWidth / 2 + 10
-            } ${radius}`}
+            d="M 18 100 A 72 72 0 0 1 182 100"
             stroke="#e5e7eb"
             fill="transparent"
             strokeWidth={strokeWidth}
             strokeLinecap="round"
           />
           <path
-            d={`M ${strokeWidth / 2 + 10} ${radius} A ${normalizedRadius} ${normalizedRadius} 0 0 1 ${
-              radius * 2 - strokeWidth / 2 + 10
-            } ${radius}`}
+            d="M 18 100 A 72 72 0 0 1 182 100"
             stroke={color}
             fill="transparent"
             strokeWidth={strokeWidth}
-            strokeDasharray={circumference + ' ' + circumference}
+            strokeDasharray={`${circumference} ${circumference}`}
             style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}
             strokeLinecap="round"
           />
         </svg>
-        <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ top: '20%' }}>
-          <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl text-[#75c4cc]">
-            {value}
+        <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
+          <div className="flex items-center gap-2">
+            {icon}
+            <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl" style={{ color }}>
+              {displayValue}
+            </div>
           </div>
-          {icon && <div className="mt-1">{icon}</div>}
           {subtitle && (
-            <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
+            <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-500 mt-1">
               {subtitle}
             </div>
           )}
-        </div>
-      </div>
-      <div className="text-center mt-2">
-        <div className="[font-family:'Lexend',Helvetica] font-semibold text-sm text-gray-800">
-          {label}
         </div>
       </div>
     </div>
