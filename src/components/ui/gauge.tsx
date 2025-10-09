@@ -211,7 +211,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
           </g>
           <rect
             x={startX - strokeWidth/2}
-            y={centerY - strokeWidth/2}
+            y={centerY} 
             width={strokeWidth}
             height={strokeWidth}
             fill="white"
