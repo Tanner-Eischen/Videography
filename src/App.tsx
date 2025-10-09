@@ -6,6 +6,7 @@ import { SuperAdminDashboard } from './screens/SuperAdminDashboard/SuperAdminDas
 import { AdminDashboard } from './screens/AdminDashboard/AdminDashboard';
 import { CreateQuote } from './screens/CreateQuote/CreateQuote';
 import { AllQuotes } from './screens/AllQuotes/AllQuotes';
+import { UserSettings } from './screens/UserSettings/UserSettings';
 
 function ProtectedRoute({ children, allowedRoles }: { children: React.ReactNode; allowedRoles?: ('superadmin' | 'admin')[] }) {
   const { user, profile, loading } = useAuth();
@@ -97,6 +98,14 @@ function AppRoutes() {
         element={
           <ProtectedRoute>
             <AllQuotes />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/settings"
+        element={
+          <ProtectedRoute>
+            <UserSettings />
           </ProtectedRoute>
         }
       />
