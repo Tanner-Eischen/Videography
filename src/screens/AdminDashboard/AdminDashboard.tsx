@@ -217,7 +217,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.totalQuotes} quotes`}
                 icon={<FileText className="w-7 h-7 text-[#5c8bb0]" />}
-                color="#5391a1"
+                color="#028797"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -225,7 +225,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.quotesAccepted}
                 total={metrics.totalQuotes}
                 label="quotes accepted"
-                color="#10b981"
+                color="#02975d"
               />
               <ProgressBarGauge
                 current={metrics.quotesDrafted}
@@ -249,7 +249,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.totalFilmingHours} hours`}
                 icon={<Clock className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#5391a1"
+                color="#028797"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -257,7 +257,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.acceptedFilmingHours}
                 total={metrics.totalFilmingHours}
                 label="hours accepted"
-                color="#10b981"
+                color="#02975d"
               />
               <ProgressBarGauge
                 current={metrics.totalFilmingHours - metrics.acceptedFilmingHours}
@@ -281,7 +281,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.daysScheduled} days`}
                 icon={<Calendar className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#5391a1"
+                color="#028797"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -289,7 +289,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.acceptedDaysScheduled}
                 total={metrics.daysScheduled}
                 label="days accepted"
-                color="#10b981"
+                color="#02975d"
               />
               <ProgressBarGauge
                 current={metrics.daysScheduled - metrics.acceptedDaysScheduled}
@@ -339,7 +339,7 @@ export const AdminDashboard = (): JSX.Element => {
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
                     Revenue Growth
                   </span>
-                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.revenueGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.revenueGrowthPercent >= 0 ? 'text-[#02975d]' : 'text-red-500'}`}>
                     {metrics.revenueGrowthPercent > 0 ? '+' : ''}{metrics.revenueGrowthPercent}%
                   </span>
                 </div>
@@ -382,7 +382,7 @@ export const AdminDashboard = (): JSX.Element => {
                         return `${x}%,${y}%`;
                       }).join(' ')}
                       fill="none"
-                      stroke="#10b981"
+                      stroke="#02975d"
                       strokeWidth="3"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -399,14 +399,14 @@ export const AdminDashboard = (): JSX.Element => {
                             cx={`${x}%`}
                             cy={`${y}%`}
                             r="4"
-                            fill="#10b981"
+                            fill="#02975d"
                           />
                           <text
                             x={`${x}%`}
                             y={`${y}%`}
                             dy="-10"
                             textAnchor="middle"
-                            className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#10b981]"
+                            className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#02975d]"
                           >
                             ${(data.revenue / 1000).toFixed(0)}k
                           </text>
@@ -425,11 +425,11 @@ export const AdminDashboard = (): JSX.Element => {
                       ${metrics.lastMonthRevenue.toLocaleString()}
                     </div>
                   </div>
-                  <div className="bg-[#10b981]/10 p-3 rounded-lg">
+                  <div className="bg-[#02975d]/10 p-3 rounded-lg">
                     <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
                       This Month
                     </div>
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-[#10b981]">
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-[#02975d]">
                       ${metrics.currentMonthRevenue.toLocaleString()}
                     </div>
                   </div>
@@ -441,7 +441,7 @@ export const AdminDashboard = (): JSX.Element => {
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
                     Quotes Growth
                   </span>
-                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.quotesGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
+                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.quotesGrowthPercent >= 0 ? 'text-[#02975d]' : 'text-red-500'}`}>
                     {metrics.quotesGrowthPercent > 0 ? '+' : ''}{metrics.quotesGrowthPercent}%
                   </span>
                 </div>
@@ -551,7 +551,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of $${(metrics.totalPotentialRevenue / 1000).toFixed(1)}k`}
                 icon={<DollarSign className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#5391a1"
+                color="#028797"
                 valueFormatter={(val) => `$${(val / 1000).toFixed(1)}k`}
               />
             </div>
@@ -560,7 +560,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.actualRevenue}
                 total={metrics.totalPotentialRevenue}
                 label={`$${metrics.actualRevenue.toLocaleString()} revenue accepted`}
-                color="#10b981"
+                color="#02975d"
               />
               <ProgressBarGauge
                 current={metrics.totalPotentialRevenue - metrics.actualRevenue}
