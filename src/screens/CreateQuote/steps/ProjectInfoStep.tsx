@@ -467,18 +467,22 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 />
                 {/* Slider handle */}
                 <div
-                  className="absolute top-0 h-full w-1 bg-white shadow-lg"
+                  className="absolute top-0 h-full w-1 bg-white shadow-lg transition-none"
                   style={{
                     left: `${formData.weight || 60}%`,
                     transform: 'translateX(-50%)'
                   }}
                 >
-                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-8 bg-white rounded-md shadow-lg border-2 border-gray-300 flex items-center justify-center">
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-8 bg-white rounded-md shadow-lg border-2 border-gray-300 flex items-center justify-center transition-none">
                     <div className="flex flex-col gap-1">
                       <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
                       <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
                       <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
                     </div>
+                  </div>
+                  {/* Percentage display */}
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#023c97] text-white px-2 py-1 rounded text-xs [font-family:'Lexend',Helvetica] font-bold whitespace-nowrap transition-none">
+                    {formData.weight || 60}%
                   </div>
                 </div>
                 <div className="relative z-10 w-full flex items-center justify-between px-4 pointer-events-none">
