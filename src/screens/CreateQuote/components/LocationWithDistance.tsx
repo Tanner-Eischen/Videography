@@ -102,15 +102,15 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
         </>
       ) : (
         <div className="relative">
-          <div className="absolute left-0 top-0 w-px h-6 bg-[#023c97]" style={{ left: '16px' }}></div>
-          <div className="absolute left-0 top-6 w-4 h-px bg-[#023c97]" style={{ left: '16px' }}></div>
-          <div className="absolute left-4 top-6">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M1 1L11 11M11 11V1M11 11H1" stroke="#023c97" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
+          <div className="absolute left-0 top-0 h-12 border-l-2 border-b-2 border-gray-800 rounded-bl-lg" style={{ width: '32px', left: '0px' }}>
+            <div className="absolute right-0 top-full -mt-1.5 -mr-0.5">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 6L12 6M12 6L7 1M12 6L7 11" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+            </div>
           </div>
 
-          <div className="pl-8 space-y-3">
+          <div className="pl-12 space-y-3">
             <div className="relative bg-gradient-to-r from-blue-50 to-transparent border-2 border-blue-200 rounded-lg p-4">
               <div className="flex items-center gap-3 mb-3">
                 <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-blue-300">
