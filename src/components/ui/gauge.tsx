@@ -183,8 +183,8 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   const svgWidth = radiusX * 2 + strokeWidth;
 
   const currentAngle = Math.PI * (percentage / 100);
-  const endPointX = startX + radiusX * (1 - Math.cos(currentAngle));
-  const endPointY = centerY - radiusY * Math.sin(currentAngle);
+  const endPointX = (radiusX + padding) + normalizedRadiusX * Math.cos(Math.PI - currentAngle);
+  const endPointY = centerY - normalizedRadiusY * Math.sin(currentAngle);
 
   return (
     <div className="flex flex-col items-center justify-center mb-4">
