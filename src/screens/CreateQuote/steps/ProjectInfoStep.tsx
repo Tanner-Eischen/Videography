@@ -261,7 +261,6 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                         Day {dayIndex + 1}
                       </div>
                       <div className="flex items-center gap-2 text-gray-500 [font-family:'Lexend',Helvetica]">
-                        <span className="text-sm">Month</span>
                         <input
                           type="text"
                           placeholder="MM"
@@ -277,7 +276,6 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                           maxLength={2}
                         />
                         <span>/</span>
-                        <span className="text-sm">Day</span>
                         <input
                           type="text"
                           placeholder="DD"
@@ -293,7 +291,6 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                           maxLength={2}
                         />
                         <span>/</span>
-                        <span className="text-sm">Year</span>
                         <input
                           type="text"
                           placeholder="YYYY"
@@ -417,7 +414,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
             <div>
               <div className="flex items-center justify-between mb-2">
                 <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base">
-                  Weight (Production to Profit) (40-80%)
+                  Weight (Production to Profit) (40-100%)
                 </Label>
               </div>
               <div className="flex justify-between text-xs [font-family:'Lexend',Helvetica] text-gray-600 mb-2">
@@ -438,7 +435,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   const handleMove = (moveEvent: MouseEvent) => {
                     const x = moveEvent.clientX - rect.left;
                     const percentage = (x / rect.width) * 100;
-                    const newWeight = Math.round(Math.max(40, Math.min(80, percentage)));
+                    const newWeight = Math.round(Math.max(40, Math.min(100, percentage)));
                     updateFormData({ weight: newWeight });
                   };
 
@@ -451,7 +448,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   // Initial position update
                   const x = e.clientX - rect.left;
                   const percentage = (x / rect.width) * 100;
-                  const newWeight = Math.round(Math.max(40, Math.min(80, percentage)));
+                  const newWeight = Math.round(Math.max(40, Math.min(100, percentage)));
                   updateFormData({ weight: newWeight });
 
                   document.addEventListener('mousemove', handleMove);
@@ -485,10 +482,6 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                       <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
                     </div>
                   </div>
-                  {/* Percentage display */}
-                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-[#023c97] text-white px-2 py-1 rounded text-xs [font-family:'Lexend',Helvetica] font-bold whitespace-nowrap transition-none">
-                    {formData.weight || 60}%
-                  </div>
                 </div>
                 <div className="relative z-10 w-full flex items-center justify-between px-4 pointer-events-none">
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Production Cost</span>
@@ -502,11 +495,11 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 <input
                   type="number"
                   min="40"
-                  max="80"
+                  max="100"
                   value={formData.weight || 60}
                   onChange={(e) => {
                     const value = parseInt(e.target.value) || 60;
-                    const clampedValue = Math.max(40, Math.min(80, value));
+                    const clampedValue = Math.max(40, Math.min(100, value));
                     updateFormData({ weight: clampedValue });
                   }}
                   className="w-20 h-10 px-3 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-base bg-white"
