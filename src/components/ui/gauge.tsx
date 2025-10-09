@@ -51,7 +51,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
           />
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#023c97]">
+          <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#75c4cc]">
             {value}
           </div>
           {icon && <div className="mt-1">{icon}</div>}
