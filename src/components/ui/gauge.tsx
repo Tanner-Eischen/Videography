@@ -132,7 +132,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   return (
     <div className="flex flex-col items-center justify-center mb-4">
       <div className="relative mb-4">
-        <svg height={110} width={200} className="transform rotate-180">
+        <svg height={110} width={200}>
           <path
             d="M 18 100 A 72 72 0 0 1 182 100"
             stroke="#e5e7eb"
