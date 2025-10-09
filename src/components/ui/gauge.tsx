@@ -170,7 +170,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
 
   const padding = strokeWidth / 2;
   const startX = padding;
-  const endX = startX + (radius * 2.5);
+  const endX = startX + (radius * 2);
   const centerY = radius + padding;
   const pathD = `M ${startX} ${centerY} A ${radius} ${radius} 0 0 1 ${endX} ${centerY}`;
 
