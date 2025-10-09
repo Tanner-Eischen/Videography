@@ -123,7 +123,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   valueFormatter,
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = 250;
+  const radius = 150;
   const strokeWidth = 25;
   const circumference = radius * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
