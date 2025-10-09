@@ -4,7 +4,7 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { FileText, Download, Mail, Calendar, LogOut, User, Clock, DollarSign, CheckCircle, TrendingUp, AlertCircle, Edit } from 'lucide-react';
+import { FileText, Download, Mail, Calendar, LogOut, User, Clock, DollarSign, CircleCheck as CheckCircle, TrendingUp, CircleAlert as AlertCircle, CreditCard as Edit } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { CircularGauge, SemiCircleGauge, ProgressBarGauge } from '../../components/ui/gauge';
 import { calculateDashboardMetrics } from '../../lib/dashboardMetrics';
