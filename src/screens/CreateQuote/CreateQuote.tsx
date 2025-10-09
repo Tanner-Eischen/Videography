@@ -35,6 +35,7 @@ interface QuoteFormData {
   deliverables: Array<{
     hours: number;
     minutes: number;
+    seconds: number;
   }>;
   filmingDays: number;
   filmingDetails: Array<{
@@ -76,9 +77,9 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
     projectEndDate: { month: "", day: "", year: "" },
     numberOfDeliverables: 3,
     deliverables: [
-      { hours: 4, minutes: 25 },
-      { hours: 0, minutes: 0 },
-      { hours: 0, minutes: 0 },
+      { hours: 4, minutes: 25, seconds: 0 },
+      { hours: 0, minutes: 0, seconds: 0 },
+      { hours: 0, minutes: 0, seconds: 0 },
     ],
     filmingDays: 3,
     filmingDetails: [

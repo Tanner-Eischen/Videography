@@ -28,7 +28,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
     );
     const newDeliverables = [...formData.deliverables];
     while (newDeliverables.length < newCount) {
-      newDeliverables.push({ hours: 0, minutes: 0 });
+      newDeliverables.push({ hours: 0, minutes: 0, seconds: 0 });
     }
     updateFormData({
       numberOfDeliverables: newCount,
@@ -148,13 +148,14 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 Average Length per Deliverable
               </Label>
               <div className="bg-white rounded-xl p-4 space-y-3">
-                <div className="grid grid-cols-3 gap-4 text-center [font-family:'Lexend',Helvetica] text-sm text-gray-600 font-semibold">
+                <div className="grid grid-cols-4 gap-4 text-center [font-family:'Lexend',Helvetica] text-sm text-gray-600 font-semibold">
                   <div>Deliverable</div>
                   <div>Hours</div>
                   <div>Minutes</div>
+                  <div>Seconds</div>
                 </div>
                 {formData.deliverables.map((deliverable: any, index: number) => (
-                  <div key={index} className="grid grid-cols-3 gap-4 items-center">
+                  <div key={index} className="grid grid-cols-4 gap-4 items-center">
                     <div className="bg-[#75c4cc] text-center py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold">
                       {index + 1}
                     </div>
@@ -176,6 +177,20 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                         updateDeliverable(
                           index,
                           "minutes",
+                          parseInt(e.target.value) || 0
+                        )
+                      }
+                      className="h-10 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
+                    />
+                    <input
+                      type="number"
+                      min="0"
+                      max="59"
+                      value={deliverable.seconds || 0}
+                      onChange={(e) =>
+                        updateDeliverable(
+                          index,
+                          "seconds",
                           parseInt(e.target.value) || 0
                         )
                       }
@@ -393,7 +408,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               >
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
               </svg>
-              Production
+              Pricing Configuration
             </div>
           </div>
 
@@ -412,25 +427,31 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 <span>100%</span>
               </div>
               <div className="relative h-12 flex items-center rounded-lg overflow-hidden border-2 border-gray-300">
+                <div className="absolute left-0 top-0 h-full w-full bg-[#5c8bb0]"></div>
                 <div
                   className="absolute left-0 top-0 h-full bg-[#d97c7c] transition-all"
-                  style={{ width: `${Math.max(0, Math.min(40, formData.weight || 60))}%` }}
-                />
-                <div
-                  className="absolute top-0 h-full bg-[#5c8bb0] transition-all"
-                  style={{
-                    left: `${Math.max(0, Math.min(40, formData.weight || 60))}%`,
-                    width: `${Math.max(0, 100 - (formData.weight || 60))}%`
-                  }}
+                  style={{ width: `${Math.min(40, formData.weight || 60)}%` }}
                 />
                 <div
                   className="absolute top-0 h-full bg-[#4a4a4a] transition-all"
                   style={{
-                    left: `${100 - Math.max(0, Math.min(60, 100 - (formData.weight || 60)))}%`,
-                    width: `${Math.max(0, Math.min(60, 100 - (formData.weight || 60)))}%`
+                    left: `${formData.weight || 60}%`,
+                    width: `${100 - (formData.weight || 60)}%`
                   }}
                 />
-                <div className="relative z-10 w-full flex items-center justify-between px-4">
+                <input
+                  type="range"
+                  min="40"
+                  max="80"
+                  value={formData.weight || 60}
+                  onChange={(e) =>
+                    updateFormData({
+                      weight: parseInt(e.target.value),
+                    })
+                  }
+                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
+                />
+                <div className="relative z-10 w-full flex items-center justify-between px-4 pointer-events-none">
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Production Cost</span>
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Profit (+other expense)</span>
                 </div>
@@ -438,18 +459,6 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               <div className="text-center mt-2 [font-family:'Lexend',Helvetica] text-sm text-gray-700">
                 Defaults to 60% profit
               </div>
-              <input
-                type="range"
-                min="40"
-                max="80"
-                value={formData.weight || 60}
-                onChange={(e) =>
-                  updateFormData({
-                    weight: parseInt(e.target.value),
-                  })
-                }
-                className="w-full mt-4"
-              />
             </div>
 
             <div>
