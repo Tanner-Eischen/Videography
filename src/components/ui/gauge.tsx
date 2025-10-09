@@ -189,7 +189,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
           <defs>
             <mask id={`mask-${label.replace(/\s/g, '-')}`}>
               <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="white" />
-              <rect x="0" y="0" width={startX + strokeWidth/2} height={svgHeight} fill="black" />
+              <rect x="0" y={centerY - strokeWidth/2} width={startX} height={strokeWidth} fill="black" />
             </mask>
           </defs>
           <path
