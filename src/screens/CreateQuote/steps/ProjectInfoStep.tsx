@@ -303,12 +303,11 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
 
                   {expandedDay === dayIndex && (
                     <div className="p-6 border-t space-y-6">
-                      <div>
-                        <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
-                          Hours
-                        </Label>
-                        <div className="flex items-center gap-4">
-                          <span className="[font-family:'Lexend',Helvetica]">Hours</span>
+                      <div className="grid grid-cols-2 gap-6">
+                        <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-300">
+                          <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
+                            Hours
+                          </Label>
                           <input
                             type="number"
                             min="0"
@@ -320,41 +319,25 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                                 parseInt(e.target.value) || 0
                               )
                             }
-                            className="w-20 h-10 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
+                            className="w-full h-12 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg bg-white"
                           />
-                          <span>:</span>
-                          <span className="[font-family:'Lexend',Helvetica]">Minutes</span>
+                        </div>
+                        <div className="bg-gray-50 rounded-lg p-4 border-2 border-gray-300">
+                          <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
+                            Crew per Setup
+                          </Label>
                           <input
                             type="number"
-                            min="0"
-                            max="59"
-                            value={detail.minutes}
+                            min="1"
+                            max="7"
+                            value={formData.crewPerSetup || ''}
                             onChange={(e) =>
-                              updateFilmingDetail(
-                                dayIndex,
-                                "minutes",
-                                parseInt(e.target.value) || 0
-                              )
+                              updateFormData({
+                                crewPerSetup: parseInt(e.target.value) || 0,
+                              })
                             }
-                            className="w-20 h-10 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
+                            className="w-full h-12 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg bg-white"
                           />
-                          <div className="ml-8 flex items-center gap-3">
-                            <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base">
-                              Crew per Setup (1-7)
-                            </Label>
-                            <input
-                              type="number"
-                              min="1"
-                              max="7"
-                              value={formData.crewPerSetup || ''}
-                              onChange={(e) =>
-                                updateFormData({
-                                  crewPerSetup: parseInt(e.target.value) || 0,
-                                })
-                              }
-                              className="w-20 h-10 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
-                            />
-                          </div>
                         </div>
                       </div>
 
@@ -400,43 +383,78 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
 
         <div className="bg-[#d4e8ea] rounded-xl p-8 mt-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[#023c97] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg">
-              Pricing Configuration
+            <div className="bg-[#023c97] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="white"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="white" strokeWidth="2" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+              </svg>
+              Production
             </div>
           </div>
 
-          <div className="space-y-8">
+          <div className="space-y-6">
             <div>
-              <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-4 block">
-                Weight (Production to Profit) - {formData.weight}%
-              </Label>
-              <div className="relative">
-                <input
-                  type="range"
-                  min="40"
-                  max="100"
-                  value={formData.weight || 40}
-                  onChange={(e) =>
-                    updateFormData({
-                      weight: parseInt(e.target.value),
-                    })
-                  }
-                  className="w-full h-3 bg-gradient-to-r from-[#75c4cc] to-[#023c97] rounded-lg appearance-none cursor-pointer slider"
+              <div className="flex items-center justify-between mb-2">
+                <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base">
+                  Weight (Production to Profit) (40-80%)
+                </Label>
+              </div>
+              <div className="flex justify-between text-xs [font-family:'Lexend',Helvetica] text-gray-600 mb-2">
+                <span>0%</span>
+                <span>40%</span>
+                <span>60%</span>
+                <span>80%</span>
+                <span>100%</span>
+              </div>
+              <div className="relative h-12 flex items-center rounded-lg overflow-hidden border-2 border-gray-300">
+                <div
+                  className="absolute left-0 top-0 h-full bg-[#d97c7c] transition-all"
+                  style={{ width: `${Math.max(0, Math.min(40, formData.weight || 60))}%` }}
+                />
+                <div
+                  className="absolute top-0 h-full bg-[#5c8bb0] transition-all"
                   style={{
-                    background: `linear-gradient(to right, #75c4cc 0%, #023c97 ${((formData.weight - 40) / 60) * 100}%, #d1d5db ${((formData.weight - 40) / 60) * 100}%, #d1d5db 100%)`
+                    left: `${Math.max(0, Math.min(40, formData.weight || 60))}%`,
+                    width: `${Math.max(0, 100 - (formData.weight || 60))}%`
                   }}
                 />
-                <div className="flex justify-between text-sm [font-family:'Lexend',Helvetica] text-gray-600 mt-2">
-                  <span>40%</span>
-                  <span>70%</span>
-                  <span>100%</span>
+                <div
+                  className="absolute top-0 h-full bg-[#4a4a4a] transition-all"
+                  style={{
+                    left: `${100 - Math.max(0, Math.min(60, 100 - (formData.weight || 60)))}%`,
+                    width: `${Math.max(0, Math.min(60, 100 - (formData.weight || 60)))}%`
+                  }}
+                />
+                <div className="relative z-10 w-full flex items-center justify-between px-4">
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Production Cost</span>
+                  <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Profit (+other expense)</span>
                 </div>
               </div>
+              <div className="text-center mt-2 [font-family:'Lexend',Helvetica] text-sm text-gray-700">
+                Defaults to 60% profit
+              </div>
+              <input
+                type="range"
+                min="40"
+                max="80"
+                value={formData.weight || 60}
+                onChange={(e) =>
+                  updateFormData({
+                    weight: parseInt(e.target.value),
+                  })
+                }
+                className="w-full mt-4"
+              />
             </div>
 
             <div>
               <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
-                Discount (0–20%)
+                Discount (0-20%)
               </Label>
               <input
                 type="number"
@@ -445,10 +463,11 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 value={formData.discount || ''}
                 onChange={(e) =>
                   updateFormData({
-                    discount: parseInt(e.target.value) || 0,
+                    discount: Math.min(20, Math.max(0, parseInt(e.target.value) || 0)),
                   })
                 }
-                className="w-32 h-12 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
+                className="w-full h-12 px-4 border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg bg-white"
+                placeholder="Enter discount percentage"
               />
             </div>
           </div>

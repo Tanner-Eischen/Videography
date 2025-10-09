@@ -101,8 +101,8 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
         locations: [{ address: "", miles: 0, requiresSetup: false }],
       },
     ],
-      crewPerSetup: 0,
-      weight: 0,
+      crewPerSetup: 2,
+      weight: 60,
       discount: 0,
     };
   };
