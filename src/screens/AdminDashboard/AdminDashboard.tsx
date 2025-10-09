@@ -269,17 +269,17 @@ export const AdminDashboard = (): JSX.Element => {
               </h3>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
-              <div className="relative">
-                <svg height={100} width={200} className="transform rotate-180">
+              <div className="relative mb-4">
+                <svg height={110} width={200} className="transform rotate-180">
                   <path
-                    d="M 18 90 A 72 72 0 0 1 182 90"
+                    d="M 18 100 A 72 72 0 0 1 182 100"
                     stroke="#e5e7eb"
                     fill="transparent"
                     strokeWidth={18}
                     strokeLinecap="round"
                   />
                   <path
-                    d="M 18 90 A 72 72 0 0 1 182 90"
+                    d="M 18 100 A 72 72 0 0 1 182 100"
                     stroke="#5c8bb0"
                     fill="transparent"
                     strokeWidth={18}
@@ -288,7 +288,7 @@ export const AdminDashboard = (): JSX.Element => {
                     strokeLinecap="round"
                   />
                 </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ top: '30%' }}>
+                <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
                   <div className="flex items-center gap-2">
                     <Clock className="w-6 h-6 text-[#5c8bb0]" />
                     <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl text-[#5c8bb0]">
@@ -324,17 +324,17 @@ export const AdminDashboard = (): JSX.Element => {
               </h3>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
-              <div className="relative">
-                <svg height={100} width={200} className="transform rotate-180">
+              <div className="relative mb-4">
+                <svg height={110} width={200} className="transform rotate-180">
                   <path
-                    d="M 18 90 A 72 72 0 0 1 182 90"
+                    d="M 18 100 A 72 72 0 0 1 182 100"
                     stroke="#e5e7eb"
                     fill="transparent"
                     strokeWidth={18}
                     strokeLinecap="round"
                   />
                   <path
-                    d="M 18 90 A 72 72 0 0 1 182 90"
+                    d="M 18 100 A 72 72 0 0 1 182 100"
                     stroke="#5c8bb0"
                     fill="transparent"
                     strokeWidth={18}
@@ -343,7 +343,7 @@ export const AdminDashboard = (): JSX.Element => {
                     strokeLinecap="round"
                   />
                 </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ top: '30%' }}>
+                <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
                   <div className="flex items-center gap-2">
                     <Calendar className="w-6 h-6 text-[#5c8bb0]" />
                     <div className="[font-family:'Lexend',Helvetica] font-bold text-4xl text-[#5c8bb0]">
@@ -617,17 +617,17 @@ export const AdminDashboard = (): JSX.Element => {
               </h3>
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
-              <div className="relative">
-                <svg height={100} width={200} className="transform rotate-180">
+              <div className="relative mb-4">
+                <svg height={110} width={200} className="transform rotate-180">
                   <path
-                    d="M 18 90 A 72 72 0 0 1 182 90"
+                    d="M 18 100 A 72 72 0 0 1 182 100"
                     stroke="#e5e7eb"
                     fill="transparent"
                     strokeWidth={18}
                     strokeLinecap="round"
                   />
                   <path
-                    d="M 18 90 A 72 72 0 0 1 182 90"
+                    d="M 18 100 A 72 72 0 0 1 182 100"
                     stroke="#5c8bb0"
                     fill="transparent"
                     strokeWidth={18}
@@ -636,7 +636,7 @@ export const AdminDashboard = (): JSX.Element => {
                     strokeLinecap="round"
                   />
                 </svg>
-                <div className="absolute inset-0 flex flex-col items-center justify-center" style={{ top: '30%' }}>
+                <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
                   <div className="flex items-center gap-2">
                     <DollarSign className="w-6 h-6 text-[#5c8bb0]" />
                     <div className="[font-family:'Lexend',Helvetica] font-bold text-3xl text-[#5c8bb0]">
