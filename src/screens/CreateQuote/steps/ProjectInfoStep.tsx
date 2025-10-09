@@ -382,7 +382,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                             className="text-[#023c97] [font-family:'Lexend',Helvetica] font-semibold text-sm flex items-center gap-2 pl-8"
                           >
                             <Plus className="w-4 h-4" />
-                            Add more location
+                            Add next location
                           </button>
                         </div>
                       </div>

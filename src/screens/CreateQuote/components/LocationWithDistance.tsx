@@ -102,10 +102,10 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
         </>
       ) : (
         <div className="relative">
-          <div className="absolute left-0 top-0 h-12 border-l-2 border-b-2 border-gray-800 rounded-bl-lg" style={{ width: '32px', left: '0px' }}>
+          <div className="absolute left-0 top-0 h-12 border-l-2 border-b-2 border-[#023c97] rounded-bl-lg" style={{ width: '32px', left: '0px' }}>
             <div className="absolute right-0 top-full -mt-1.5 -mr-0.5">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 6L12 6M12 6L7 1M12 6L7 11" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <path d="M0 6L12 6L7 11L7 1L12 6Z" fill="#023c97"/>
               </svg>
             </div>
           </div>
