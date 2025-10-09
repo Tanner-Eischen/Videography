@@ -170,116 +170,100 @@ export const AdminDashboard = (): JSX.Element => {
 
         <div className="grid grid-cols-3 gap-6 mb-8">
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg">
+                Quote Status
+              </h3>
+              <FileText className="w-6 h-6 text-[#023c97]" />
+            </div>
+            <div className="flex items-center justify-center mb-6">
               <CircularGauge
                 value={metrics.quotesAccepted}
                 max={metrics.totalQuotes || 1}
-                label="Quote Status"
-                color="#75c4cc"
+                label=""
+                color="#5c8bb0"
                 size="medium"
               />
             </div>
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="flex items-center justify-between text-sm mb-4">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-gray-400"></div>
-                  <span className="[font-family:'Lexend',Helvetica] text-gray-600">Draft</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-[#75c4cc]"></div>
-                  <span className="[font-family:'Lexend',Helvetica] text-gray-600">Done</span>
-                </div>
-              </div>
-              <div className="mb-4">
-                <ProgressBarGauge
-                  current={metrics.quotesAccepted}
-                  total={metrics.totalQuotes}
-                  label="Quotes Accepted"
-                  color="#10b981"
-                />
-              </div>
-              <div className="pt-4 border-t border-gray-200 flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <AlertCircle className="w-4 h-4 text-orange-500" />
-                  <span className="[font-family:'Lexend',Helvetica] text-xs text-gray-600">Pending Response</span>
-                </div>
-                <span className="[font-family:'Lexend',Helvetica] font-bold text-lg text-orange-500">
-                  {metrics.quotesPending}
-                </span>
-              </div>
-            </div>
-          </Card>
-
-          <Card className="p-4 bg-white rounded-xl border-2 border-gray-200">
-            <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-lg mb-4 text-center">
-              Quote Actions
-            </h3>
-            <div className="space-y-4">
-              <div className="flex items-center gap-4 p-4 bg-[#75c4cc]/10 rounded-lg">
-                <div className="flex items-center justify-center w-14 h-14 bg-[#75c4cc] rounded-full">
-                  <Mail className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#023c97]">
-                    {metrics.quotesEmailed}
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                    quotes emailed to clients
-                  </div>
-                </div>
-              </div>
-              <div className="flex items-center gap-4 p-4 bg-[#75c4cc]/10 rounded-lg">
-                <div className="flex items-center justify-center w-14 h-14 bg-[#75c4cc] rounded-full">
-                  <Download className="w-7 h-7 text-white" />
-                </div>
-                <div>
-                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#023c97]">
-                    {metrics.quotesExported}
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                    quotes exported for clients
-                  </div>
-                </div>
-              </div>
+            <div className="space-y-3">
+              <ProgressBarGauge
+                current={metrics.quotesAccepted}
+                total={metrics.totalQuotes}
+                label="quotes accepted"
+                color="#10b981"
+              />
+              <ProgressBarGauge
+                current={metrics.quotesDrafted}
+                total={metrics.totalQuotes}
+                label="quotes drafted"
+                color="#d1d5db"
+              />
             </div>
           </Card>
 
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg">
+                Production Hours
+              </h3>
+              <Clock className="w-6 h-6 text-[#023c97]" />
+            </div>
+            <div className="flex items-center justify-center mb-6">
+              <SemiCircleGauge
+                value={metrics.acceptedFilmingHours}
+                max={metrics.totalFilmingHours || 1}
+                label=""
+                subtitle={`${metrics.acceptedFilmingHours} Production Hours Completed`}
+                icon={null}
+                color="#5c8bb0"
+              />
+            </div>
+            <div className="space-y-3">
+              <ProgressBarGauge
+                current={metrics.acceptedFilmingHours}
+                total={metrics.totalFilmingHours}
+                label="hours accepted"
+                color="#10b981"
+              />
+              <ProgressBarGauge
+                current={metrics.totalFilmingHours - metrics.acceptedFilmingHours}
+                total={metrics.totalFilmingHours}
+                label="hours drafted"
+                color="#d1d5db"
+              />
+            </div>
+          </Card>
+
+          <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg">
+                Days Scheduled
+              </h3>
+              <Calendar className="w-6 h-6 text-[#023c97]" />
+            </div>
+            <div className="flex items-center justify-center mb-6">
               <SemiCircleGauge
                 value={metrics.acceptedDaysScheduled}
                 max={metrics.daysScheduled || 1}
-                label="Days Scheduled"
-                subtitle={`${metrics.acceptedDaysScheduled} days accepted`}
-                icon={<Calendar className="w-6 h-6 text-[#75c4cc]" />}
-                color="#75c4cc"
+                label=""
+                subtitle={`${metrics.acceptedDaysScheduled} Days Scheduled Completed`}
+                icon={null}
+                color="#5c8bb0"
               />
             </div>
-            <div className="mt-6 pt-6 border-t border-gray-200">
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-[#75c4cc]" />
-                  <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">Filming Hours</span>
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-3 bg-gray-50 rounded-lg">
-                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-gray-600">
-                    {metrics.totalFilmingHours}
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
-                    Total Hours
-                  </div>
-                </div>
-                <div className="text-center p-3 bg-[#10b981]/10 rounded-lg">
-                  <div className="[font-family:'Lexend',Helvetica] font-bold text-2xl text-[#10b981]">
-                    {metrics.acceptedFilmingHours}
-                  </div>
-                  <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mt-1">
-                    Hours Accepted
-                  </div>
-                </div>
-              </div>
+            <div className="space-y-3">
+              <ProgressBarGauge
+                current={metrics.acceptedDaysScheduled}
+                total={metrics.daysScheduled}
+                label="days accepted"
+                color="#10b981"
+              />
+              <ProgressBarGauge
+                current={metrics.daysScheduled - metrics.acceptedDaysScheduled}
+                total={metrics.daysScheduled}
+                label="days drafted"
+                color="#d1d5db"
+              />
             </div>
           </Card>
         </div>
@@ -523,50 +507,43 @@ export const AdminDashboard = (): JSX.Element => {
 
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg">
                 Revenue Overview
               </h3>
-              <DollarSign className="w-8 h-8 text-[#75c4cc]" />
+              <DollarSign className="w-6 h-6 text-[#023c97]" />
             </div>
-            <div className="space-y-6">
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
-                    Total Potential Revenue
-                  </span>
-                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-gray-400">
-                    ${metrics.totalPotentialRevenue.toLocaleString()}
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div className="h-full bg-gray-400 rounded-full" style={{ width: '100%' }} />
-                </div>
-              </div>
-              <div>
-                <div className="flex items-center justify-between mb-2">
-                  <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
-                    Actual Revenue (Accepted)
-                  </span>
-                  <span className="[font-family:'Lexend',Helvetica] text-2xl font-bold text-[#10b981]">
-                    ${metrics.actualRevenue.toLocaleString()}
-                  </span>
-                </div>
-                <div className="w-full h-2 bg-gray-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-[#10b981] rounded-full transition-all duration-500"
-                    style={{ width: metrics.totalPotentialRevenue > 0 ? `${(metrics.actualRevenue / metrics.totalPotentialRevenue) * 100}%` : '0%' }}
-                  />
-                </div>
-              </div>
-              <div className="pt-4 border-t border-gray-200">
-                <div className="flex items-center justify-between">
-                  <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                    Conversion Rate
-                  </span>
-                  <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#023c97]">
-                    {completionRate}%
-                  </span>
-                </div>
+            <div className="flex items-center justify-center mb-6">
+              <SemiCircleGauge
+                value={metrics.actualRevenue}
+                max={metrics.totalPotentialRevenue || 1}
+                label=""
+                subtitle={`$${metrics.actualRevenue.toLocaleString()} Revenue Completed`}
+                icon={null}
+                color="#5c8bb0"
+              />
+            </div>
+            <div className="space-y-3">
+              <ProgressBarGauge
+                current={metrics.actualRevenue}
+                total={metrics.totalPotentialRevenue}
+                label={`$${metrics.actualRevenue.toLocaleString()} revenue accepted`}
+                color="#10b981"
+              />
+              <ProgressBarGauge
+                current={metrics.totalPotentialRevenue - metrics.actualRevenue}
+                total={metrics.totalPotentialRevenue}
+                label={`$${(metrics.totalPotentialRevenue - metrics.actualRevenue).toLocaleString()} revenue drafted`}
+                color="#d1d5db"
+              />
+            </div>
+            <div className="mt-4 pt-4 border-t border-gray-200">
+              <div className="flex items-center justify-between">
+                <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
+                  Conversion Rate
+                </span>
+                <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#023c97]">
+                  {completionRate}%
+                </span>
               </div>
             </div>
           </Card>
