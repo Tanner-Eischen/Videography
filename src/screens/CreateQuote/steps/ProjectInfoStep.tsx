@@ -386,6 +386,17 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                           </button>
                         </div>
                       </div>
+
+                      <div className="flex justify-end pt-4">
+                        <div className="bg-[#023c97] text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-base flex items-center gap-2">
+                          <span>Total Miles:</span>
+                          <span>
+                            {detail.locations.reduce((sum: number, location: any, idx: number) => {
+                              return idx > 0 ? sum + (location.miles || 0) : sum;
+                            }, 0)}
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   )}
                 </div>
