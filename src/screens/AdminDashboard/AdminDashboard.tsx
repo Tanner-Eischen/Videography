@@ -217,7 +217,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.totalQuotes} quotes`}
                 icon={<FileText className="w-7 h-7 text-[#5c8bb0]" />}
-                color="#5c8bb0"
+                color="#4a7090"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -551,7 +551,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of $${(metrics.totalPotentialRevenue / 1000).toFixed(1)}k`}
                 icon={<DollarSign className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#5c8bb0"
+                color="#4a7090"
                 valueFormatter={(val) => `$${(val / 1000).toFixed(1)}k`}
               />
             </div>
