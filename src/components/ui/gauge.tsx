@@ -182,14 +182,16 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
   const svgHeight = radiusY + strokeWidth;
   const svgWidth = radiusX * 2 + strokeWidth;
 
-  const currentAngle = Math.PI * (percentage / 100);
-  const endPointX = (radiusX + padding) + normalizedRadiusX * Math.cos(Math.PI - currentAngle);
-  const endPointY = centerY - normalizedRadiusY * Math.sin(currentAngle);
-
   return (
     <div className="flex flex-col items-center justify-center mb-4">
       <div className="relative mb-4">
         <svg height={svgHeight} width={svgWidth}>
+          <defs>
+            <mask id={`mask-${label.replace(/\s/g, '-')}`}>
+              <rect x="0" y="0" width={svgWidth} height={svgHeight} fill="white" />
+              <rect x="0" y="0" width={startX + strokeWidth/2} height={svgHeight} fill="black" />
+            </mask>
+          </defs>
           <path
             d={pathD}
             stroke="#e5e7eb"
@@ -204,17 +206,9 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
             strokeWidth={strokeWidth}
             strokeDasharray={`${circumference} ${circumference}`}
             style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}
-            strokeLinecap="butt"
+            strokeLinecap="round"
+            mask={`url(#mask-${label.replace(/\s/g, '-')})`}
           />
-          {percentage > 0 && (
-            <circle
-              cx={endPointX}
-              cy={endPointY}
-              r={strokeWidth / 2}
-              fill={color}
-              style={{ transition: 'cx 0.5s ease, cy 0.5s ease' }}
-            />
-          )}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center" style={{ top: '45%' }}>
           <div className="flex items-center gap-2">
