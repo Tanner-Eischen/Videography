@@ -8,10 +8,9 @@ import { useGoogleMaps } from "../../hooks/useGoogleMaps";
 import { StepSidebar } from "./components/StepSidebar";
 import { ClientInfoStep } from "./steps/ClientInfoStep";
 import { ProjectInfoStep } from "./steps/ProjectInfoStep";
-import { SetupStep } from "./steps/SetupStep";
 import { SummaryStep } from "./steps/SummaryStep";
 
-export type QuoteStep = 1 | 2 | 3 | 4;
+export type QuoteStep = 1 | 2 | 3;
 
 interface CreateQuoteProps {
   existingQuote?: any;
@@ -124,13 +123,13 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
   };
 
   const handleNext = () => {
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep((currentStep + 1) as QuoteStep);
     }
   };
 
   const handleComplete = () => {
-    setCurrentStep(4);
+    setCurrentStep(3);
   };
 
   const updateFormData = (data: Partial<QuoteFormData>) => {
@@ -220,21 +219,12 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
             <ProjectInfoStep
               formData={formData}
               updateFormData={updateFormData}
-              onNext={handleNext}
+              onNext={handleComplete}
               onCancel={handleCancel}
               onSaveProgress={handleSaveProgress}
             />
           )}
           {currentStep === 3 && (
-            <SetupStep
-              formData={formData}
-              updateFormData={updateFormData}
-              onComplete={handleComplete}
-              onCancel={handleCancel}
-              onSaveProgress={handleSaveProgress}
-            />
-          )}
-          {currentStep === 4 && (
             <SummaryStep
               formData={formData}
               onCreateNewQuote={() => {

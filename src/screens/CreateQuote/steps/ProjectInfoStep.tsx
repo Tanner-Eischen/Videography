@@ -338,6 +338,23 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                             }
                             className="w-20 h-10 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
                           />
+                          <div className="ml-8 flex items-center gap-3">
+                            <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base">
+                              Crew per Setup (1-7)
+                            </Label>
+                            <input
+                              type="number"
+                              min="1"
+                              max="7"
+                              value={formData.crewPerSetup || ''}
+                              onChange={(e) =>
+                                updateFormData({
+                                  crewPerSetup: parseInt(e.target.value) || 0,
+                                })
+                              }
+                              className="w-20 h-10 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
+                            />
+                          </div>
                         </div>
                       </div>
 
@@ -377,6 +394,62 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   )}
                 </div>
               ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-[#d4e8ea] rounded-xl p-8 mt-8">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="bg-[#023c97] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg">
+              Pricing Configuration
+            </div>
+          </div>
+
+          <div className="space-y-8">
+            <div>
+              <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-4 block">
+                Weight (Production to Profit) - {formData.weight}%
+              </Label>
+              <div className="relative">
+                <input
+                  type="range"
+                  min="40"
+                  max="100"
+                  value={formData.weight || 40}
+                  onChange={(e) =>
+                    updateFormData({
+                      weight: parseInt(e.target.value),
+                    })
+                  }
+                  className="w-full h-3 bg-gradient-to-r from-[#75c4cc] to-[#023c97] rounded-lg appearance-none cursor-pointer slider"
+                  style={{
+                    background: `linear-gradient(to right, #75c4cc 0%, #023c97 ${((formData.weight - 40) / 60) * 100}%, #d1d5db ${((formData.weight - 40) / 60) * 100}%, #d1d5db 100%)`
+                  }}
+                />
+                <div className="flex justify-between text-sm [font-family:'Lexend',Helvetica] text-gray-600 mt-2">
+                  <span>40%</span>
+                  <span>70%</span>
+                  <span>100%</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
+                Discount (0–20%)
+              </Label>
+              <input
+                type="number"
+                min="0"
+                max="20"
+                value={formData.discount || ''}
+                onChange={(e) =>
+                  updateFormData({
+                    discount: parseInt(e.target.value) || 0,
+                  })
+                }
+                className="w-32 h-12 text-center border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg"
+              />
             </div>
           </div>
         </div>

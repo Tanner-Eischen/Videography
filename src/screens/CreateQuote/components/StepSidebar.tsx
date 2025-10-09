@@ -38,19 +38,14 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
     {
       number: 2,
       title: "Project Info",
-      subSteps: [{ label: "Deliverables" }, { label: "Filming" }],
-    },
-    {
-      number: 3,
-      title: "Setup",
       subSteps: [
-        { label: "Crew per Setup" },
-        { label: "Weight (Production to Profit)" },
-        { label: "Discount" },
+        { label: "Deliverables" },
+        { label: "Filming" },
+        { label: "Crew & Pricing" },
       ],
     },
     {
-      number: 4,
+      number: 3,
       title: "Summary",
     },
   ];
