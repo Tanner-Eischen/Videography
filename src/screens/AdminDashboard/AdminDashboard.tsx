@@ -181,7 +181,7 @@ export const AdminDashboard = (): JSX.Element => {
                 value={metrics.quotesAccepted}
                 max={metrics.totalQuotes || 1}
                 label=""
-                color="#5c8bb0"
+                color="#75c4cc"
                 size="medium"
               />
             </div>
@@ -215,7 +215,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`${metrics.acceptedFilmingHours} Production Hours Completed`}
                 icon={null}
-                color="#5c8bb0"
+                color="#75c4cc"
               />
             </div>
             <div className="space-y-3">
@@ -248,7 +248,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`${metrics.acceptedDaysScheduled} Days Scheduled Completed`}
                 icon={null}
-                color="#5c8bb0"
+                color="#75c4cc"
               />
             </div>
             <div className="space-y-3">
