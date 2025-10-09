@@ -195,7 +195,7 @@ export const AdminDashboard = (): JSX.Element => {
 
       <div className="max-w-[1400px] mx-auto px-8 py-12">
         <div className="mb-8">
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-4xl mb-2">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#4a7090] text-4xl mb-2">
             Welcome back, {profile?.full_name || 'Admin'}!
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-lg">
