@@ -20,7 +20,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   color = '#75c4cc',
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
-  const radius = size === 'small' ? 40 : size === 'large' ? 60 : 50;
+  const radius = size === 'small' ? 60 : size === 'large' ? 60 : 50;
   const strokeWidth = 20;
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = normalizedRadius * 2 * Math.PI;
@@ -29,7 +29,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   return (
     <div className="flex flex-col items-center justify-center p-6">
       <div className="relative mb-4">
-        <svg height={radius * 3} width={radius * 3} className="transform -rotate-90">
+        <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
           <circle
             stroke="#e5e7eb"
             fill="transparent"
