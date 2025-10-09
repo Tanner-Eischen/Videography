@@ -426,31 +426,61 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 <span>80%</span>
                 <span>100%</span>
               </div>
-              <div className="relative h-12 flex items-center rounded-lg overflow-hidden border-2 border-gray-300">
-                <div className="absolute left-0 top-0 h-full w-full bg-[#5c8bb0]"></div>
+              <div
+                className="relative h-12 flex items-center rounded-lg overflow-visible border-2 border-gray-300 cursor-pointer"
+                onClick={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  const x = e.clientX - rect.left;
+                  const percentage = (x / rect.width) * 100;
+                  const newWeight = Math.round(Math.max(40, Math.min(80, percentage)));
+                  updateFormData({ weight: newWeight });
+                }}
+                onMouseDown={(e) => {
+                  const handleMove = (moveEvent: MouseEvent) => {
+                    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+                    const x = moveEvent.clientX - rect.left;
+                    const percentage = (x / rect.width) * 100;
+                    const newWeight = Math.round(Math.max(40, Math.min(80, percentage)));
+                    updateFormData({ weight: newWeight });
+                  };
+
+                  const handleUp = () => {
+                    document.removeEventListener('mousemove', handleMove);
+                    document.removeEventListener('mouseup', handleUp);
+                  };
+
+                  document.addEventListener('mousemove', handleMove);
+                  document.addEventListener('mouseup', handleUp);
+                }}
+              >
+                <div className="absolute left-0 top-0 h-full w-full bg-[#5c8bb0] rounded-md"></div>
                 <div
-                  className="absolute left-0 top-0 h-full bg-[#d97c7c] transition-all"
+                  className="absolute left-0 top-0 h-full bg-[#d97c7c]"
                   style={{ width: `${Math.min(40, formData.weight || 60)}%` }}
                 />
                 <div
-                  className="absolute top-0 h-full bg-[#4a4a4a] transition-all"
+                  className="absolute top-0 h-full bg-[#4a4a4a] rounded-r-md"
                   style={{
                     left: `${formData.weight || 60}%`,
                     width: `${100 - (formData.weight || 60)}%`
                   }}
                 />
-                <input
-                  type="range"
-                  min="40"
-                  max="80"
-                  value={formData.weight || 60}
-                  onChange={(e) =>
-                    updateFormData({
-                      weight: parseInt(e.target.value),
-                    })
-                  }
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-20"
-                />
+                {/* Slider handle */}
+                <div
+                  className="absolute top-0 h-full w-1 bg-white shadow-lg"
+                  style={{
+                    left: `${formData.weight || 60}%`,
+                    transform: 'translateX(-50%)'
+                  }}
+                >
+                  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-6 h-8 bg-white rounded-md shadow-lg border-2 border-gray-300 flex items-center justify-center">
+                    <div className="flex flex-col gap-1">
+                      <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
+                      <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
+                      <div className="w-3 h-0.5 bg-gray-400 rounded"></div>
+                    </div>
+                  </div>
+                </div>
                 <div className="relative z-10 w-full flex items-center justify-between px-4 pointer-events-none">
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Production Cost</span>
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-bold text-white">Profit (+other expense)</span>
