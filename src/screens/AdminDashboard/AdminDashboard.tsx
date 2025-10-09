@@ -519,7 +519,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`$${metrics.actualRevenue.toLocaleString()} Revenue Completed`}
                 icon={null}
-                color="#5c8bb0"
+                color="#75c4cc"
               />
             </div>
             <div className="space-y-3">
