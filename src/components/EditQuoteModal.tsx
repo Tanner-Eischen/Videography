@@ -41,6 +41,9 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
         locations: [{ address: '', miles: 0, requiresSetup: false }],
       },
     ],
+    crewPerSetup: initialFormData.crewPerSetup || 0,
+    weight: initialFormData.weight || 0,
+    discount: initialFormData.discount || 0,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,6 +60,9 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
         deliverables: formData.deliverables,
         filmingDays: formData.filmingDays,
         filmingDetails: formData.filmingDetails,
+        crewPerSetup: formData.crewPerSetup,
+        weight: formData.weight,
+        discount: formData.discount,
       };
 
       const { error } = await supabase
@@ -587,7 +593,63 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             </div>
           </div>
 
-          <div>
+          <div className="bg-[#023c97] p-4 rounded-lg mt-6">
+            <h3 className="[font-family:'Lexend',Helvetica] font-bold text-white text-lg">
+              Setup & Pricing
+            </h3>
+          </div>
+
+          <div className="space-y-6">
+            <div>
+              <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
+                Crew per Setup (DP + Other) (1-7)
+              </Label>
+              <Input
+                type="number"
+                min="1"
+                max="7"
+                value={formData.crewPerSetup || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, crewPerSetup: parseInt(e.target.value) || 0 })
+                }
+                className="h-12 rounded-lg border-2 border-gray-300 [font-family:'Lexend',Helvetica] text-lg px-4"
+              />
+            </div>
+
+            <div>
+              <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
+                Weight (Production to Profit) (40–80%)
+              </Label>
+              <Input
+                type="number"
+                min="40"
+                max="80"
+                value={formData.weight || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, weight: parseInt(e.target.value) || 0 })
+                }
+                className="h-12 rounded-lg border-2 border-gray-300 [font-family:'Lexend',Helvetica] text-lg px-4"
+              />
+            </div>
+
+            <div>
+              <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
+                Discount (0–20%)
+              </Label>
+              <Input
+                type="number"
+                min="0"
+                max="20"
+                value={formData.discount || ''}
+                onChange={(e) =>
+                  setFormData({ ...formData, discount: parseInt(e.target.value) || 0 })
+                }
+                className="h-12 rounded-lg border-2 border-gray-300 [font-family:'Lexend',Helvetica] text-lg px-4"
+              />
+            </div>
+          </div>
+
+          <div className="mt-6">
             <Label htmlFor="status">Status</Label>
             <select
               id="status"
