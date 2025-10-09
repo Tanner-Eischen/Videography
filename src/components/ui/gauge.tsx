@@ -21,7 +21,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
   const radius = size === 'small' ? 40 : size === 'large' ? 60 : 50;
-  const strokeWidth = 8;
+  const strokeWidth = 12;
   const normalizedRadius = radius - strokeWidth / 2;
   const circumference = normalizedRadius * 2 * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
