@@ -29,7 +29,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   return (
     <div className="flex flex-col items-center justify-center p-6">
       <div className="relative mb-4">
-        <svg height={radius * 2} width={radius * 2} className="transform -rotate-90">
+        <svg height={radius * 3} width={radius * 3} className="transform -rotate-90">
           <circle
             stroke="#e5e7eb"
             fill="transparent"
