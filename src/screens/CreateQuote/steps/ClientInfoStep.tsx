@@ -19,8 +19,8 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
   onSaveProgress,
 }) => {
   return (
-    <div className="flex-1 flex flex-col">
-      <div className="flex-1 px-16 py-12">
+    <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
         <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-2">
           Create a New Quote
         </h2>
@@ -266,7 +266,7 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
         </div>
       </div>
 
-      <div className="flex justify-end gap-4 px-16 py-8 border-t border-gray-200">
+      <div className="flex flex-col md:flex-row justify-end gap-3 md:gap-4 px-4 md:px-16 py-6 md:py-8 border-t border-gray-200">
         <Button
           onClick={onCancel}
           className="h-[50px] px-8 rounded-lg bg-[#5a5a5a] hover:bg-[#4a4a4a] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"

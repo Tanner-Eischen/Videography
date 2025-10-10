@@ -175,7 +175,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
-      <header className="bg-[#6b21a8] h-[70px] flex items-center justify-between px-8">
+      <header className="bg-[#6b21a8] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
         <div className="flex items-center gap-4">
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
             Vid-QUO
@@ -251,13 +251,13 @@ export const SuperAdminAccounts = (): JSX.Element => {
         </div>
       </header>
 
-      <div className="max-w-[1400px] mx-auto px-8 py-12">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-6 md:py-12">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#6b21a8] text-4xl mb-2">
+            <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#6b21a8] text-2xl md:text-4xl mb-2">
               Account Management
             </h1>
-            <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-lg">
+            <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-sm md:text-lg">
               Create, manage, and delete user accounts
             </p>
           </div>

@@ -137,34 +137,34 @@ export const SuperAdminAnalytics = (): JSX.Element => {
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
-      <header className="bg-[#6b21a8] h-[70px] flex items-center justify-between px-8">
-        <div className="flex items-center gap-4">
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
+      <header className="bg-[#6b21a8] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
+        <div className="flex items-center gap-2 md:gap-4">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-xl md:text-2xl">
             Vid-QUO
           </h1>
-          <div className="bg-white/20 px-3 py-1 rounded-lg">
-            <span className="[font-family:'Lexend',Helvetica] font-bold text-white text-sm">
+          <div className="bg-white/20 px-2 md:px-3 py-1 rounded-lg">
+            <span className="[font-family:'Lexend',Helvetica] font-bold text-white text-xs md:text-sm">
               SUPER ADMIN
             </span>
           </div>
         </div>
 
-        <nav className="flex items-center gap-8">
+        <nav className="flex items-center gap-3 md:gap-8 overflow-x-auto">
           <button
             onClick={() => navigate('/superadmin')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#e9d5ff] transition-colors border-b-2 border-white"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#e9d5ff] transition-colors border-b-2 border-white whitespace-nowrap"
           >
             Analytics
           </button>
           <button
             onClick={() => navigate('/superadmin/all-quotes')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#e9d5ff] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#e9d5ff] transition-colors whitespace-nowrap"
           >
             All Quotes
           </button>
           <button
             onClick={() => navigate('/superadmin/accounts')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#e9d5ff] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#e9d5ff] transition-colors whitespace-nowrap"
           >
             Accounts
           </button>
@@ -213,17 +213,17 @@ export const SuperAdminAnalytics = (): JSX.Element => {
         </div>
       </header>
 
-      <div className="max-w-[1400px] mx-auto px-8 py-12">
-        <div className="mb-8">
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#6b21a8] text-4xl mb-2">
+      <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-6 md:py-12">
+        <div className="mb-6 md:mb-8">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#6b21a8] text-2xl md:text-2xl md:text-4xl mb-2">
             System Analytics
           </h1>
-          <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-lg">
+          <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-sm md:text-lg">
             Overview of all accounts and system-wide metrics
           </p>
         </div>
 
-        <div className="grid grid-cols-3 gap-6 mb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-8 md:mb-12">
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200 hover:border-[#9333ea] transition-colors">
             <div className="flex items-start justify-between mb-4">
               <div className="bg-[#9333ea] text-white rounded-lg px-6 py-3">
@@ -276,7 +276,7 @@ export const SuperAdminAnalytics = (): JSX.Element => {
           </Card>
         </div>
 
-        <div className="grid grid-cols-2 gap-6 mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6 mb-6 md:mb-8">
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center gap-3 mb-6">
               <Activity className="w-6 h-6 text-[#6b21a8]" />
@@ -351,12 +351,13 @@ export const SuperAdminAnalytics = (): JSX.Element => {
         </div>
 
         <Card className="bg-white rounded-xl overflow-hidden">
-          <div className="bg-[#6b21a8] px-6 py-4">
+          <div className="bg-[#6b21a8] px-4 md:px-6 py-3 md:py-4">
             <h2 className="[font-family:'Lexend',Helvetica] font-bold text-white text-xl">
               Recent Quotes (All Accounts)
             </h2>
           </div>
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[600px]">
             <thead className="bg-gray-100">
               <tr>
                 <th className="px-6 py-3 text-left [font-family:'Lexend',Helvetica] font-bold text-gray-700 text-sm">
@@ -402,6 +403,7 @@ export const SuperAdminAnalytics = (): JSX.Element => {
               )}
             </tbody>
           </table>
+          </div>
         </Card>
       </div>
     </div>

@@ -131,10 +131,10 @@ export const UserSettings: React.FC = () => {
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back
           </Button>
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-4xl mb-2">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-2xl md:text-4xl mb-2">
             Account Settings
           </h1>
-          <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-lg">
+          <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-sm md:text-lg">
             Manage your profile and crew rate preferences
           </p>
         </div>
@@ -147,7 +147,7 @@ export const UserSettings: React.FC = () => {
                 Account Information
               </h2>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <Label htmlFor="full_name" className="text-gray-700 mb-2">
                   Full Name
@@ -208,7 +208,7 @@ export const UserSettings: React.FC = () => {
                 Crew Rates (Hourly)
               </h2>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <Label htmlFor="dop_rate" className="text-gray-700 mb-2">
                   Director of Photography
@@ -357,7 +357,7 @@ export const UserSettings: React.FC = () => {
                 Additional Fees
               </h2>
             </div>
-            <div className="grid grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
               <div>
                 <Label htmlFor="rush_fee" className="text-gray-700 mb-2">
                   Rush Fee
