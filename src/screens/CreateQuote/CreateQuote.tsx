@@ -55,6 +55,8 @@ interface QuoteFormData {
   crewPerSetup: number;
   weight: number;
   discount: number;
+  rushFee: boolean;
+  highTrafficFee: boolean;
 }
 
 export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuoteProps = {}): JSX.Element => {
@@ -105,6 +107,8 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
       crewPerSetup: 2,
       weight: 60,
       discount: 0,
+      rushFee: false,
+      highTrafficFee: false,
     };
   };
 

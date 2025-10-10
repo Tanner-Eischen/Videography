@@ -468,17 +468,12 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               >
                 <div className="absolute left-0 top-0 h-full w-full bg-[#5c8bb0] rounded-md"></div>
                 <div
-                  className="absolute left-0 top-0 h-full bg-[#d97c7c]"
-                  style={{ width: `${Math.min(40, formData.weight || 60)}%` }}
-                />
-                <div
                   className="absolute top-0 h-full bg-[#4a4a4a] rounded-r-md"
                   style={{
                     left: `${formData.weight || 60}%`,
                     width: `${100 - (formData.weight || 60)}%`
                   }}
                 />
-                {/* Slider handle */}
                 <div
                   className="absolute top-0 h-full w-1 bg-white shadow-lg transition-none"
                   style={{
@@ -539,6 +534,33 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 className="w-full h-12 px-4 border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg bg-white"
                 placeholder="Enter discount percentage"
               />
+            </div>
+
+            <div className="grid grid-cols-2 gap-6">
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="rushFee"
+                  checked={formData.rushFee || false}
+                  onChange={(e) => updateFormData({ rushFee: e.target.checked })}
+                  className="w-5 h-5 rounded border-gray-300 text-[#023c97] focus:ring-[#023c97]"
+                />
+                <Label htmlFor="rushFee" className="[font-family:'Lexend',Helvetica] font-bold text-black text-base cursor-pointer">
+                  Apply Rush Fee
+                </Label>
+              </div>
+              <div className="flex items-center gap-3">
+                <input
+                  type="checkbox"
+                  id="highTrafficFee"
+                  checked={formData.highTrafficFee || false}
+                  onChange={(e) => updateFormData({ highTrafficFee: e.target.checked })}
+                  className="w-5 h-5 rounded border-gray-300 text-[#023c97] focus:ring-[#023c97]"
+                />
+                <Label htmlFor="highTrafficFee" className="[font-family:'Lexend',Helvetica] font-bold text-black text-base cursor-pointer">
+                  Apply High Traffic Fee
+                </Label>
+              </div>
             </div>
           </div>
         </div>

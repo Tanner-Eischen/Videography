@@ -17,6 +17,8 @@ interface UserSettings {
   set_designer_rate: number;
   company_name: string;
   phone_number: string;
+  rush_fee: number;
+  high_traffic_fee: number;
 }
 
 export const UserSettings: React.FC = () => {
@@ -33,6 +35,8 @@ export const UserSettings: React.FC = () => {
     set_designer_rate: 0,
     company_name: '',
     phone_number: '',
+    rush_fee: 0,
+    high_traffic_fee: 0,
   });
   const [accountInfo, setAccountInfo] = useState({
     full_name: profile?.full_name || '',
@@ -68,6 +72,8 @@ export const UserSettings: React.FC = () => {
           set_designer_rate: data.set_designer_rate || 0,
           company_name: data.company_name || '',
           phone_number: data.phone_number || '',
+          rush_fee: data.rush_fee || 0,
+          high_traffic_fee: data.high_traffic_fee || 0,
         });
       }
     } finally {
@@ -335,6 +341,63 @@ export const UserSettings: React.FC = () => {
                       setSettings({
                         ...settings,
                         set_designer_rate: parseFloat(e.target.value) || 0,
+                      })
+                    }
+                    className="border-gray-300 pl-8"
+                  />
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <Card className="p-8 bg-white rounded-xl border-2 border-gray-200">
+            <div className="flex items-center gap-3 mb-6">
+              <Building2 className="w-6 h-6 text-[#023c97]" />
+              <h2 className="[font-family:'Lexend',Helvetica] font-bold text-black text-2xl">
+                Additional Fees
+              </h2>
+            </div>
+            <div className="grid grid-cols-2 gap-6">
+              <div>
+                <Label htmlFor="rush_fee" className="text-gray-700 mb-2">
+                  Rush Fee
+                </Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    $
+                  </span>
+                  <Input
+                    id="rush_fee"
+                    type="number"
+                    step="0.01"
+                    value={settings.rush_fee}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        rush_fee: parseFloat(e.target.value) || 0,
+                      })
+                    }
+                    className="border-gray-300 pl-8"
+                  />
+                </div>
+              </div>
+              <div>
+                <Label htmlFor="high_traffic_fee" className="text-gray-700 mb-2">
+                  High Traffic Fee
+                </Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+                    $
+                  </span>
+                  <Input
+                    id="high_traffic_fee"
+                    type="number"
+                    step="0.01"
+                    value={settings.high_traffic_fee}
+                    onChange={(e) =>
+                      setSettings({
+                        ...settings,
+                        high_traffic_fee: parseFloat(e.target.value) || 0,
                       })
                     }
                     className="border-gray-300 pl-8"
