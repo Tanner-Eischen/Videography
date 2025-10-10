@@ -4,10 +4,18 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
-import { Download, Mail, LogOut, User, Edit } from 'lucide-react';
+import { Download, Mail, LogOut, User, Edit, Settings, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { generateQuotePDF, generateQuoteExcel, sendQuoteEmail } from '../../lib/exportUtils';
 import { EditQuoteModal } from '../../components/EditQuoteModal';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../../components/ui/dropdown-menu';
 
 export const AllQuotes = (): JSX.Element => {
   const { profile, signOut } = useAuth();
@@ -133,17 +141,45 @@ export const AllQuotes = (): JSX.Element => {
         </nav>
 
         <div className="flex items-center gap-4">
-          <Button
-            onClick={handleLogout}
-            className="bg-transparent hover:bg-white/10 text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-semibold flex items-center gap-2"
-          >
-            <LogOut className="w-5 h-5" />
-          </Button>
-          <Avatar className="w-12 h-12 bg-[#5c8bb0]">
-            <div className="w-full h-full flex items-center justify-center text-white">
-              <User className="w-6 h-6" />
-            </div>
-          </Avatar>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="cursor-pointer focus:outline-none">
+                <Avatar className="w-12 h-12 bg-[#5c8bb0] hover:bg-[#4a7a9a] transition-colors">
+                  <div className="w-full h-full flex items-center justify-center text-white">
+                    <User className="w-6 h-6" />
+                  </div>
+                </Avatar>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="[font-family:'Lexend',Helvetica]">
+                {profile?.full_name || 'My Account'}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigate('/settings')}
+                className="[font-family:'Lexend',Helvetica] cursor-pointer"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Account Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => window.open('mailto:support@example.com', '_blank')}
+                className="[font-family:'Lexend',Helvetica] cursor-pointer"
+              >
+                <HelpCircle className="w-4 h-4 mr-2" />
+                Help & Support
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="[font-family:'Lexend',Helvetica] cursor-pointer text-red-600 focus:text-red-600"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </header>
 
