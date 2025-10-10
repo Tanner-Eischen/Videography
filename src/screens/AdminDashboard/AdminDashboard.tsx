@@ -195,7 +195,7 @@ export const AdminDashboard = (): JSX.Element => {
 
       <div className="max-w-[1400px] mx-auto px-8 py-12">
         <div className="mb-8">
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#4a7090] text-4xl mb-2">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-4xl mb-2">
             Welcome back, {profile?.full_name || 'Admin'}!
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-lg">
@@ -217,7 +217,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.totalQuotes} quotes`}
                 icon={<FileText className="w-7 h-7 text-[#5c8bb0]" />}
-                color="#028797"
+                color="#5c8bb0"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -225,7 +225,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.quotesAccepted}
                 total={metrics.totalQuotes}
                 label="quotes accepted"
-                color="#02975d"
+                color="#10b981"
               />
               <ProgressBarGauge
                 current={metrics.quotesDrafted}
@@ -249,7 +249,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.totalFilmingHours} hours`}
                 icon={<Clock className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#028797"
+                color="#5c8bb0"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -257,7 +257,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.acceptedFilmingHours}
                 total={metrics.totalFilmingHours}
                 label="hours accepted"
-                color="#02975d"
+                color="#10b981"
               />
               <ProgressBarGauge
                 current={metrics.totalFilmingHours - metrics.acceptedFilmingHours}
@@ -281,7 +281,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of ${metrics.daysScheduled} days`}
                 icon={<Calendar className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#028797"
+                color="#5c8bb0"
               />
             </div>
             <div className="space-y-3 mt-4">
@@ -289,7 +289,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.acceptedDaysScheduled}
                 total={metrics.daysScheduled}
                 label="days accepted"
-                color="#02975d"
+                color="#10b981"
               />
               <ProgressBarGauge
                 current={metrics.daysScheduled - metrics.acceptedDaysScheduled}
@@ -304,7 +304,7 @@ export const AdminDashboard = (): JSX.Element => {
         <div className="grid grid-cols-2 gap-6 mb-8">
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-black text-xl">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
                 Month-over-Month Growth
               </h3>
               <div className="flex items-center gap-2">
@@ -339,7 +339,7 @@ export const AdminDashboard = (): JSX.Element => {
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
                     Revenue Growth
                   </span>
-                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.revenueGrowthPercent >= 0 ? 'text-[#02975d]' : 'text-red-500'}`}>
+                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.revenueGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
                     {metrics.revenueGrowthPercent > 0 ? '+' : ''}{metrics.revenueGrowthPercent}%
                   </span>
                 </div>
@@ -382,7 +382,7 @@ export const AdminDashboard = (): JSX.Element => {
                         return `${x}%,${y}%`;
                       }).join(' ')}
                       fill="none"
-                      stroke="#02975d"
+                      stroke="#10b981"
                       strokeWidth="3"
                       strokeLinecap="round"
                       strokeLinejoin="round"
@@ -399,14 +399,14 @@ export const AdminDashboard = (): JSX.Element => {
                             cx={`${x}%`}
                             cy={`${y}%`}
                             r="4"
-                            fill="#02975d"
+                            fill="#10b981"
                           />
                           <text
                             x={`${x}%`}
                             y={`${y}%`}
                             dy="-10"
                             textAnchor="middle"
-                            className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#02975d]"
+                            className="[font-family:'Lexend',Helvetica] text-xs font-bold fill-[#10b981]"
                           >
                             ${(data.revenue / 1000).toFixed(0)}k
                           </text>
@@ -425,11 +425,11 @@ export const AdminDashboard = (): JSX.Element => {
                       ${metrics.lastMonthRevenue.toLocaleString()}
                     </div>
                   </div>
-                  <div className="bg-[#02975d]/10 p-3 rounded-lg">
+                  <div className="bg-[#10b981]/10 p-3 rounded-lg">
                     <div className="[font-family:'Lexend',Helvetica] text-xs text-gray-500 mb-1">
                       This Month
                     </div>
-                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-[#02975d]">
+                    <div className="[font-family:'Lexend',Helvetica] font-bold text-lg text-[#10b981]">
                       ${metrics.currentMonthRevenue.toLocaleString()}
                     </div>
                   </div>
@@ -441,7 +441,7 @@ export const AdminDashboard = (): JSX.Element => {
                   <span className="[font-family:'Lexend',Helvetica] text-sm font-medium text-gray-600">
                     Quotes Growth
                   </span>
-                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.quotesGrowthPercent >= 0 ? 'text-[#02975d]' : 'text-red-500'}`}>
+                  <span className={`[font-family:'Lexend',Helvetica] text-2xl font-bold ${metrics.quotesGrowthPercent >= 0 ? 'text-[#10b981]' : 'text-red-500'}`}>
                     {metrics.quotesGrowthPercent > 0 ? '+' : ''}{metrics.quotesGrowthPercent}%
                   </span>
                 </div>
@@ -551,7 +551,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label=""
                 subtitle={`of $${(metrics.totalPotentialRevenue / 1000).toFixed(1)}k`}
                 icon={<DollarSign className="w-6 h-6 text-[#5c8bb0]" />}
-                color="#028797"
+                color="#5c8bb0"
                 valueFormatter={(val) => `$${(val / 1000).toFixed(1)}k`}
               />
             </div>
@@ -560,7 +560,7 @@ export const AdminDashboard = (): JSX.Element => {
                 current={metrics.actualRevenue}
                 total={metrics.totalPotentialRevenue}
                 label={`$${metrics.actualRevenue.toLocaleString()} revenue accepted`}
-                color="#02975d"
+                color="#10b981"
               />
               <ProgressBarGauge
                 current={metrics.totalPotentialRevenue - metrics.actualRevenue}

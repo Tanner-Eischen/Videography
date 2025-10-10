@@ -17,7 +17,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
   subtitle,
   icon,
   size = 'medium',
-  color = '#426481',
+  color = '#5c8bb0',
 }) => {
   const percentage = Math.min((value / max) * 100, 100);
 
@@ -53,7 +53,7 @@ export const CircularGauge: React.FC<GaugeProps> = ({
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stopColor={color} stopOpacity="1" />
-              <stop offset="100%" stopColor={color} stopOpacity="0.4" />
+              <stop offset="100%" stopColor={color} stopOpacity="0.5" />
             </linearGradient>
           </defs>
           <circle
@@ -105,7 +105,7 @@ export const ProgressBarGauge: React.FC<ProgressBarGaugeProps> = ({
   current,
   total,
   label,
-  color = '#02975d',
+  color = '#10b981',
 }) => {
   const percentage = total > 0 ? (current / total) * 100 : 0;
 
@@ -197,7 +197,7 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
         <svg height={svgHeight} width={svgWidth}>
           <defs>
             <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor={color} stopOpacity="0.4" />
+              <stop offset="0%" stopColor={color} stopOpacity="0.65" />
               <stop offset="100%" stopColor={color} stopOpacity="1" />
             </linearGradient>
             <clipPath id={`clip-${label.replace(/\s/g, '-')}`}>
