@@ -2,7 +2,9 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { Login } from './screens/Login/Login';
-import { SuperAdminDashboard } from './screens/SuperAdminDashboard/SuperAdminDashboard';
+import { SuperAdminAnalytics } from './screens/SuperAdminDashboard/SuperAdminAnalytics';
+import { SuperAdminAllQuotes } from './screens/SuperAdminDashboard/SuperAdminAllQuotes';
+import { SuperAdminAccounts } from './screens/SuperAdminDashboard/SuperAdminAccounts';
 import { AdminDashboard } from './screens/AdminDashboard/AdminDashboard';
 import { CreateQuote } from './screens/CreateQuote/CreateQuote';
 import { AllQuotes } from './screens/AllQuotes/AllQuotes';
@@ -39,6 +41,10 @@ function DashboardRouter() {
         <div className="text-xl [font-family:'Lexend',Helvetica]">Loading...</div>
       </div>
     );
+  }
+
+  if (profile?.role === 'superadmin') {
+    return <Navigate to="/superadmin" replace />;
   }
 
   return <AdminDashboard />;
@@ -81,7 +87,23 @@ function AppRoutes() {
         path="/superadmin"
         element={
           <ProtectedRoute allowedRoles={['superadmin']}>
-            <SuperAdminDashboard />
+            <SuperAdminAnalytics />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/all-quotes"
+        element={
+          <ProtectedRoute allowedRoles={['superadmin']}>
+            <SuperAdminAllQuotes />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/superadmin/accounts"
+        element={
+          <ProtectedRoute allowedRoles={['superadmin']}>
+            <SuperAdminAccounts />
           </ProtectedRoute>
         }
       />
