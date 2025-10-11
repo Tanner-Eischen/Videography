@@ -41,19 +41,19 @@ export const Footer: React.FC<FooterProps> = ({ bgColor = "bg-[#003D82]" }) => {
             <div className="space-y-2">
               <a
                 href="#"
-                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors block"
+                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors white"
               >
                 Help Center
               </a>
               <a
                 href="#"
-                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors block"
+                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors white"
               >
                 Privacy Policy
               </a>
               <a
                 href="#"
-                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors block"
+                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors white"
               >
                 Terms of Service
               </a>
