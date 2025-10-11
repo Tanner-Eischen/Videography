@@ -75,14 +75,12 @@ export const SuperAdminAllQuotes = (): JSX.Element => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'done':
+      case 'accepted':
         return 'bg-green-100 text-green-800';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
       case 'draft':
         return 'bg-gray-100 text-gray-800';
-      case 'exported':
-        return 'bg-orange-100 text-orange-800';
-      case 'emailed':
-        return 'bg-blue-100 text-blue-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
@@ -96,7 +94,7 @@ export const SuperAdminAllQuotes = (): JSX.Element => {
   const handleExportPDF = async (quote: Quote) => {
     await supabase
       .from('quotes')
-      .update({ status: 'exported' })
+      .update({ status: 'pending' })
       .eq('id', quote.id);
 
     generateQuotePDF(quote);
@@ -107,7 +105,7 @@ export const SuperAdminAllQuotes = (): JSX.Element => {
     await sendQuoteEmail(quote);
     await supabase
       .from('quotes')
-      .update({ status: 'emailed' })
+      .update({ status: 'pending' })
       .eq('id', quote.id);
     fetchAllAccountsWithQuotes();
   };

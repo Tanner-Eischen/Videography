@@ -649,20 +649,44 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             </div>
           </div>
 
-          <div className="mt-6">
-            <Label htmlFor="status">Status</Label>
-            <select
-              id="status"
-              value={formData.status}
-              onChange={(e) =>
-                setFormData({ ...formData, status: e.target.value })
-              }
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg [font-family:'Lexend',Helvetica]"
-            >
-              <option value="pending">Pending</option>
-              <option value="accepted">Accepted</option>
-              <option value="rejected">Rejected</option>
-            </select>
+          <div className="bg-[#023c97] p-4 rounded-lg mt-6">
+            <h3 className="[font-family:'Lexend',Helvetica] font-bold text-white text-lg">
+              Quote Status
+            </h3>
+          </div>
+
+          <div className="mt-6 bg-gray-50 p-6 rounded-lg border-2 border-gray-300">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="flex-1">
+                <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base block mb-2">
+                  Current Status: <span className={`${
+                    formData.status === 'accepted' ? 'text-green-600' :
+                    formData.status === 'pending' ? 'text-yellow-600' :
+                    'text-gray-600'
+                  } capitalize`}>{formData.status}</span>
+                </Label>
+                <p className="text-sm text-gray-600 [font-family:'Lexend',Helvetica]">
+                  {formData.status === 'draft' && 'Quote has not been sent to customer yet'}
+                  {formData.status === 'pending' && 'Quote has been sent to customer and is awaiting response'}
+                  {formData.status === 'accepted' && 'Quote has been accepted by customer'}
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 bg-white p-4 rounded-lg border-2 border-gray-300">
+              <input
+                type="checkbox"
+                id="acceptedCheckbox"
+                checked={formData.status === 'accepted'}
+                onChange={(e) =>
+                  setFormData({ ...formData, status: e.target.checked ? 'accepted' : (formData.status === 'accepted' ? 'pending' : formData.status) })
+                }
+                className="w-5 h-5 rounded border-gray-300 text-green-600 focus:ring-green-600"
+              />
+              <Label htmlFor="acceptedCheckbox" className="[font-family:'Lexend',Helvetica] font-bold text-black text-base cursor-pointer">
+                Mark as Accepted
+              </Label>
+            </div>
           </div>
 
           <div className="flex justify-end gap-3 pt-4 border-t">

@@ -52,14 +52,12 @@ export const AllQuotes = (): JSX.Element => {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'done':
+      case 'accepted':
         return 'text-green-600';
+      case 'pending':
+        return 'text-yellow-600';
       case 'draft':
         return 'text-gray-600';
-      case 'exported':
-        return 'text-orange-600';
-      case 'emailed':
-        return 'text-blue-600';
       default:
         return 'text-gray-600';
     }
@@ -73,7 +71,7 @@ export const AllQuotes = (): JSX.Element => {
   const handleExportPDF = async (quote: Quote) => {
     await supabase
       .from('quotes')
-      .update({ status: 'exported' })
+      .update({ status: 'pending' })
       .eq('id', quote.id);
 
     generateQuotePDF(quote);
@@ -88,7 +86,7 @@ export const AllQuotes = (): JSX.Element => {
     await sendQuoteEmail(quote);
     await supabase
       .from('quotes')
-      .update({ status: 'emailed' })
+      .update({ status: 'pending' })
       .eq('id', quote.id);
     fetchQuotes();
   };
