@@ -1,0 +1,89 @@
+# Netlify Configuration for Vidquo
+# Documentation: https://docs.netlify.com/configure-builds/file-based-configuration/
+
+[build]
+  # Build command - runs when deploying
+  command = "npm run build"
+
+  # Directory containing the built files to publish
+  publish = "dist"
+
+  # Base directory for the build (project root)
+  base = "."
+
+# Production environment configuration
+[context.production]
+  # Environment variables for production builds
+  # Note: For sensitive values like API keys, set these in Netlify UI instead
+  # This file is for non-sensitive build configuration only
+  [context.production.environment]
+    # NODE_VERSION = "20"
+    # VITE_GOOGLE_MAPS_API_KEY = "SET_IN_NETLIFY_UI"
+
+# Deploy Preview environment configuration
+# Used for pull request previews
+[context.deploy-preview]
+  # You can use different build commands for previews if needed
+  # command = "npm run build"
+
+  [context.deploy-preview.environment]
+    # NODE_VERSION = "20"
+    # VITE_GOOGLE_MAPS_API_KEY = "SET_IN_NETLIFY_UI"
+
+# Branch deploys configuration
+# Uncomment and customize for specific branches
+# [context.branch-deploy]
+#   command = "npm run build"
+
+# Redirect rules
+# [[redirects]]
+#   from = "/api/*"
+#   to = "/.netlify/functions/:splat"
+#   status = 200
+
+# Headers configuration for security
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # Security headers
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    X-XSS-Protection = "1; mode=block"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+
+    # Cache control for assets
+    Cache-Control = "public, max-age=0, must-revalidate"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    # Cache static assets for 1 year
+    Cache-Control = "public, max-age=31536000, immutable"
+
+# Build plugins (if needed in the future)
+# [[plugins]]
+#   package = "@netlify/plugin-lighthouse"
+
+# Environment variable configuration guide:
+#
+# IMPORTANT: Do NOT set sensitive values like API keys in this file!
+# This file is committed to version control.
+#
+# Instead, set environment variables in one of these ways:
+#
+# 1. Netlify UI (Recommended for sensitive values):
+#    - Go to: https://app.netlify.com/sites/vidquo/configuration/env
+#    - Add: VITE_GOOGLE_MAPS_API_KEY
+#    - Scope: Builds
+#    - Context: Production, Deploy Previews, etc.
+#
+# 2. Netlify CLI:
+#    netlify env:set VITE_GOOGLE_MAPS_API_KEY "your_key_here"
+#
+# 3. Import from .env file:
+#    netlify env:import .env
+#
+# Required environment variables for this project:
+# - VITE_GOOGLE_MAPS_API_KEY (Google Maps API key)
+# - VITE_SUPABASE_URL (already configured)
+# - VITE_SUPABASE_ANON_KEY (already configured)
