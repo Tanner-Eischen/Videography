@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
-import { supabase } from "../../../lib/supabase";
-import { useAuth } from "../../../contexts/AuthContext";
 
 interface SummaryStepProps {
   formData: any;
@@ -15,89 +12,13 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
   formData,
   onCreateNewQuote,
 }) => {
-  const navigate = useNavigate();
-  const { user } = useAuth();
   const [selectedPackage, setSelectedPackage] = useState<QuotePackage>("Standard");
-  const [isSaving, setIsSaving] = useState(false);
-  const [quoteId, setQuoteId] = useState<string | null>(null);
 
-  const saveQuote = async (status: 'draft' | 'emailed' | 'downloaded' = 'draft') => {
-    if (!user) {
-      alert("You must be logged in to save a quote");
-      return null;
-    }
-
-    setIsSaving(true);
-    try {
-      const startDate = formData.projectStartDate.year && formData.projectStartDate.month && formData.projectStartDate.day
-        ? `${formData.projectStartDate.year}-${formData.projectStartDate.month.padStart(2, '0')}-${formData.projectStartDate.day.padStart(2, '0')}`
-        : null;
-
-      const endDate = formData.projectEndDate.year && formData.projectEndDate.month && formData.projectEndDate.day
-        ? `${formData.projectEndDate.year}-${formData.projectEndDate.month.padStart(2, '0')}-${formData.projectEndDate.day.padStart(2, '0')}`
-        : null;
-
-      const totalFilmingHours = formData.filmingDetails?.reduce((total: number, day: any) => {
-        return total + (day.hours || 0) + (day.minutes || 0) / 60;
-      }, 0) || 0;
-
-      const quoteData = {
-        client_id: user.id,
-        client_name: formData.fullName || '',
-        client_email: formData.contactEmail || '',
-        production_company: formData.productionCompanyName || null,
-        project_start_date: startDate,
-        project_end_date: endDate,
-        tier: selectedPackage.toLowerCase(),
-        status: status,
-        filming_hours: totalFilmingHours,
-        revenue: 0,
-        form_data: formData,
-      };
-
-      const { data, error } = await supabase
-        .from('quotes')
-        .insert([quoteData])
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      setQuoteId(data.id);
-      return data.id;
-    } catch (error) {
-      console.error('Error saving quote:', error);
-      alert('Failed to save quote. Please try again.');
-      return null;
-    } finally {
-      setIsSaving(false);
-    }
+  const handleEmail = () => {
+    alert("Email functionality will be implemented");
   };
 
-  const handleEmail = async () => {
-    if (!quoteId) {
-      const newQuoteId = await saveQuote('emailed');
-      if (newQuoteId) {
-        alert("Quote saved! Email functionality will be implemented");
-      }
-    } else {
-      await supabase
-        .from('quotes')
-        .update({ status: 'emailed' })
-        .eq('id', quoteId);
-      alert("Email functionality will be implemented");
-    }
-  };
-
-  const handlePrint = async () => {
-    if (!quoteId) {
-      await saveQuote('downloaded');
-    } else {
-      await supabase
-        .from('quotes')
-        .update({ status: 'downloaded' })
-        .eq('id', quoteId);
-    }
+  const handlePrint = () => {
     window.print();
   };
 
@@ -184,33 +105,21 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
       <div className="flex flex-col md:flex-row justify-end gap-3 md:gap-4 px-4 md:px-16 py-6 md:py-8 border-t border-gray-200">
         <Button
           onClick={handleEmail}
-          disabled={isSaving}
-          className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl disabled:opacity-50"
+          className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
         >
-          {isSaving ? 'Saving...' : 'Email'}
+          Email
         </Button>
         <Button
           onClick={handlePrint}
-          disabled={isSaving}
-          className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl disabled:opacity-50"
+          className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
         >
-          {isSaving ? 'Saving...' : 'Print'}
+          Print
         </Button>
         <Button
-          onClick={async () => {
-            if (!quoteId) {
-              const newQuoteId = await saveQuote('done');
-              if (newQuoteId) {
-                navigate('/all-quotes');
-              }
-            } else {
-              navigate('/all-quotes');
-            }
-          }}
-          disabled={isSaving}
-          className="h-[50px] px-8 rounded-lg bg-[#023c97] hover:bg-[#022d70] [font-family:'Lexend',Helvetica] font-bold text-white text-xl disabled:opacity-50"
+          onClick={onCreateNewQuote}
+          className="h-[50px] px-8 rounded-lg bg-[#023c97] hover:bg-[#022d70] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
         >
-          {isSaving ? 'Saving...' : 'Save & View All Quotes'}
+          Create New Quote
         </Button>
       </div>
     </div>
