@@ -6,6 +6,7 @@ import { supabase, Quote, DashboardStats } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { Users, DollarSign, FileText, Download, Mail, TrendingUp, LogOut, User, Settings, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getStatusColor, formatDate } from '../../lib/quoteUtils';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,26 +68,6 @@ export const SuperAdminDashboard = (): JSX.Element => {
     setLoading(false);
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: '2-digit',
-    });
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'accepted':
-        return 'text-green-600';
-      case 'pending':
-        return 'text-yellow-600';
-      case 'draft':
-        return 'text-gray-600';
-      default:
-        return 'text-gray-600';
-    }
-  };
 
   const handleDownload = async (quoteId: string) => {
     // Update quote status to 'downloaded'
@@ -320,7 +301,7 @@ export const SuperAdminDashboard = (): JSX.Element => {
                       {formatDate(quote.created_at)}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`[font-family:'Lexend',Helvetica] font-semibold text-lg capitalize ${getStatusColor(quote.status)}`}>
+                      <span className={`[font-family:'Lexend',Helvetica] font-semibold text-lg capitalize ${getStatusColor(quote.status, 'text')}`}>
                         {quote.status}
                       </span>
                     </td>

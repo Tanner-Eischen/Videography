@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { CircularGauge, SemiCircleGauge, ProgressBarGauge } from '../../components/ui/gauge';
 import { calculateDashboardMetrics } from '../../lib/dashboardMetrics';
 import { generateQuotePDF, generateQuoteExcel, sendQuoteEmail } from '../../lib/exportUtils';
+import { getStatusColor, formatDate } from '../../lib/quoteUtils';
 import { EditQuoteModal } from '../../components/EditQuoteModal';
 import {
   DropdownMenu,
@@ -51,26 +52,6 @@ export const AdminDashboard = (): JSX.Element => {
     setLoading(false);
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: '2-digit',
-    });
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'accepted':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'draft':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   const metrics = calculateDashboardMetrics(quotes);
   const completionRate = metrics.totalQuotes > 0

@@ -6,6 +6,7 @@ import { supabase, Quote } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { Users, DollarSign, FileText, TrendingUp, LogOut, User, Settings, HelpCircle, Activity, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { getStatusColor, formatDate } from '../../lib/quoteUtils';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -104,26 +105,6 @@ export const SuperAdminAnalytics = (): JSX.Element => {
     navigate('/login');
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: '2-digit',
-    });
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'accepted':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'draft':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   if (loading) {
     return (

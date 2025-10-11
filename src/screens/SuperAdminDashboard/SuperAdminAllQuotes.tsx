@@ -7,6 +7,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { ChevronDown, ChevronUp, Download, Mail, User, LogOut, Settings, HelpCircle, FileText } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { generateQuotePDF, sendQuoteEmail } from '../../lib/exportUtils';
+import { getStatusColor, formatDate } from '../../lib/quoteUtils';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -65,26 +66,6 @@ export const SuperAdminAllQuotes = (): JSX.Element => {
     setLoading(false);
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: '2-digit',
-    });
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'accepted':
-        return 'bg-green-100 text-green-800';
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'draft':
-        return 'bg-gray-100 text-gray-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
 
   const handleLogout = async () => {
     await signOut();
