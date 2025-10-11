@@ -260,7 +260,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                     className="w-full flex items-center justify-between p-4 hover:bg-gray-50"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="bg-[#8dd3dc] px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg">
+                      <div className="bg-[#8dd3dc] px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg text-black">
                         Day {dayIndex + 1}
                       </div>
                       <div className="flex items-center gap-2 text-gray-500 [font-family:'Lexend',Helvetica]">
