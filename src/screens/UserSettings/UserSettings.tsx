@@ -6,7 +6,16 @@ import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Button } from '../../components/ui/button';
-import { ArrowLeft, Save, User, DollarSign, Building2 } from 'lucide-react';
+import { ArrowLeft, Save, User, DollarSign, Building2, LogOut, Settings, HelpCircle } from 'lucide-react';
+import { Avatar } from '../../components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '../../components/ui/dropdown-menu';
 
 interface UserSettings {
   director_of_photography_rate: number;
@@ -23,7 +32,7 @@ interface UserSettings {
 
 export const UserSettings: React.FC = () => {
   const navigate = useNavigate();
-  const { user, profile } = useAuth();
+  const { user, profile, signOut } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [settings, setSettings] = useState<UserSettings>({
@@ -119,19 +128,123 @@ export const UserSettings: React.FC = () => {
     );
   }
 
+  const handleLogout = async () => {
+    await signOut();
+    navigate('/login');
+  };
+
+  const isSuperAdmin = profile?.role === 'superadmin';
+  const headerBgColor = isSuperAdmin ? 'bg-[#6b21a8]' : 'bg-[#023c97]';
+  const avatarBgColor = isSuperAdmin ? 'bg-[#9333ea] hover:bg-[#7e22ce]' : 'bg-[#5c8bb0] hover:bg-[#4a7a9a]';
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#e6f2ff] to-white">
-      <div className="max-w-[1200px] mx-auto px-8 py-12">
-        <div className="mb-8">
-          <Button
-            variant="ghost"
-            onClick={() => navigate(-1)}
-            className="mb-4 text-[#023c97] hover:text-[#023c97]/80"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back
-          </Button>
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-2xl md:text-4xl mb-2">
+    <div className="min-h-screen bg-[#f8f9fa]">
+      <header className={`${headerBgColor} min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0`}>
+        <div className="flex items-center gap-2 md:gap-4">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-xl md:text-2xl">
+            Vid-QUO
+          </h1>
+          {isSuperAdmin && (
+            <div className="bg-white/20 px-2 md:px-3 py-1 rounded-lg">
+              <span className="[font-family:'Lexend',Helvetica] font-bold text-white text-xs md:text-sm">
+                SUPER ADMIN
+              </span>
+            </div>
+          )}
+        </div>
+
+        <nav className="flex items-center gap-3 md:gap-8 overflow-x-auto">
+          {isSuperAdmin ? (
+            <>
+              <button
+                onClick={() => navigate('/superadmin')}
+                className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#e9d5ff] transition-colors whitespace-nowrap"
+              >
+                Analytics
+              </button>
+              <button
+                onClick={() => navigate('/superadmin/all-quotes')}
+                className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#e9d5ff] transition-colors whitespace-nowrap"
+              >
+                All Quotes
+              </button>
+              <button
+                onClick={() => navigate('/superadmin/accounts')}
+                className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#e9d5ff] transition-colors whitespace-nowrap"
+              >
+                Accounts
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                onClick={() => navigate('/dashboard')}
+                className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#75c4cc] transition-colors whitespace-nowrap"
+              >
+                Dashboard
+              </button>
+              <button
+                onClick={() => navigate('/create-quote')}
+                className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#75c4cc] transition-colors whitespace-nowrap"
+              >
+                Create Quote
+              </button>
+              <button
+                onClick={() => navigate('/all-quotes')}
+                className="[font-family:'Lexend',Helvetica] font-semibold text-white text-sm md:text-lg hover:text-[#75c4cc] transition-colors whitespace-nowrap"
+              >
+                All Quotes
+              </button>
+            </>
+          )}
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button className="cursor-pointer focus:outline-none">
+                <Avatar className={`w-12 h-12 ${avatarBgColor} transition-colors`}>
+                  <div className="w-full h-full flex items-center justify-center text-white">
+                    <User className="w-6 h-6" />
+                  </div>
+                </Avatar>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-56">
+              <DropdownMenuLabel className="[font-family:'Lexend',Helvetica]">
+                {profile?.full_name || 'My Account'}
+              </DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={() => navigate('/settings')}
+                className="[font-family:'Lexend',Helvetica] cursor-pointer"
+              >
+                <Settings className="w-4 h-4 mr-2" />
+                Account Settings
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={() => window.open('mailto:support@example.com', '_blank')}
+                className="[font-family:'Lexend',Helvetica] cursor-pointer"
+              >
+                <HelpCircle className="w-4 h-4 mr-2" />
+                Help & Support
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                onClick={handleLogout}
+                className="[font-family:'Lexend',Helvetica] cursor-pointer text-red-600 focus:text-red-600"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      </header>
+
+      <div className="max-w-[1200px] mx-auto px-4 md:px-8 py-6 md:py-12">
+        <div className="mb-6 md:mb-8">
+          <h1 className={`[font-family:'Lexend',Helvetica] font-bold ${isSuperAdmin ? 'text-[#6b21a8]' : 'text-[#023c97]'} text-2xl md:text-4xl mb-2`}>
             Account Settings
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-sm md:text-lg">
@@ -142,7 +255,7 @@ export const UserSettings: React.FC = () => {
         <div className="space-y-6">
           <Card className="p-8 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center gap-3 mb-6">
-              <User className="w-6 h-6 text-[#023c97]" />
+              <User className={`w-6 h-6 ${isSuperAdmin ? 'text-[#6b21a8]' : 'text-[#023c97]'}`} />
               <h2 className="[font-family:'Lexend',Helvetica] font-bold text-black text-2xl">
                 Account Information
               </h2>
@@ -203,7 +316,7 @@ export const UserSettings: React.FC = () => {
 
           <Card className="p-8 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center gap-3 mb-6">
-              <DollarSign className="w-6 h-6 text-[#023c97]" />
+              <DollarSign className={`w-6 h-6 ${isSuperAdmin ? 'text-[#6b21a8]' : 'text-[#023c97]'}`} />
               <h2 className="[font-family:'Lexend',Helvetica] font-bold text-black text-2xl">
                 Crew Rates (Hourly)
               </h2>
@@ -352,7 +465,7 @@ export const UserSettings: React.FC = () => {
 
           <Card className="p-8 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center gap-3 mb-6">
-              <Building2 className="w-6 h-6 text-[#023c97]" />
+              <Building2 className={`w-6 h-6 ${isSuperAdmin ? 'text-[#6b21a8]' : 'text-[#023c97]'}`} />
               <h2 className="[font-family:'Lexend',Helvetica] font-bold text-black text-2xl">
                 Additional Fees
               </h2>
@@ -411,7 +524,7 @@ export const UserSettings: React.FC = () => {
             <Button
               onClick={handleSaveSettings}
               disabled={saving}
-              className="bg-[#023c97] hover:bg-[#023c97]/90 text-white px-8 py-6 text-lg"
+              className={`${isSuperAdmin ? 'bg-[#6b21a8] hover:bg-[#581c87]' : 'bg-[#023c97] hover:bg-[#023c97]/90'} text-white px-8 py-6 text-lg`}
             >
               <Save className="w-5 h-5 mr-2" />
               {saving ? 'Saving...' : 'Save Changes'}
