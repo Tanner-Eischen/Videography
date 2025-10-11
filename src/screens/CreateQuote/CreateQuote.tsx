@@ -28,7 +28,7 @@ interface CreateQuoteProps {
 interface QuoteFormData {
   fullName: string;
   contactEmail: string;
-  productionCompanyName: string;
+  clientPhoneNumber: string;
   projectStartDate: {
     month: string;
     day: string;
@@ -82,7 +82,7 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
     return {
     fullName: "",
     contactEmail: "",
-    productionCompanyName: "",
+    clientPhoneNumber: "",
     projectStartDate: { month: "", day: "", year: "" },
     projectEndDate: { month: "", day: "", year: "" },
     numberOfDeliverables: 3,

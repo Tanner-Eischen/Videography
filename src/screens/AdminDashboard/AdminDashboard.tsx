@@ -620,7 +620,7 @@ export const AdminDashboard = (): JSX.Element => {
                           {quote.client_name}
                         </div>
                         <div className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                          {quote.production_company || 'N/A'}
+                          {quote.client_phone || 'N/A'}
                         </div>
                       </button>
                     </td>

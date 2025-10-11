@@ -119,8 +119,8 @@ export const generateQuotePDF = (quote: Quote, formData?: any) => {
             <span class="info-value">${quote.client_phone || 'N/A'}</span>
           </div>
           <div class="info-row">
-            <span class="info-label">Production Company:</span>
-            <span class="info-value">${quote.production_company || 'N/A'}</span>
+            <span class="info-label">Client Phone:</span>
+            <span class="info-value">${quote.client_phone || 'N/A'}</span>
           </div>
         </div>
       </div>
@@ -188,7 +188,7 @@ export const generateQuoteExcel = (quote: Quote) => {
     ['Client Name', quote.client_name],
     ['Email', quote.client_email],
     ['Phone', quote.client_phone || 'N/A'],
-    ['Production Company', quote.production_company || 'N/A'],
+    ['Client Phone', quote.client_phone || 'N/A'],
     [''],
     ['Project Information'],
     ['Start Date', quote.project_start_date || 'N/A'],

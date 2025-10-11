@@ -46,7 +46,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
           client_id: profile.id,
           client_name: formData.fullName,
           client_email: formData.contactEmail,
-          production_company: formData.productionCompanyName,
+          client_phone: formData.clientPhoneNumber,
           project_start_date: startDate,
           project_end_date: endDate,
           status: 'draft',

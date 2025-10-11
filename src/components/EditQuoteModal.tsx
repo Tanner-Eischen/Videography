@@ -26,7 +26,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
   const [formData, setFormData] = useState({
     client_name: quote?.client_name || '',
     client_email: quote?.client_email || '',
-    production_company: quote?.production_company || '',
+    client_phone: quote?.client_phone || '',
     project_start_date: quote?.project_start_date || '',
     project_end_date: quote?.project_end_date || '',
     status: quote?.status || 'pending',
@@ -55,7 +55,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
         ...quote.form_data,
         fullName: formData.client_name,
         contactEmail: formData.client_email,
-        productionCompanyName: formData.production_company,
+        clientPhoneNumber: formData.client_phone,
         numberOfDeliverables: formData.numberOfDeliverables,
         deliverables: formData.deliverables,
         filmingDays: formData.filmingDays,
@@ -70,7 +70,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
         .update({
           client_name: formData.client_name,
           client_email: formData.client_email,
-          production_company: formData.production_company,
+          client_phone: formData.client_phone,
           project_start_date: formData.project_start_date,
           project_end_date: formData.project_end_date,
           status: formData.status,
@@ -221,12 +221,12 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="production_company">Production Company</Label>
+            <Label htmlFor="client_phone">Client Phone Number</Label>
             <Input
-              id="production_company"
-              value={formData.production_company}
+              id="client_phone"
+              value={formData.client_phone}
               onChange={(e) =>
-                setFormData({ ...formData, production_company: e.target.value })
+                setFormData({ ...formData, client_phone: e.target.value })
               }
             />
           </div>

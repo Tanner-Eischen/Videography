@@ -250,8 +250,8 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
              Client Phone Number
             </Label>
             <Input
-              value={formData.clientphonenumber}
-              onChange={(e) => updateFormData({ clientphonenumber: e.target.value })}
+              value={formData.clientPhoneNumber}
+              onChange={(e) => updateFormData({ clientPhoneNumber: e.target.value })}
               placeholder="(xxx)xxx-xxxx"
               className="h-[60px] rounded-xl border-2 border-[#5a5a5a] [font-family:'Lexend',Helvetica] text-lg px-6"
             />
