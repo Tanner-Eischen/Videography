@@ -5,6 +5,7 @@ import { Avatar } from '../../components/ui/avatar';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
+import { Footer } from '../../components/ui/footer';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { User, LogOut, Settings, HelpCircle, Trash2, RotateCcw, Plus, Mail } from 'lucide-react';
@@ -193,7 +194,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
   }
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="bg-[#f8f9fa] min-h-screen flex flex-col">
       <header className="bg-[#6b21a8] min-h-[70px] flex flex-col md:flex-row items-center justify-end px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
         <nav className="flex items-center gap-8">
           <button
@@ -459,6 +460,8 @@ export const SuperAdminAccounts = (): JSX.Element => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Footer bgColor="bg-[#003D82]" />
     </div>
   );
 };

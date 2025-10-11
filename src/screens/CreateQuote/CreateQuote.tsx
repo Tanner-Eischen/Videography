@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../components/ui/button";
 import { Avatar } from "../../components/ui/avatar";
+import { Footer } from "../../components/ui/footer";
 import { LogOut, User, Settings, HelpCircle } from "lucide-react";
 import { useAuth } from "../../contexts/AuthContext";
 import { useGoogleMaps } from "../../hooks/useGoogleMaps";
@@ -256,6 +257,8 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
           )}
         </div>
       </div>
+
+      <Footer bgColor={isEditMode ? "bg-[#f59e0b]" : "bg-[#003D82]"} />
     </div>
   );
 };

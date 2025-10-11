@@ -7,6 +7,7 @@ import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Button } from '../../components/ui/button';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
+import { Footer } from '../../components/ui/footer';
 import { ArrowLeft, Save, User, DollarSign, Building2, LogOut, Settings, HelpCircle } from 'lucide-react';
 import { Avatar } from '../../components/ui/avatar';
 import {
@@ -146,7 +147,7 @@ export const UserSettings: React.FC = () => {
   const avatarBgColor = isSuperAdmin ? 'bg-[#9333ea] hover:bg-[#7e22ce]' : 'bg-[#003D82] hover:bg-[#002A5C]';
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa]">
+    <div className="min-h-screen bg-[#f8f9fa] flex flex-col">
       <header className={`${headerBgColor} min-h-[70px] flex flex-col md:flex-row items-center justify-end px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0`}>
         <nav className="flex items-center gap-3 md:gap-8 overflow-x-auto">
           {isSuperAdmin ? (
@@ -557,6 +558,8 @@ export const UserSettings: React.FC = () => {
           </div>
         </DialogContent>
       </Dialog>
+
+      <Footer bgColor="bg-[#003D82]" />
     </div>
   );
 };

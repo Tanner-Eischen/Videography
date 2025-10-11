@@ -3,6 +3,7 @@ import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Card } from '../../components/ui/card';
+import { Footer } from '../../components/ui/footer';
 import { useAuth } from '../../contexts/AuthContext';
 import { User } from 'lucide-react';
 
@@ -44,7 +45,8 @@ export const Login = (): JSX.Element => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#003D82] to-[#8FC4D4] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#003D82] to-[#8FC4D4] flex flex-col">
+      <div className="flex-1 flex items-center justify-center p-4">
       <Card className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
         <div className="mb-8 text-center">
           <div className="w-20 h-20 bg-[#003D82] rounded-full mx-auto mb-4 flex items-center justify-center">
@@ -157,6 +159,9 @@ export const Login = (): JSX.Element => {
           </p>
         </div>
       </Card>
+      </div>
+
+      <Footer bgColor="bg-[#003D82]" />
     </div>
   );
 };

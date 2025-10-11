@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { generateQuotePDF, generateQuoteExcel, sendQuoteEmail } from '../../lib/exportUtils';
 import { getStatusColor, formatDate } from '../../lib/quoteUtils';
 import { EditQuoteModal } from '../../components/EditQuoteModal';
+import { Footer } from '../../components/ui/footer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -90,7 +91,7 @@ export const AllQuotes = (): JSX.Element => {
   }
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="bg-[#f8f9fa] min-h-screen flex flex-col">
       <header className="bg-[#003D82] min-h-[70px] flex flex-col md:flex-row items-center justify-end px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
         <div className="flex items-center gap-8">
           <nav className="flex items-center gap-8">
@@ -273,6 +274,8 @@ export const AllQuotes = (): JSX.Element => {
           onSuccess={handleModalSuccess}
         />
       )}
+
+      <Footer bgColor="bg-[#003D82]" />
     </div>
   );
 };

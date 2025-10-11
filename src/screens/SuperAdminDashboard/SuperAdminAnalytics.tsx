@@ -7,6 +7,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import { Users, DollarSign, FileText, TrendingUp, LogOut, User, Settings, HelpCircle, Activity, Target } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { getStatusColor, formatDate } from '../../lib/quoteUtils';
+import { Footer } from '../../components/ui/footer';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -115,7 +116,7 @@ export const SuperAdminAnalytics = (): JSX.Element => {
   }
 
   return (
-    <div className="bg-[#f8f9fa] min-h-screen">
+    <div className="bg-[#f8f9fa] min-h-screen flex flex-col">
       <header className="bg-[#6b21a8] min-h-[70px] flex flex-col md:flex-row items-center justify-end px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
         <nav className="flex items-center gap-3 md:gap-8 overflow-x-auto">
           <button
@@ -374,6 +375,8 @@ export const SuperAdminAnalytics = (): JSX.Element => {
           </div>
         </Card>
       </div>
+
+      <Footer bgColor="bg-[#003D82]" />
     </div>
   );
 };
