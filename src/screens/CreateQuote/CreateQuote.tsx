@@ -85,26 +85,12 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
     clientPhoneNumber: "",
     projectStartDate: { month: "", day: "", year: "" },
     projectEndDate: { month: "", day: "", year: "" },
-    numberOfDeliverables: 3,
+    numberOfDeliverables: 1,
     deliverables: [
-      { hours: 4, minutes: 25, seconds: 0 },
-      { hours: 0, minutes: 0, seconds: 0 },
       { hours: 0, minutes: 0, seconds: 0 },
     ],
-    filmingDays: 3,
+    filmingDays: 1,
     filmingDetails: [
-      {
-        date: { month: "", day: "", year: "" },
-        hours: 4,
-        minutes: 25,
-        locations: [{ address: "", miles: 25, requiresSetup: false }],
-      },
-      {
-        date: { month: "", day: "", year: "" },
-        hours: 0,
-        minutes: 0,
-        locations: [{ address: "", miles: 0, requiresSetup: false }],
-      },
       {
         date: { month: "", day: "", year: "" },
         hours: 0,
