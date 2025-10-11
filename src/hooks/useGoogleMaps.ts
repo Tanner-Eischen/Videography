@@ -10,11 +10,21 @@ export const useGoogleMaps = ({ apiKey }: UseGoogleMapsOptions) => {
 
   useEffect(() => {
     if (!apiKey) {
+      console.error('[useGoogleMaps] API key is missing');
       setLoadError(new Error('Google Maps API key is required'));
       return;
     }
 
+    if (apiKey === 'YOUR_API_KEY_HERE') {
+      console.error('[useGoogleMaps] API key is placeholder value');
+      setLoadError(new Error('Google Maps API key not configured'));
+      return;
+    }
+
+    console.log('[useGoogleMaps] Initializing Google Maps SDK');
+
     if (window.google && window.google.maps) {
+      console.log('[useGoogleMaps] Google Maps already loaded');
       setIsLoaded(true);
       return;
     }
@@ -24,9 +34,18 @@ export const useGoogleMaps = ({ apiKey }: UseGoogleMapsOptions) => {
     );
 
     if (existingScript) {
+      console.log('[useGoogleMaps] Script tag exists, waiting for load');
+      let attempts = 0;
+      const maxAttempts = 50;
       const checkIfLoaded = setInterval(() => {
+        attempts++;
         if (window.google && window.google.maps) {
+          console.log('[useGoogleMaps] Google Maps loaded successfully');
           setIsLoaded(true);
+          clearInterval(checkIfLoaded);
+        } else if (attempts >= maxAttempts) {
+          console.error('[useGoogleMaps] Timeout waiting for Google Maps to load');
+          setLoadError(new Error('Timeout loading Google Maps'));
           clearInterval(checkIfLoaded);
         }
       }, 100);
@@ -34,17 +53,25 @@ export const useGoogleMaps = ({ apiKey }: UseGoogleMapsOptions) => {
       return () => clearInterval(checkIfLoaded);
     }
 
+    console.log('[useGoogleMaps] Creating new script tag');
     const script = document.createElement('script');
     script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}&libraries=places`;
     script.async = true;
     script.defer = true;
 
     script.onload = () => {
-      setIsLoaded(true);
+      if (window.google && window.google.maps) {
+        console.log('[useGoogleMaps] Script loaded successfully');
+        setIsLoaded(true);
+      } else {
+        console.error('[useGoogleMaps] Script loaded but google.maps not available');
+        setLoadError(new Error('Google Maps object not found after script load'));
+      }
     };
 
-    script.onerror = () => {
-      setLoadError(new Error('Failed to load Google Maps script'));
+    script.onerror = (event) => {
+      console.error('[useGoogleMaps] Failed to load script:', event);
+      setLoadError(new Error('Failed to load Google Maps script. Check your API key and network connection.'));
     };
 
     document.head.appendChild(script);
@@ -55,6 +82,12 @@ export const useGoogleMaps = ({ apiKey }: UseGoogleMapsOptions) => {
       }
     };
   }, [apiKey]);
+
+  useEffect(() => {
+    if (loadError) {
+      console.error('[useGoogleMaps] Load error:', loadError.message);
+    }
+  }, [loadError]);
 
   return { isLoaded, loadError };
 };

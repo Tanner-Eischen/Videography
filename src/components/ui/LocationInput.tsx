@@ -24,7 +24,10 @@ export const LocationInput: React.FC<LocationInputProps> = ({
 
   useEffect(() => {
     if (window.google && window.google.maps && window.google.maps.places) {
+      console.log('[LocationInput] Initializing AutocompleteService');
       autocompleteService.current = new google.maps.places.AutocompleteService();
+    } else {
+      console.warn('[LocationInput] Google Maps Places API not available yet');
     }
   }, []);
 
@@ -39,10 +42,15 @@ export const LocationInput: React.FC<LocationInputProps> = ({
           componentRestrictions: { country: 'us' },
         },
         (predictions, status) => {
+          console.log('[LocationInput] Autocomplete status:', status, 'predictions:', predictions?.length || 0);
           if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
             setSuggestions(predictions);
             setShowSuggestions(true);
+          } else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+            setSuggestions([]);
+            setShowSuggestions(false);
           } else {
+            console.error('[LocationInput] Autocomplete error:', status);
             setSuggestions([]);
             setShowSuggestions(false);
           }

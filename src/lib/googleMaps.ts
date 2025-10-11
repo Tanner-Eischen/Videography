@@ -24,10 +24,8 @@ interface GeocodeResult {
 }
 
 export class GoogleMapsService {
-  private apiKey: string;
-
-  constructor(apiKey: string) {
-    this.apiKey = apiKey;
+  private isGoogleMapsLoaded(): boolean {
+    return !!(window.google && window.google.maps);
   }
 
   async geocodeAddress(address: string): Promise<GeocodeResult | null> {
@@ -35,25 +33,31 @@ export class GoogleMapsService {
       return null;
     }
 
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${this.apiKey}`
-      );
-
-      const data = await response.json();
-
-      if (data.status === 'OK' && data.results.length > 0) {
-        const result = data.results[0];
-        return {
-          lat: result.geometry.location.lat,
-          lng: result.geometry.location.lng,
-          formattedAddress: result.formatted_address,
-        };
-      }
-
+    if (!this.isGoogleMapsLoaded()) {
+      console.error('[GoogleMapsService] Google Maps SDK not loaded');
       return null;
+    }
+
+    try {
+      const geocoder = new google.maps.Geocoder();
+
+      const result = await new Promise<google.maps.GeocoderResult>((resolve, reject) => {
+        geocoder.geocode({ address }, (results, status) => {
+          if (status === google.maps.GeocoderStatus.OK && results && results[0]) {
+            resolve(results[0]);
+          } else {
+            reject(new Error(`Geocoding failed: ${status}`));
+          }
+        });
+      });
+
+      return {
+        lat: result.geometry.location.lat(),
+        lng: result.geometry.location.lng(),
+        formattedAddress: result.formatted_address,
+      };
     } catch (error) {
-      console.error('Geocoding error:', error);
+      console.error('[GoogleMapsService] Geocoding error:', error);
       return null;
     }
   }
@@ -66,78 +70,120 @@ export class GoogleMapsService {
       return null;
     }
 
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${encodeURIComponent(origin)}&destinations=${encodeURIComponent(destination)}&units=imperial&key=${this.apiKey}`
-      );
+    if (!this.isGoogleMapsLoaded()) {
+      console.error('[GoogleMapsService] Google Maps SDK not loaded');
+      return null;
+    }
 
-      const data = await response.json();
+    try {
+      const distanceMatrixService = new google.maps.DistanceMatrixService();
+
+      const matrixResult = await new Promise<google.maps.DistanceMatrixResponse>((resolve, reject) => {
+        distanceMatrixService.getDistanceMatrix(
+          {
+            origins: [origin],
+            destinations: [destination],
+            travelMode: google.maps.TravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.IMPERIAL,
+          },
+          (response, status) => {
+            if (status === google.maps.DistanceMatrixStatus.OK && response) {
+              resolve(response);
+            } else {
+              reject(new Error(`Distance Matrix API error: ${status}`));
+            }
+          }
+        );
+      });
 
       if (
-        data.status === 'OK' &&
-        data.rows.length > 0 &&
-        data.rows[0].elements.length > 0
+        !matrixResult.rows ||
+        matrixResult.rows.length === 0 ||
+        !matrixResult.rows[0].elements ||
+        matrixResult.rows[0].elements.length === 0
       ) {
-        const element = data.rows[0].elements[0];
-
-        if (element.status === 'OK') {
-          const distanceMeters = element.distance.value;
-          const durationSeconds = element.duration.value;
-
-          const originGeocode = await this.geocodeAddress(origin);
-          const destGeocode = await this.geocodeAddress(destination);
-
-          if (!originGeocode || !destGeocode) {
-            return null;
-          }
-
-          return {
-            distance: {
-              miles: distanceMeters * 0.000621371,
-              km: distanceMeters / 1000,
-            },
-            duration: {
-              minutes: Math.round(durationSeconds / 60),
-              text: element.duration.text,
-            },
-            origin: {
-              lat: originGeocode.lat,
-              lng: originGeocode.lng,
-            },
-            destination: {
-              lat: destGeocode.lat,
-              lng: destGeocode.lng,
-            },
-          };
-        }
+        console.warn('[GoogleMapsService] No results in distance matrix');
+        return null;
       }
 
-      return null;
+      const element = matrixResult.rows[0].elements[0];
+
+      if (element.status !== google.maps.DistanceMatrixElementStatus.OK) {
+        console.warn('[GoogleMapsService] Distance element status:', element.status);
+        return null;
+      }
+
+      const distanceMeters = element.distance.value;
+      const durationSeconds = element.duration.value;
+
+      const [originGeocode, destGeocode] = await Promise.all([
+        this.geocodeAddress(origin),
+        this.geocodeAddress(destination)
+      ]);
+
+      if (!originGeocode || !destGeocode) {
+        console.error('[GoogleMapsService] Failed to geocode origin or destination');
+        return null;
+      }
+
+      return {
+        distance: {
+          miles: distanceMeters * 0.000621371,
+          km: distanceMeters / 1000,
+        },
+        duration: {
+          minutes: Math.round(durationSeconds / 60),
+          text: element.duration.text,
+        },
+        origin: {
+          lat: originGeocode.lat,
+          lng: originGeocode.lng,
+        },
+        destination: {
+          lat: destGeocode.lat,
+          lng: destGeocode.lng,
+        },
+      };
     } catch (error) {
-      console.error('Distance calculation error:', error);
+      console.error('[GoogleMapsService] Distance calculation error:', error);
       return null;
     }
   }
 
-  async getPlaceAutocomplete(input: string): Promise<any[]> {
+  async getPlaceAutocomplete(input: string): Promise<google.maps.places.AutocompletePrediction[]> {
     if (!input.trim()) {
       return [];
     }
 
-    try {
-      const response = await fetch(
-        `https://maps.googleapis.com/maps/api/place/autocomplete/json?input=${encodeURIComponent(input)}&key=${this.apiKey}`
-      );
-
-      const data = await response.json();
-
-      if (data.status === 'OK') {
-        return data.predictions;
-      }
-
+    if (!this.isGoogleMapsLoaded() || !window.google.maps.places) {
+      console.error('[GoogleMapsService] Google Maps Places SDK not loaded');
       return [];
+    }
+
+    try {
+      const autocompleteService = new google.maps.places.AutocompleteService();
+
+      const predictions = await new Promise<google.maps.places.AutocompletePrediction[]>((resolve, reject) => {
+        autocompleteService.getPlacePredictions(
+          {
+            input,
+            componentRestrictions: { country: 'us' },
+          },
+          (results, status) => {
+            if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+              resolve(results);
+            } else if (status === google.maps.places.PlacesServiceStatus.ZERO_RESULTS) {
+              resolve([]);
+            } else {
+              reject(new Error(`Autocomplete error: ${status}`));
+            }
+          }
+        );
+      });
+
+      return predictions;
     } catch (error) {
-      console.error('Autocomplete error:', error);
+      console.error('[GoogleMapsService] Autocomplete error:', error);
       return [];
     }
   }
