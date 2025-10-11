@@ -21,11 +21,23 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
-        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#003D82] text-[32px] mb-8">
-          Client Information
-        </h3>
+        <div className="flex items-center gap-3 mb-6">
+          <div className="bg-[#003D82] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+            <svg
+              width="20"
+              height="20"
+              viewBox="0 0 24 24"
+              fill="white"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none"/>
+              <circle cx="12" cy="7" r="4" stroke="white" strokeWidth="2" fill="none"/>
+            </svg>
+            Client Information
+          </div>
+        </div>
 
-        <div className="space-y-8 max-w-4xl">
+        <div className="bg-white rounded-xl p-6 space-y-6">
           <div>
             <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg mb-3 block">
               Full Name

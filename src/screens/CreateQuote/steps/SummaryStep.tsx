@@ -90,13 +90,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
     <>
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#003D82] text-[32px]">
-            Quote Summary
-          </h2>
-        </div>
-
-        <div className="bg-[#E8EFF3] rounded-xl p-8">
+        <div>
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => setSelectedPackage("Standard")}
