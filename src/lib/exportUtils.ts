@@ -169,9 +169,16 @@ export const generateQuotePDF = (quote: Quote, formData?: any) => {
   printWindow.document.write(htmlContent);
   printWindow.document.close();
 
-  setTimeout(() => {
-    printWindow.print();
-  }, 250);
+  printWindow.onload = () => {
+    setTimeout(() => {
+      printWindow.focus();
+      printWindow.print();
+
+      setTimeout(() => {
+        printWindow.close();
+      }, 100);
+    }, 500);
+  };
 };
 
 export const generateQuoteExcel = (quote: Quote) => {
