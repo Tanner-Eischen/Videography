@@ -15,7 +15,7 @@ export const Footer: React.FC<FooterProps> = ({ bgColor = "bg-[#003D82]" }) => {
             <h3 className="[font-family:'Lexend',Helvetica] font-bold text-white text-lg mb-3">
               About
             </h3>
-            <p className="[font-family:'Lexend',Helvetica] text-white/80 text-sm leading-relaxed">
+            <p className="[font-family:'Lexend',Helvetica] text-white text-sm leading-relaxed">
               Professional video production quote management system
             </p>
           </div>
@@ -25,10 +25,10 @@ export const Footer: React.FC<FooterProps> = ({ bgColor = "bg-[#003D82]" }) => {
               Contact
             </h3>
             <div className="space-y-2">
-              <p className="[font-family:'Lexend',Helvetica] text-white/80 text-sm">
+              <p className="[font-family:'Lexend',Helvetica] text-white text-sm">
                 Email: support@vidquo.com
               </p>
-              <p className="[font-family:'Lexend',Helvetica] text-white/80 text-sm">
+              <p className="[font-family:'Lexend',Helvetica] text-white text-sm">
                 Phone: (555) 123-4567
               </p>
             </div>
@@ -41,19 +41,19 @@ export const Footer: React.FC<FooterProps> = ({ bgColor = "bg-[#003D82]" }) => {
             <div className="space-y-2">
               <a
                 href="#"
-                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors white"
+                className="[font-family:'Lexend',Helvetica] text-white text-sm hover:text-white/80 transition-colors block"
               >
                 Help Center
               </a>
               <a
                 href="#"
-                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors white"
+                className="[font-family:'Lexend',Helvetica] text-white text-sm hover:text-white/80 transition-colors block"
               >
                 Privacy Policy
               </a>
               <a
                 href="#"
-                className="[font-family:'Lexend',Helvetica] text-white/80 text-sm hover:text-white transition-colors white"
+                className="[font-family:'Lexend',Helvetica] text-white text-sm hover:text-white/80 transition-colors block"
               >
                 Terms of Service
               </a>
@@ -62,7 +62,7 @@ export const Footer: React.FC<FooterProps> = ({ bgColor = "bg-[#003D82]" }) => {
         </div>
 
         <div className="border-t border-white/20 pt-6">
-          <p className="[font-family:'Lexend',Helvetica] text-white/60 text-sm text-center">
+          <p className="[font-family:'Lexend',Helvetica] text-white text-sm text-center">
             {currentYear} VidQuo. All rights reserved.
           </p>
         </div>
