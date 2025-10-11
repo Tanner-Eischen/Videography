@@ -263,7 +263,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#D8E3EA] rounded-xl p-6">
+          <div className="bg-[#E8EFF3] rounded-xl p-6">
             <div className="mb-4">
               <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
                 Number of Deliverables (1-7)
@@ -329,7 +329,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#D8E3EA] rounded-xl p-6">
+          <div className="bg-[#E8EFF3] rounded-xl p-6">
             <div className="mb-4">
               <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-base mb-3 block">
                 Filming Days (1-7)

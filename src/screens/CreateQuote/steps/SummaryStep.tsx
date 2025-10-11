@@ -96,7 +96,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
           </h2>
         </div>
 
-        <div className="bg-[#D8E3EA] rounded-xl p-8">
+        <div className="bg-[#E8EFF3] rounded-xl p-8">
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => setSelectedPackage("Standard")}

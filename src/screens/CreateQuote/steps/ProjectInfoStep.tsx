@@ -107,7 +107,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
           Project Information
         </h3>
 
-        <div className="bg-[#D8E3EA] rounded-xl p-8 mb-8">
+        <div className="bg-[#E8EFF3] rounded-xl p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-[#003D82] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
@@ -207,7 +207,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
           </div>
         </div>
 
-        <div className="bg-[#D8E3EA] rounded-xl p-8">
+        <div className="bg-[#E8EFF3] rounded-xl p-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-[#003D82] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
@@ -418,7 +418,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
           </div>
         </div>
 
-        <div className="bg-[#D8E3EA] rounded-xl p-8 mt-8">
+        <div className="bg-[#E8EFF3] rounded-xl p-8 mt-8">
           <div className="flex items-center gap-3 mb-6">
             <div className="bg-[#003D82] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg

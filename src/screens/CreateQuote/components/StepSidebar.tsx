@@ -53,7 +53,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
   };
 
   return (
-    <div className={`w-[280px] ${isEditMode ? 'bg-[#fed7aa]' : 'bg-[#D8E3EA]'} flex flex-col pt-16 px-8`}>
+    <div className={`w-[280px] ${isEditMode ? 'bg-[#fed7aa]' : 'bg-[#E8EFF3]'} flex flex-col pt-16 px-8`}>
       <h1 className="[font-family:'Lexend',Helvetica] font-bold text-black text-[32px] tracking-[0] leading-[1.2] mb-12">
         {isEditMode ? 'Edit Quote' : 'Create a New Quote'}
       </h1>
