@@ -25,12 +25,9 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
-        <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-4">
+        <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-8">
           Quote Summary
         </h2>
-        <p className="[font-family:'Lexend',Helvetica] text-black text-lg mb-12">
-          Choose your quote package.
-        </p>
 
         <div className="bg-[#d4e8ea] rounded-xl p-8">
           <div className="flex items-center gap-4 mb-8">

@@ -93,14 +93,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12 overflow-y-auto">
-        <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-2">
-          Create a New Quote
-        </h2>
-        <p className="[font-family:'Lexend',Helvetica] text-black text-lg mb-12">
-          Next fill out the project details.
-        </p>
-
-        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[25px] mb-6">
+        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-8">
           Project Information
         </h3>
 

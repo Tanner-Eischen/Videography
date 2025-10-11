@@ -21,14 +21,7 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
-        <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-2">
-          Create a New Quote
-        </h2>
-        <p className="[font-family:'Lexend',Helvetica] text-black text-lg mb-12">
-          Fill out client details below to start your quote.
-        </p>
-
-        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[25px] mb-6">
+        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-8">
           Client Information
         </h3>
 
