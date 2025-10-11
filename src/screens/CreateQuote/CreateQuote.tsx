@@ -144,7 +144,10 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
 
   return (
     <div className="bg-[#ffffff] w-full min-h-screen flex flex-col">
-      <header className={`${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#003D82]'} h-[70px] flex items-center justify-end px-8`}>
+      <header className={`${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#003D82]'} h-[70px] flex items-center justify-between px-8`}>
+        <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
+          Vid-QUO
+        </h1>
         <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate("/dashboard")}

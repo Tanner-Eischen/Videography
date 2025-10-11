@@ -92,7 +92,10 @@ export const AllQuotes = (): JSX.Element => {
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen flex flex-col">
-      <header className="bg-[#003D82] min-h-[70px] flex flex-col md:flex-row items-center justify-end px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
+      <header className="bg-[#003D82] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
+        <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
+          Vid-QUO
+        </h1>
         <div className="flex items-center gap-8">
           <nav className="flex items-center gap-8">
           <button

@@ -148,7 +148,10 @@ export const UserSettings: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#f8f9fa] flex flex-col">
-      <header className={`${headerBgColor} min-h-[70px] flex flex-col md:flex-row items-center justify-end px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0`}>
+      <header className={`${headerBgColor} min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0`}>
+        <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
+          Vid-QUO
+        </h1>
         <nav className="flex items-center gap-3 md:gap-8 overflow-x-auto">
           {isSuperAdmin ? (
             <>
