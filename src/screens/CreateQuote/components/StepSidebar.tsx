@@ -53,13 +53,13 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
   };
 
   return (
-    <div className={`w-[280px] ${isEditMode ? 'bg-[#fed7aa]' : 'bg-[#c8d8eb]'} flex flex-col pt-16 px-8`}>
+    <div className={`w-[280px] ${isEditMode ? 'bg-[#fed7aa]' : 'bg-[#D8E3EA]'} flex flex-col pt-16 px-8`}>
       <h1 className="[font-family:'Lexend',Helvetica] font-bold text-black text-[32px] tracking-[0] leading-[1.2] mb-12">
         {isEditMode ? 'Edit Quote' : 'Create a New Quote'}
       </h1>
 
       <div className="space-y-4 relative">
-        <div className={`absolute left-[17px] top-[30px] w-[6px] rounded-full ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#8dd3dc]'}`} style={{ height: 'calc(100% - 78px)' }}></div>
+        <div className={`absolute left-[17px] top-[30px] w-[6px] rounded-full ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#8FC4D4]'}`} style={{ height: 'calc(100% - 78px)' }}></div>
 
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
@@ -76,10 +76,10 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
               <div
                 className={`w-12 h-12 rounded-full flex items-center justify-center flex-shrink-0 absolute -left-[56px] ${
                   isStepCompleted(step.number)
-                    ? isEditMode ? "bg-[#f59e0b] text-white" : "bg-[#0050c8] text-white"
+                    ? isEditMode ? "bg-[#f59e0b] text-white" : "bg-[#003D82] text-white"
                     : isStepActive(step.number)
-                    ? isEditMode ? "bg-[#f59e0b] text-white" : "bg-[#0050c8] text-white"
-                    : isEditMode ? "bg-[#fb923c] text-white" : "bg-[#8dd3dc] text-white"
+                    ? isEditMode ? "bg-[#f59e0b] text-white" : "bg-[#003D82] text-white"
+                    : isEditMode ? "bg-[#fb923c] text-white" : "bg-[#8FC4D4] text-white"
                 }`}
               >
                 {isStepCompleted(step.number) ? (
@@ -93,8 +93,8 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
               <span
                 className={`[font-family:'Lexend',Helvetica] font-bold text-xl ${
                   isStepActive(step.number) || isStepCompleted(step.number)
-                    ? isEditMode ? "text-[#f59e0b]" : "text-[#0050c8]"
-                    : isEditMode ? "text-[#fb923c]" : "text-[#8dd3dc]"
+                    ? isEditMode ? "text-[#f59e0b]" : "text-[#003D82]"
+                    : isEditMode ? "text-[#fb923c]" : "text-[#8FC4D4]"
                 }`}
               >
                 {step.title}
@@ -105,7 +105,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
               <div className="relative ml-[50px] mt-4 mb-2">
                 {step.subSteps.length > 1 && (
                   <div
-                    className={`absolute left-[11px] w-[2px] ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#0050c8]'}`}
+                    className={`absolute left-[11px] w-[2px] ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#003D82]'}`}
                     style={{
                       top: '8px',
                       height: `calc(100% - ${100 / step.subSteps.length}% - 8px)`
@@ -116,12 +116,12 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
                 <div className="space-y-4">
                   {step.subSteps.map((subStep, subIndex) => (
                     <div key={subIndex} className="flex items-start gap-3 pl-6">
-                      <div className={`w-[16px] h-[16px] rounded-full ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#0050c8]'} flex-shrink-0 flex items-center justify-center absolute left-[4px]`}>
+                      <div className={`w-[16px] h-[16px] rounded-full ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#003D82]'} flex-shrink-0 flex items-center justify-center absolute left-[4px]`}>
                         {isSubStepCompleted(step.number, subStep.label) && (
                           <Check className="w-[10px] h-[10px] text-white stroke-[3]" />
                         )}
                       </div>
-                      <span className={`[font-family:'Lexend',Helvetica] text-base leading-tight max-w-[140px] ${isEditMode ? 'text-[#f59e0b]' : 'text-[#0050c8]'}`}>
+                      <span className={`[font-family:'Lexend',Helvetica] text-base leading-tight max-w-[140px] ${isEditMode ? 'text-[#f59e0b]' : 'text-[#003D82]'}`}>
                         {subStep.label}
                       </span>
                     </div>

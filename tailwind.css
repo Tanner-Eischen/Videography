@@ -8,9 +8,9 @@
 }
 
 :root {
-  --app-secondary: rgba(141, 211, 220, 1);
-  --dark-blue: rgba(0, 80, 200, 1);
-  --darker-blue: rgba(0, 80, 200, 1);
+  --app-secondary: rgba(143, 196, 212, 1);
+  --dark-blue: rgba(0, 61, 130, 1);
+  --darker-blue: rgba(0, 61, 130, 1);
   --m3state-layerslightonsurfacevariantopacity-008: rgba(73, 69, 79, 0.08);
   --m3state-layerslightonsurfacevariantopacity-010: rgba(73, 69, 79, 0.1);
   --m3syslighton-surface-variant: rgba(73, 69, 79, 1);
@@ -145,10 +145,10 @@
     --card: transparent;
     --card-foreground: 222.2 47.4% 11.2%;
 
-    --primary: 215 100% 39.2%;
+    --primary: 210 100% 25.5%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 191 47% 69%;
+    --secondary: 195 47% 69%;
     --secondary-foreground: 222.2 47.4% 11.2%;
 
     --accent: 210 40% 96.1%;

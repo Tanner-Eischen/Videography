@@ -102,10 +102,10 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
         </>
       ) : (
         <div className="relative">
-          <div className="absolute left-0 top-0 h-12 border-l-2 border-b-2 border-[#023c97] rounded-bl-lg" style={{ width: '32px', left: '0px' }}>
+          <div className="absolute left-0 top-0 h-12 border-l-2 border-b-2 border-[#003D82] rounded-bl-lg" style={{ width: '32px', left: '0px' }}>
             <div className="absolute right-0 top-full -mt-1.5 -mr-0.5">
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M0 6L12 6L7 11L7 1L12 6Z" fill="#023c97"/>
+                <path d="M0 6L12 6L7 11L7 1L12 6Z" fill="#003D82"/>
               </svg>
             </div>
           </div>
@@ -115,9 +115,9 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
               <div className="flex items-center gap-3 mb-3">
                 <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-blue-300">
                   {loading ? (
-                    <div className="w-4 h-4 border-2 border-[#023c97] border-t-transparent rounded-full animate-spin"></div>
+                    <div className="w-4 h-4 border-2 border-[#003D82] border-t-transparent rounded-full animate-spin"></div>
                   ) : (
-                    <span className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-lg">
+                    <span className="[font-family:'Lexend',Helvetica] font-bold text-[#003D82] text-lg">
                       {location.miles}
                     </span>
                   )}
@@ -127,7 +127,7 @@ export const LocationWithDistance: React.FC<LocationWithDistanceProps> = ({
                 </div>
                 {!loading && result?.duration && (
                   <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-md border border-blue-300">
-                    <Clock className="w-4 h-4 text-[#023c97]" />
+                    <Clock className="w-4 h-4 text-[#003D82]" />
                     <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-700">
                       {result.duration.text}
                     </span>

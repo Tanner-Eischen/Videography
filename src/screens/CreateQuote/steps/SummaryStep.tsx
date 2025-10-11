@@ -91,18 +91,18 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
         <div className="flex items-center justify-between mb-8">
-          <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px]">
+          <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#003D82] text-[32px]">
             Quote Summary
           </h2>
         </div>
 
-        <div className="bg-[#d4e8ea] rounded-xl p-8">
+        <div className="bg-[#D8E3EA] rounded-xl p-8">
           <div className="flex items-center gap-4 mb-8">
             <button
               onClick={() => setSelectedPackage("Standard")}
               className={`flex-1 h-14 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg transition-all ${
                 selectedPackage === "Standard"
-                  ? "bg-[#0050c8] text-white"
+                  ? "bg-[#003D82] text-white"
                   : "bg-[#a0b4b8] text-white hover:bg-[#90a4a8]"
               }`}
             >
@@ -112,7 +112,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
               onClick={() => setSelectedPackage("Best Deal")}
               className={`flex-1 h-14 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg transition-all ${
                 selectedPackage === "Best Deal"
-                  ? "bg-[#0050c8] text-white"
+                  ? "bg-[#003D82] text-white"
                   : "bg-[#a0b4b8] text-white hover:bg-[#90a4a8]"
               }`}
             >
@@ -122,7 +122,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
               onClick={() => setSelectedPackage("Lifejacket")}
               className={`flex-1 h-14 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg transition-all ${
                 selectedPackage === "Lifejacket"
-                  ? "bg-[#0050c8] text-white"
+                  ? "bg-[#003D82] text-white"
                   : "bg-[#a0b4b8] text-white hover:bg-[#90a4a8]"
               }`}
             >
@@ -132,13 +132,13 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
 
           <div className="bg-white rounded-xl p-8 min-h-[400px] flex flex-col">
             <div className="mb-8">
-              <div className="inline-block bg-[#0050c8] text-white px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg mb-8">
+              <div className="inline-block bg-[#003D82] text-white px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg mb-8">
                 {selectedPackage} Quote
               </div>
             </div>
 
             <div className="flex items-center justify-center flex-1">
-              <div className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[80px]">
+              <div className="[font-family:'Lexend',Helvetica] font-bold text-[#003D82] text-[80px]">
                 $$$
               </div>
             </div>
@@ -184,7 +184,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
         </Button>
         <Button
           onClick={handleCreateNewQuoteClick}
-          className="h-[50px] px-8 rounded-lg bg-[#0050c8] hover:bg-[#003d99] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+          className="h-[50px] px-8 rounded-lg bg-[#003D82] hover:bg-[#002A5C] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
         >
           Create New Quote
         </Button>
@@ -212,7 +212,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
           </Button>
           <Button
             onClick={handleConfirmCreateNewQuote}
-            className="bg-[#0050c8] hover:bg-[#003d99] text-white [font-family:'Lexend',Helvetica] font-semibold"
+            className="bg-[#003D82] hover:bg-[#002A5C] text-white [font-family:'Lexend',Helvetica] font-semibold"
           >
             Confirm
           </Button>

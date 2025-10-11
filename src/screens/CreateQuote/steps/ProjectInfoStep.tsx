@@ -103,13 +103,13 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12 overflow-y-auto">
-        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-8">
+        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#003D82] text-[32px] mb-8">
           Project Information
         </h3>
 
-        <div className="bg-[#d4e8ea] rounded-xl p-8 mb-8">
+        <div className="bg-[#D8E3EA] rounded-xl p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[#0050c8] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+            <div className="bg-[#003D82] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
                 width="20"
                 height="20"
@@ -131,7 +131,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               <div className="flex items-center gap-3">
                 <Button
                   onClick={() => updateDeliverableCount(-1)}
-                  className="w-12 h-12 bg-[#8dd3dc] hover:bg-[#7cc5d0] rounded-lg flex items-center justify-center"
+                  className="w-12 h-12 bg-[#8FC4D4] hover:bg-[#7AB8C4] rounded-lg flex items-center justify-center"
                 >
                   <Minus className="w-6 h-6 text-black" />
                 </Button>
@@ -140,7 +140,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 </div>
                 <Button
                   onClick={() => updateDeliverableCount(1)}
-                  className="w-12 h-12 bg-[#0050c8] hover:bg-[#003d99] rounded-lg flex items-center justify-center"
+                  className="w-12 h-12 bg-[#003D82] hover:bg-[#002A5C] rounded-lg flex items-center justify-center"
                 >
                   <Plus className="w-6 h-6 text-white" />
                 </Button>
@@ -160,7 +160,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 </div>
                 {formData.deliverables.map((deliverable: any, index: number) => (
                   <div key={index} className="grid grid-cols-4 gap-4 items-center">
-                    <div className="bg-[#8dd3dc] text-center py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold">
+                    <div className="bg-[#8FC4D4] text-center py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold">
                       {index + 1}
                     </div>
                     <input
@@ -207,9 +207,9 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
           </div>
         </div>
 
-        <div className="bg-[#d4e8ea] rounded-xl p-8">
+        <div className="bg-[#D8E3EA] rounded-xl p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[#0050c8] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+            <div className="bg-[#003D82] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
                 width="20"
                 height="20"
@@ -230,7 +230,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
             <div className="flex items-center gap-3">
               <Button
                 onClick={() => updateFilmingDays(-1)}
-                className="w-12 h-12 bg-[#8dd3dc] hover:bg-[#7cc5d0] rounded-lg flex items-center justify-center"
+                className="w-12 h-12 bg-[#8FC4D4] hover:bg-[#7AB8C4] rounded-lg flex items-center justify-center"
               >
                 <Minus className="w-6 h-6 text-black" />
               </Button>
@@ -239,7 +239,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               </div>
               <Button
                 onClick={() => updateFilmingDays(1)}
-                className="w-12 h-12 bg-[#0050c8] hover:bg-[#003d99] rounded-lg flex items-center justify-center"
+                className="w-12 h-12 bg-[#003D82] hover:bg-[#002A5C] rounded-lg flex items-center justify-center"
               >
                 <Plus className="w-6 h-6 text-white" />
               </Button>
@@ -260,7 +260,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                     className="w-full flex items-center justify-between p-4 hover:bg-gray-50"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="bg-[#8dd3dc] px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg text-black">
+                      <div className="bg-[#8FC4D4] px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg text-black">
                         Day {dayIndex + 1}
                       </div>
                       <div className="flex items-center gap-2 text-gray-500 [font-family:'Lexend',Helvetica]">
@@ -392,7 +392,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                           )}
                           <button
                             onClick={() => addLocation(dayIndex)}
-                            className="text-[#023c97] [font-family:'Lexend',Helvetica] font-semibold text-sm flex items-center gap-2 pl-8"
+                            className="text-[#003D82] [font-family:'Lexend',Helvetica] font-semibold text-sm flex items-center gap-2 pl-8"
                           >
                             <Plus className="w-4 h-4" />
                             Add next location
@@ -401,7 +401,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                       </div>
 
                       <div className="flex justify-end pt-4">
-                        <div className="bg-[#0050c8] text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-base flex items-center gap-2">
+                        <div className="bg-[#003D82] text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-base flex items-center gap-2">
                           <span>Total Miles:</span>
                           <span>
                             {detail.locations.reduce((sum: number, location: any, idx: number) => {
@@ -418,9 +418,9 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
           </div>
         </div>
 
-        <div className="bg-[#d4e8ea] rounded-xl p-8 mt-8">
+        <div className="bg-[#D8E3EA] rounded-xl p-8 mt-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[#0050c8] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+            <div className="bg-[#003D82] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
                 width="20"
                 height="20"
@@ -479,7 +479,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   document.addEventListener('mouseup', handleUp);
                 }}
               >
-                <div className="absolute left-0 top-0 h-full w-full bg-[#8dd3dc] rounded-md"></div>
+                <div className="absolute left-0 top-0 h-full w-full bg-[#8FC4D4] rounded-md"></div>
                 <div
                   className="absolute top-0 h-full bg-[#4a4a4a] rounded-r-md"
                   style={{
@@ -545,7 +545,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   })
                 }
                 className="w-full h-12 px-4 border-2 border-gray-300 rounded-lg [font-family:'Lexend',Helvetica] text-lg bg-white"
-                placeholder="Enter discount percentage"
+                placeholder=""
               />
             </div>
 
@@ -605,7 +605,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
           </Button>
           <Button
             onClick={onNext}
-            className="h-[50px] px-8 rounded-lg bg-[#0050c8] hover:bg-[#003d99] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+            className="h-[50px] px-8 rounded-lg bg-[#003D82] hover:bg-[#002A5C] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
           >
             Next
           </Button>

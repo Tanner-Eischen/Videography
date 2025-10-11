@@ -304,7 +304,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                   value={newAccount.full_name}
                   onChange={(e) => setNewAccount({ ...newAccount, full_name: e.target.value })}
                   className="border-gray-300"
-                  placeholder="Enter full name"
+                  placeholder=""
                 />
               </div>
               <div>
@@ -317,7 +317,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                   value={newAccount.email}
                   onChange={(e) => setNewAccount({ ...newAccount, email: e.target.value })}
                   className="border-gray-300"
-                  placeholder="Enter email address"
+                  placeholder=""
                 />
               </div>
               <div>
@@ -330,7 +330,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                   value={newAccount.password}
                   onChange={(e) => setNewAccount({ ...newAccount, password: e.target.value })}
                   className="border-gray-300"
-                  placeholder="Enter password"
+                  placeholder=""
                 />
               </div>
             </div>
@@ -463,7 +463,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                 if (confirmAction.type === 'delete') handleDeleteAccount();
                 if (confirmAction.type === 'reset') handleResetPassword();
               }}
-              className={`${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : 'bg-[#0050c8] hover:bg-[#022d70]'} text-white [font-family:'Lexend',Helvetica] font-semibold`}
+              className={`${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : 'bg-[#003D82] hover:bg-[#022d70]'} text-white [font-family:'Lexend',Helvetica] font-semibold`}
             >
               Confirm
             </Button>

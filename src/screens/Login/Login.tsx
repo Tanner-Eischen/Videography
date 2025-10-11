@@ -44,13 +44,13 @@ export const Login = (): JSX.Element => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#023c97] to-[#8dd3dc] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#003D82] to-[#8FC4D4] flex items-center justify-center p-4">
       <Card className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
         <div className="mb-8 text-center">
-          <div className="w-20 h-20 bg-[#0050c8] rounded-full mx-auto mb-4 flex items-center justify-center">
+          <div className="w-20 h-20 bg-[#003D82] rounded-full mx-auto mb-4 flex items-center justify-center">
             <User className="w-10 h-10 text-white" />
           </div>
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#0050c8] text-3xl mb-2">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#003D82] text-3xl mb-2">
             {isSignUp ? 'Create Account' : 'Welcome Back'}
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-600">
@@ -80,8 +80,8 @@ export const Login = (): JSX.Element => {
                 type="text"
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#023c97] [font-family:'Lexend',Helvetica]"
-                placeholder="John Doe"
+                className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#003D82] [font-family:'Lexend',Helvetica]"
+                placeholder=""
                 required
               />
             </div>
@@ -95,8 +95,8 @@ export const Login = (): JSX.Element => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#023c97] [font-family:'Lexend',Helvetica]"
-              placeholder="your@email.com"
+              className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#003D82] [font-family:'Lexend',Helvetica]"
+              placeholder=""
               required
             />
           </div>
@@ -109,8 +109,8 @@ export const Login = (): JSX.Element => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#023c97] [font-family:'Lexend',Helvetica]"
-              placeholder="Enter your password"
+              className="h-12 rounded-lg border-2 border-gray-300 focus:border-[#003D82] [font-family:'Lexend',Helvetica]"
+              placeholder=""
               required
             />
           </div>
@@ -123,7 +123,7 @@ export const Login = (): JSX.Element => {
               <select
                 value={role}
                 onChange={(e) => setRole(e.target.value as 'superadmin' | 'admin')}
-                className="w-full h-12 rounded-lg border-2 border-gray-300 focus:border-[#023c97] [font-family:'Lexend',Helvetica] px-4"
+                className="w-full h-12 rounded-lg border-2 border-gray-300 focus:border-[#003D82] [font-family:'Lexend',Helvetica] px-4"
                 required
               >
                 <option value="admin">Admin</option>
@@ -135,7 +135,7 @@ export const Login = (): JSX.Element => {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full h-12 bg-[#0050c8] hover:bg-[#003d99] text-white rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
+            className="w-full h-12 bg-[#003D82] hover:bg-[#002A5C] text-white rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
           >
             {loading ? (isSignUp ? 'Creating Account...' : 'Signing in...') : (isSignUp ? 'Sign Up' : 'Sign In')}
           </Button>
@@ -150,7 +150,7 @@ export const Login = (): JSX.Element => {
                 setError('');
                 setSuccess('');
               }}
-              className="text-[#0050c8] font-semibold hover:underline"
+              className="text-[#003D82] font-semibold hover:underline"
             >
               {isSignUp ? 'Sign In' : 'Sign Up'}
             </button>

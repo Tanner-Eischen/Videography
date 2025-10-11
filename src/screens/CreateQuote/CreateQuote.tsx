@@ -143,7 +143,7 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
 
   return (
     <div className="bg-[#ffffff] w-full min-h-screen flex flex-col">
-      <header className={`${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#0050c8]'} h-[70px] flex items-center justify-between px-8`}>
+      <header className={`${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#003D82]'} h-[70px] flex items-center justify-between px-8`}>
         <div className="flex items-center gap-4">
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
             Vid-QUO
@@ -160,19 +160,19 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
         <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate("/dashboard")}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8FC4D4] transition-colors"
           >
             Dashboard
           </button>
           <button
             onClick={() => navigate("/create-quote")}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8FC4D4] transition-colors"
           >
             Create Quote
           </button>
           <button
             onClick={() => navigate("/all-quotes")}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8FC4D4] transition-colors"
           >
             All Quotes
           </button>
@@ -182,7 +182,7 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="cursor-pointer focus:outline-none">
-                <Avatar className="w-12 h-12 bg-[#0050c8] hover:bg-[#003d99] transition-colors">
+                <Avatar className="w-12 h-12 bg-[#003D82] hover:bg-[#002A5C] transition-colors">
                   <div className="w-full h-full flex items-center justify-center text-white">
                     <User className="w-6 h-6" />
                   </div>
