@@ -98,7 +98,8 @@ export const AllQuotes = (): JSX.Element => {
           </h1>
         </div>
 
-        <nav className="flex items-center gap-8">
+        <div className="flex items-center gap-8">
+          <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate('/dashboard')}
             className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
@@ -117,9 +118,9 @@ export const AllQuotes = (): JSX.Element => {
           >
             All Quotes
           </button>
-        </nav>
+          </nav>
 
-        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="cursor-pointer focus:outline-none">
@@ -159,6 +160,7 @@ export const AllQuotes = (): JSX.Element => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+          </div>
         </div>
       </header>
 
