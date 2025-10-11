@@ -105,18 +105,7 @@ export const SuperAdminAllQuotes = (): JSX.Element => {
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
-      <header className="bg-[#6b21a8] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
-        <div className="flex items-center gap-4">
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
-            Vid-QUO
-          </h1>
-          <div className="bg-white/20 px-3 py-1 rounded-lg">
-            <span className="[font-family:'Lexend',Helvetica] font-bold text-white text-sm">
-              SUPER ADMIN
-            </span>
-          </div>
-        </div>
-
+      <header className="bg-[#6b21a8] min-h-[70px] flex flex-col md:flex-row items-center justify-end px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
         <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate('/superadmin')}
