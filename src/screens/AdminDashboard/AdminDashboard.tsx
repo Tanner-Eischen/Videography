@@ -223,7 +223,7 @@ export const AdminDashboard = (): JSX.Element => {
             </div>
             <div className="flex-1 flex flex-col items-center justify-center py-4">
               <SemiCircleGauge
-                value={metrics.acceptedFilmingHours}
+                value={6}
                 max={metrics.totalFilmingHours || 1}
                 label=""
                 subtitle={`of ${metrics.totalFilmingHours} hours`}
