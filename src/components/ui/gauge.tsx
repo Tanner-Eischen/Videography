@@ -211,17 +211,19 @@ export const SemiCircleGauge: React.FC<SemiCircleGaugeProps> = ({
             strokeWidth={strokeWidth}
             strokeLinecap="butt"
           />
-          <g clipPath={`url(#clip-${label.replace(/\s/g, '-')})`}>
-            <path
-              d={pathD}
-              stroke={`url(#${gradientId})`}
-              fill="transparent"
-              strokeWidth={strokeWidth}
-              strokeDasharray={`${circumference} ${circumference}`}
-              style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}
-              strokeLinecap="round"
-            />
-          </g>
+          {percentage > 0 && (
+            <g clipPath={`url(#clip-${label.replace(/\s/g, '-')})`}>
+              <path
+                d={pathD}
+                stroke={`url(#${gradientId})`}
+                fill="transparent"
+                strokeWidth={strokeWidth}
+                strokeDasharray={`${circumference} ${circumference}`}
+                style={{ strokeDashoffset, transition: 'stroke-dashoffset 0.5s ease' }}
+                strokeLinecap="round"
+              />
+            </g>
+          )}
           <rect
             x={startX - strokeWidth/2}
             y={centerY} 
