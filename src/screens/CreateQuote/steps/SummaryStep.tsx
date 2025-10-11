@@ -1,5 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
+import { supabase } from "../../../lib/supabase";
+import { useAuth } from "../../../contexts/AuthContext";
 
 interface SummaryStepProps {
   formData: any;
@@ -12,7 +15,56 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
   formData,
   onCreateNewQuote,
 }) => {
+  const navigate = useNavigate();
+  const { profile } = useAuth();
   const [selectedPackage, setSelectedPackage] = useState<QuotePackage>("Standard");
+  const [isSaving, setIsSaving] = useState(false);
+  const [quoteSaved, setQuoteSaved] = useState(false);
+
+  useEffect(() => {
+    if (!quoteSaved && profile?.id) {
+      saveQuote();
+    }
+  }, [profile?.id]);
+
+  const saveQuote = async () => {
+    if (isSaving || quoteSaved || !profile?.id) return;
+
+    setIsSaving(true);
+    try {
+      const startDate = formData.projectStartDate.year && formData.projectStartDate.month && formData.projectStartDate.day
+        ? `${formData.projectStartDate.year}-${formData.projectStartDate.month.padStart(2, '0')}-${formData.projectStartDate.day.padStart(2, '0')}`
+        : null;
+
+      const endDate = formData.projectEndDate.year && formData.projectEndDate.month && formData.projectEndDate.day
+        ? `${formData.projectEndDate.year}-${formData.projectEndDate.month.padStart(2, '0')}-${formData.projectEndDate.day.padStart(2, '0')}`
+        : null;
+
+      const { data, error } = await supabase
+        .from('quotes')
+        .insert({
+          client_id: profile.id,
+          client_name: formData.fullName,
+          client_email: formData.contactEmail,
+          production_company: formData.productionCompanyName,
+          project_start_date: startDate,
+          project_end_date: endDate,
+          status: 'draft',
+          form_data: formData
+        })
+        .select()
+        .single();
+
+      if (error) throw error;
+
+      setQuoteSaved(true);
+    } catch (error) {
+      console.error('Error saving quote:', error);
+      alert('Failed to save quote. Please try again.');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   const handleEmail = () => {
     alert("Email functionality will be implemented");
@@ -25,9 +77,19 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
-        <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-8">
-          Quote Summary
-        </h2>
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px]">
+            Quote Summary
+          </h2>
+          {quoteSaved && (
+            <div className="flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-semibold">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              Quote Saved
+            </div>
+          )}
+        </div>
 
         <div className="bg-[#d4e8ea] rounded-xl p-8">
           <div className="flex items-center gap-4 mb-8">
