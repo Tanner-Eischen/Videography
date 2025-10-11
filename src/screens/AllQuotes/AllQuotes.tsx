@@ -91,7 +91,7 @@ export const AllQuotes = (): JSX.Element => {
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
-      <header className="bg-[#023c97] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
+      <header className="bg-[#0050c8] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
         <div className="flex items-center gap-4">
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
             Vid-QUO
@@ -101,19 +101,19 @@ export const AllQuotes = (): JSX.Element => {
         <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate('/dashboard')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
           >
             Dashboard
           </button>
           <button
             onClick={() => navigate('/create-quote')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
           >
             Create Quote
           </button>
           <button
             onClick={() => navigate('/all-quotes')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
           >
             All Quotes
           </button>
@@ -123,7 +123,7 @@ export const AllQuotes = (): JSX.Element => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="cursor-pointer focus:outline-none">
-                <Avatar className="w-12 h-12 bg-[#5c8bb0] hover:bg-[#4a7a9a] transition-colors">
+                <Avatar className="w-12 h-12 bg-[#0050c8] hover:bg-[#003d99] transition-colors">
                   <div className="w-full h-full flex items-center justify-center text-white">
                     <User className="w-6 h-6" />
                   </div>
@@ -174,7 +174,7 @@ export const AllQuotes = (): JSX.Element => {
 
         <Card className="bg-white rounded-xl overflow-hidden">
           <table className="w-full">
-            <thead className="bg-[#023c97]">
+            <thead className="bg-[#0050c8]">
               <tr>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
                   CLIENT NAME

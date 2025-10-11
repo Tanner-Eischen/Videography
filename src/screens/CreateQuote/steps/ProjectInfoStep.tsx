@@ -109,7 +109,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
 
         <div className="bg-[#d4e8ea] rounded-xl p-8 mb-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[#023c97] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+            <div className="bg-[#0050c8] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
                 width="20"
                 height="20"
@@ -131,7 +131,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               <div className="flex items-center gap-3">
                 <Button
                   onClick={() => updateDeliverableCount(-1)}
-                  className="w-12 h-12 bg-[#75c4cc] hover:bg-[#65b4bc] rounded-lg flex items-center justify-center"
+                  className="w-12 h-12 bg-[#8dd3dc] hover:bg-[#7cc5d0] rounded-lg flex items-center justify-center"
                 >
                   <Minus className="w-6 h-6 text-black" />
                 </Button>
@@ -140,7 +140,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 </div>
                 <Button
                   onClick={() => updateDeliverableCount(1)}
-                  className="w-12 h-12 bg-[#023c97] hover:bg-[#022d70] rounded-lg flex items-center justify-center"
+                  className="w-12 h-12 bg-[#0050c8] hover:bg-[#003d99] rounded-lg flex items-center justify-center"
                 >
                   <Plus className="w-6 h-6 text-white" />
                 </Button>
@@ -160,7 +160,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 </div>
                 {formData.deliverables.map((deliverable: any, index: number) => (
                   <div key={index} className="grid grid-cols-4 gap-4 items-center">
-                    <div className="bg-[#75c4cc] text-center py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold">
+                    <div className="bg-[#8dd3dc] text-center py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold">
                       {index + 1}
                     </div>
                     <input
@@ -209,7 +209,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
 
         <div className="bg-[#d4e8ea] rounded-xl p-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[#023c97] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+            <div className="bg-[#0050c8] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
                 width="20"
                 height="20"
@@ -230,7 +230,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
             <div className="flex items-center gap-3">
               <Button
                 onClick={() => updateFilmingDays(-1)}
-                className="w-12 h-12 bg-[#75c4cc] hover:bg-[#65b4bc] rounded-lg flex items-center justify-center"
+                className="w-12 h-12 bg-[#8dd3dc] hover:bg-[#7cc5d0] rounded-lg flex items-center justify-center"
               >
                 <Minus className="w-6 h-6 text-black" />
               </Button>
@@ -239,7 +239,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
               </div>
               <Button
                 onClick={() => updateFilmingDays(1)}
-                className="w-12 h-12 bg-[#023c97] hover:bg-[#022d70] rounded-lg flex items-center justify-center"
+                className="w-12 h-12 bg-[#0050c8] hover:bg-[#003d99] rounded-lg flex items-center justify-center"
               >
                 <Plus className="w-6 h-6 text-white" />
               </Button>
@@ -260,7 +260,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                     className="w-full flex items-center justify-between p-4 hover:bg-gray-50"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="bg-[#75c4cc] px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg">
+                      <div className="bg-[#8dd3dc] px-6 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg">
                         Day {dayIndex + 1}
                       </div>
                       <div className="flex items-center gap-2 text-gray-500 [font-family:'Lexend',Helvetica]">
@@ -401,7 +401,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                       </div>
 
                       <div className="flex justify-end pt-4">
-                        <div className="bg-[#023c97] text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-base flex items-center gap-2">
+                        <div className="bg-[#0050c8] text-white px-4 py-2 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-base flex items-center gap-2">
                           <span>Total Miles:</span>
                           <span>
                             {detail.locations.reduce((sum: number, location: any, idx: number) => {
@@ -420,7 +420,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
 
         <div className="bg-[#d4e8ea] rounded-xl p-8 mt-8">
           <div className="flex items-center gap-3 mb-6">
-            <div className="bg-[#023c97] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
+            <div className="bg-[#0050c8] text-white px-4 py-2 rounded [font-family:'Lexend',Helvetica] font-bold text-lg flex items-center gap-2">
               <svg
                 width="20"
                 height="20"
@@ -479,7 +479,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                   document.addEventListener('mouseup', handleUp);
                 }}
               >
-                <div className="absolute left-0 top-0 h-full w-full bg-[#5c8bb0] rounded-md"></div>
+                <div className="absolute left-0 top-0 h-full w-full bg-[#8dd3dc] rounded-md"></div>
                 <div
                   className="absolute top-0 h-full bg-[#4a4a4a] rounded-r-md"
                   style={{
@@ -605,7 +605,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
           </Button>
           <Button
             onClick={onNext}
-            className="h-[50px] px-8 rounded-lg bg-[#023c97] hover:bg-[#022d70] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+            className="h-[50px] px-8 rounded-lg bg-[#0050c8] hover:bg-[#003d99] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
           >
             Next
           </Button>

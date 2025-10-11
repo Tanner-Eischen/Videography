@@ -187,7 +187,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="bg-[#023c97] p-4 rounded-lg">
+          <div className="bg-[#0050c8] p-4 rounded-lg">
             <h3 className="[font-family:'Lexend',Helvetica] font-bold text-white text-lg">
               Client Information
             </h3>
@@ -231,7 +231,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             />
           </div>
 
-          <div className="bg-[#023c97] p-4 rounded-lg mt-6">
+          <div className="bg-[#0050c8] p-4 rounded-lg mt-6">
             <h3 className="[font-family:'Lexend',Helvetica] font-bold text-white text-lg">
               Project Details
             </h3>
@@ -282,7 +282,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
                 <Button
                   type="button"
                   onClick={() => updateDeliverableCount(1)}
-                  className="w-10 h-10 bg-[#023c97] hover:bg-[#022d70] rounded-lg flex items-center justify-center"
+                  className="w-10 h-10 bg-[#0050c8] hover:bg-[#003d99] rounded-lg flex items-center justify-center"
                 >
                   <Plus className="w-5 h-5 text-white" />
                 </Button>
@@ -348,7 +348,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
                 <Button
                   type="button"
                   onClick={() => updateFilmingDays(1)}
-                  className="w-10 h-10 bg-[#023c97] hover:bg-[#022d70] rounded-lg flex items-center justify-center"
+                  className="w-10 h-10 bg-[#0050c8] hover:bg-[#003d99] rounded-lg flex items-center justify-center"
                 >
                   <Plus className="w-5 h-5 text-white" />
                 </Button>
@@ -593,7 +593,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#023c97] p-4 rounded-lg mt-6">
+          <div className="bg-[#0050c8] p-4 rounded-lg mt-6">
             <h3 className="[font-family:'Lexend',Helvetica] font-bold text-white text-lg">
               Setup & Pricing
             </h3>
@@ -649,7 +649,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             </div>
           </div>
 
-          <div className="bg-[#023c97] p-4 rounded-lg mt-6">
+          <div className="bg-[#0050c8] p-4 rounded-lg mt-6">
             <h3 className="[font-family:'Lexend',Helvetica] font-bold text-white text-lg">
               Quote Status
             </h3>
@@ -700,7 +700,7 @@ export const EditQuoteModal: React.FC<EditQuoteModalProps> = ({
             <Button
               type="submit"
               disabled={loading}
-              className="bg-[#023c97] hover:bg-[#0050c8] text-white"
+              className="bg-[#0050c8] hover:bg-[#0050c8] text-white"
             >
               {loading ? 'Saving...' : 'Save Changes'}
             </Button>

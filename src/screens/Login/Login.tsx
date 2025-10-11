@@ -44,13 +44,13 @@ export const Login = (): JSX.Element => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#023c97] to-[#75c4cc] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-[#023c97] to-[#8dd3dc] flex items-center justify-center p-4">
       <Card className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8">
         <div className="mb-8 text-center">
-          <div className="w-20 h-20 bg-[#023c97] rounded-full mx-auto mb-4 flex items-center justify-center">
+          <div className="w-20 h-20 bg-[#0050c8] rounded-full mx-auto mb-4 flex items-center justify-center">
             <User className="w-10 h-10 text-white" />
           </div>
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-3xl mb-2">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#0050c8] text-3xl mb-2">
             {isSignUp ? 'Create Account' : 'Welcome Back'}
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-600">
@@ -135,7 +135,7 @@ export const Login = (): JSX.Element => {
           <Button
             type="submit"
             disabled={loading}
-            className="w-full h-12 bg-[#023c97] hover:bg-[#022d70] text-white rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
+            className="w-full h-12 bg-[#0050c8] hover:bg-[#003d99] text-white rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
           >
             {loading ? (isSignUp ? 'Creating Account...' : 'Signing in...') : (isSignUp ? 'Sign Up' : 'Sign In')}
           </Button>
@@ -150,7 +150,7 @@ export const Login = (): JSX.Element => {
                 setError('');
                 setSuccess('');
               }}
-              className="text-[#023c97] font-semibold hover:underline"
+              className="text-[#0050c8] font-semibold hover:underline"
             >
               {isSignUp ? 'Sign In' : 'Sign Up'}
             </button>

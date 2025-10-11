@@ -21,7 +21,7 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
   return (
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
-        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-[32px] mb-8">
+        <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#0050c8] text-[32px] mb-8">
           Client Information
         </h3>
 
@@ -274,7 +274,7 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
         </Button>
         <Button
           onClick={onNext}
-          className="h-[50px] px-8 rounded-lg bg-[#023c97] hover:bg-[#022d70] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+          className="h-[50px] px-8 rounded-lg bg-[#0050c8] hover:bg-[#003d99] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
         >
           Next
         </Button>

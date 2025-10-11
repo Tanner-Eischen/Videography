@@ -463,7 +463,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                 if (confirmAction.type === 'delete') handleDeleteAccount();
                 if (confirmAction.type === 'reset') handleResetPassword();
               }}
-              className={`${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : 'bg-[#023c97] hover:bg-[#022d70]'} text-white [font-family:'Lexend',Helvetica] font-semibold`}
+              className={`${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : 'bg-[#0050c8] hover:bg-[#022d70]'} text-white [font-family:'Lexend',Helvetica] font-semibold`}
             >
               Confirm
             </Button>

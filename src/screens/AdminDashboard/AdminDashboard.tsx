@@ -101,7 +101,7 @@ export const AdminDashboard = (): JSX.Element => {
 
   return (
     <div className="bg-[#f8f9fa] min-h-screen">
-      <header className="bg-[#023c97] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
+      <header className="bg-[#0050c8] min-h-[70px] flex flex-col md:flex-row items-center justify-between px-4 md:px-8 py-3 md:py-0 gap-3 md:gap-0">
         <div className="flex items-center gap-4">
           <h1 className="[font-family:'Lexend',Helvetica] font-bold text-white text-2xl">
             Vid-QUO
@@ -111,19 +111,19 @@ export const AdminDashboard = (): JSX.Element => {
         <nav className="flex items-center gap-8">
           <button
             onClick={() => navigate('/dashboard')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
           >
             Dashboard
           </button>
           <button
             onClick={() => navigate('/all-quotes')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
           >
             My Quotes
           </button>
           <button
             onClick={() => navigate('/create-quote')}
-            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#75c4cc] transition-colors"
+            className="[font-family:'Lexend',Helvetica] font-semibold text-white text-lg hover:text-[#8dd3dc] transition-colors"
           >
             Create Quote
           </button>
@@ -133,7 +133,7 @@ export const AdminDashboard = (): JSX.Element => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="cursor-pointer focus:outline-none">
-                <Avatar className="w-12 h-12 bg-[#5c8bb0] hover:bg-[#4a7a9a] transition-colors">
+                <Avatar className="w-12 h-12 bg-[#0050c8] hover:bg-[#4a7a9a] transition-colors">
                   <div className="w-full h-full flex items-center justify-center text-white">
                     <User className="w-6 h-6" />
                   </div>
@@ -174,7 +174,7 @@ export const AdminDashboard = (): JSX.Element => {
 
       <div className="max-w-[1400px] mx-auto px-4 md:px-8 py-6 md:py-12">
         <div className="mb-8">
-          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-2xl md:text-4xl mb-2">
+          <h1 className="[font-family:'Lexend',Helvetica] font-bold text-[#0050c8] text-2xl md:text-4xl mb-2">
             Welcome back, {profile?.full_name || 'Admin'}!
           </h1>
           <p className="[font-family:'Lexend',Helvetica] text-gray-700 text-sm md:text-lg">
@@ -283,7 +283,7 @@ export const AdminDashboard = (): JSX.Element => {
         <div className="grid grid-cols-2 gap-6 mb-8">
           <Card className="p-6 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center justify-between mb-6">
-              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-xl">
+              <h3 className="[font-family:'Lexend',Helvetica] font-bold text-[#0050c8] text-xl">
                 Month-over-Month Growth
               </h3>
               <div className="flex items-center gap-2">
@@ -292,7 +292,7 @@ export const AdminDashboard = (): JSX.Element => {
                     onClick={() => setGrowthView('revenue')}
                     className={`px-3 py-1 rounded-md text-xs [font-family:'Lexend',Helvetica] font-medium transition-all ${
                       growthView === 'revenue'
-                        ? 'bg-[#023c97] text-white'
+                        ? 'bg-[#0050c8] text-white'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
@@ -302,7 +302,7 @@ export const AdminDashboard = (): JSX.Element => {
                     onClick={() => setGrowthView('quotes')}
                     className={`px-3 py-1 rounded-md text-xs [font-family:'Lexend',Helvetica] font-medium transition-all ${
                       growthView === 'quotes'
-                        ? 'bg-[#023c97] text-white'
+                        ? 'bg-[#0050c8] text-white'
                         : 'text-gray-600 hover:text-gray-900'
                     }`}
                   >
@@ -553,7 +553,7 @@ export const AdminDashboard = (): JSX.Element => {
                 <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
                   Conversion Rate
                 </span>
-                <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#023c97]">
+                <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#0050c8]">
                   {completionRate}%
                 </span>
               </div>
@@ -562,14 +562,14 @@ export const AdminDashboard = (): JSX.Element => {
         </div>
 
         <div className="mb-6">
-          <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#023c97] text-2xl mb-4">
+          <h2 className="[font-family:'Lexend',Helvetica] font-bold text-[#0050c8] text-2xl mb-4">
             Recent Quotes
           </h2>
         </div>
 
         <Card className="bg-white rounded-xl overflow-hidden">
           <table className="w-full">
-            <thead className="bg-[#023c97]">
+            <thead className="bg-[#0050c8]">
               <tr>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
                   CLIENT NAME
@@ -615,7 +615,7 @@ export const AdminDashboard = (): JSX.Element => {
                       <div className="flex items-center gap-2">
                         <Button
                           onClick={() => handleEmail(quote)}
-                          className="bg-[#023c97] hover:bg-[#022d70] text-white px-4 py-2 rounded-lg"
+                          className="bg-[#0050c8] hover:bg-[#003d99] text-white px-4 py-2 rounded-lg"
                         >
                           <Mail className="w-4 h-4 mr-2" />
                           <span className="[font-family:'Lexend',Helvetica] font-semibold text-sm">
@@ -624,7 +624,7 @@ export const AdminDashboard = (): JSX.Element => {
                         </Button>
                         <Button
                           onClick={() => handleExportPDF(quote)}
-                          className="bg-white hover:bg-gray-50 text-[#023c97] border-2 border-[#023c97] px-4 py-2 rounded-lg"
+                          className="bg-white hover:bg-gray-50 text-[#0050c8] border-2 border-[#023c97] px-4 py-2 rounded-lg"
                         >
                           <Download className="w-4 h-4 mr-2" />
                           <span className="[font-family:'Lexend',Helvetica] font-semibold text-sm">

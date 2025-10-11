@@ -59,7 +59,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
       </h1>
 
       <div className="space-y-4 relative">
-        <div className={`absolute left-[17px] top-[30px] w-[6px] rounded-full ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#5c8bb0]'}`} style={{ height: 'calc(100% - 78px)' }}></div>
+        <div className={`absolute left-[17px] top-[30px] w-[6px] rounded-full ${isEditMode ? 'bg-[#f59e0b]' : 'bg-[#8dd3dc]'}`} style={{ height: 'calc(100% - 78px)' }}></div>
 
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
@@ -79,7 +79,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
                     ? isEditMode ? "bg-[#f59e0b] text-white" : "bg-[#0050c8] text-white"
                     : isStepActive(step.number)
                     ? isEditMode ? "bg-[#f59e0b] text-white" : "bg-[#0050c8] text-white"
-                    : isEditMode ? "bg-[#fb923c] text-white" : "bg-[#5c8bb0] text-white"
+                    : isEditMode ? "bg-[#fb923c] text-white" : "bg-[#8dd3dc] text-white"
                 }`}
               >
                 {isStepCompleted(step.number) ? (
@@ -94,7 +94,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
                 className={`[font-family:'Lexend',Helvetica] font-bold text-xl ${
                   isStepActive(step.number) || isStepCompleted(step.number)
                     ? isEditMode ? "text-[#f59e0b]" : "text-[#0050c8]"
-                    : isEditMode ? "text-[#fb923c]" : "text-[#5c8bb0]"
+                    : isEditMode ? "text-[#fb923c]" : "text-[#8dd3dc]"
                 }`}
               >
                 {step.title}
