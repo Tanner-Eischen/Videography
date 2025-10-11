@@ -268,7 +268,8 @@ export const SuperAdminDashboard = (): JSX.Element => {
         </div>
 
         <Card className="bg-white rounded-xl overflow-hidden">
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[640px]">
             <thead className="bg-[#003D82]">
               <tr>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
@@ -338,9 +339,10 @@ export const SuperAdminDashboard = (): JSX.Element => {
               )}
             </tbody>
           </table>
+          </div>
         </Card>
 
-        <div className="flex justify-end mt-8">
+        <div className="flex justify-center md:justify-end mt-8">
           <Button
             onClick={() => navigate('/all-quotes')}
             className="bg-[#003D82] hover:bg-[#022d70] text-white px-8 py-4 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"

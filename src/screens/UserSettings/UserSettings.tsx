@@ -252,7 +252,7 @@ export const UserSettings: React.FC = () => {
         </div>
 
         <div className="space-y-6">
-          <Card className="p-8 bg-white rounded-xl border-2 border-gray-200">
+          <Card className="p-4 md:p-8 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center gap-3 mb-6">
               <User className={`w-6 h-6 ${isSuperAdmin ? 'text-[#6b21a8]' : 'text-[#003D82]'}`} />
               <h2 className="[font-family:'Lexend',Helvetica] font-bold text-black text-2xl">
@@ -313,7 +313,7 @@ export const UserSettings: React.FC = () => {
             </div>
           </Card>
 
-          <Card className="p-8 bg-white rounded-xl border-2 border-gray-200">
+          <Card className="p-4 md:p-8 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center gap-3 mb-6">
               <DollarSign className={`w-6 h-6 ${isSuperAdmin ? 'text-[#6b21a8]' : 'text-[#003D82]'}`} />
               <h2 className="[font-family:'Lexend',Helvetica] font-bold text-black text-2xl">
@@ -462,7 +462,7 @@ export const UserSettings: React.FC = () => {
             </div>
           </Card>
 
-          <Card className="p-8 bg-white rounded-xl border-2 border-gray-200">
+          <Card className="p-4 md:p-8 bg-white rounded-xl border-2 border-gray-200">
             <div className="flex items-center gap-3 mb-6">
               <Building2 className={`w-6 h-6 ${isSuperAdmin ? 'text-[#6b21a8]' : 'text-[#003D82]'}`} />
               <h2 className="[font-family:'Lexend',Helvetica] font-bold text-black text-2xl">

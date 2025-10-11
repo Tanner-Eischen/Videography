@@ -348,7 +348,8 @@ export const SuperAdminAccounts = (): JSX.Element => {
         )}
 
         <Card className="bg-white rounded-xl overflow-hidden">
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[768px]">
             <thead className="bg-[#6b21a8]">
               <tr>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
@@ -424,6 +425,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
               )}
             </tbody>
           </table>
+          </div>
         </Card>
       </div>
 

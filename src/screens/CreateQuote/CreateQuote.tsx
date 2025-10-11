@@ -212,7 +212,7 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
         </div>
       </header>
 
-      <div className="flex flex-1">
+      <div className="flex flex-col lg:flex-row flex-1">
         <StepSidebar currentStep={currentStep} onStepChange={setCurrentStep} isEditMode={isEditMode} />
 
         <div className="flex-1 flex flex-col">

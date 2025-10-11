@@ -221,9 +221,9 @@ export const SuperAdminAllQuotes = (): JSX.Element => {
                 </button>
 
                 {expandedAccount === account.accountId && (
-                  <div className="border-t">
+                  <div className="border-t overflow-x-auto">
                     {account.quotes.length > 0 ? (
-                      <table className="w-full">
+                      <table className="w-full min-w-[768px]">
                         <thead className="bg-gray-100">
                           <tr>
                             <th className="px-6 py-3 text-left [font-family:'Lexend',Helvetica] font-bold text-gray-700 text-sm">

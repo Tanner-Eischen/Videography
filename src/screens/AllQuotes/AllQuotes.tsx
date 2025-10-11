@@ -173,7 +173,8 @@ export const AllQuotes = (): JSX.Element => {
         </div>
 
         <Card className="bg-white rounded-xl overflow-hidden">
-          <table className="w-full">
+          <div className="overflow-x-auto">
+          <table className="w-full min-w-[768px]">
             <thead className="bg-[#003D82]">
               <tr>
                 <th className="px-6 py-4 text-left [font-family:'Lexend',Helvetica] font-bold text-white text-lg">
@@ -257,9 +258,10 @@ export const AllQuotes = (): JSX.Element => {
               )}
             </tbody>
           </table>
+          </div>
         </Card>
 
-        <div className="flex justify-start mt-8">
+        <div className="flex justify-center md:justify-start mt-8">
           <Button
             onClick={() => navigate('/dashboard')}
             className="bg-[#5a5a5a] hover:bg-[#4a4a4a] text-white px-8 py-4 rounded-lg [font-family:'Lexend',Helvetica] font-bold text-lg"
