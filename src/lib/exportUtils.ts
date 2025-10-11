@@ -219,5 +219,56 @@ export const generateQuoteExcel = (quote: Quote) => {
 };
 
 export const sendQuoteEmail = async (quote: Quote) => {
-  alert(`Email functionality will be implemented. Quote for ${quote.client_name} will be sent to ${quote.client_email}`);
+  try {
+    const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+    const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+    if (!supabaseUrl || !supabaseAnonKey) {
+      alert('Email service configuration error. Please contact support.');
+      return;
+    }
+
+    const apiUrl = `${supabaseUrl}/functions/v1/send-quote-email`;
+
+    const emailData = {
+      to: quote.client_email,
+      clientName: quote.client_name,
+      quoteData: {
+        clientName: quote.client_name,
+        clientEmail: quote.client_email,
+        clientPhone: quote.client_phone || 'N/A',
+        projectStartDate: quote.project_start_date || 'N/A',
+        projectEndDate: quote.project_end_date || 'N/A',
+        filmingHours: quote.filming_hours || 0,
+        tier: quote.tier || 'Standard',
+        revenue: quote.revenue || 0,
+        status: quote.status,
+        createdAt: quote.created_at,
+      },
+    };
+
+    const response = await fetch(apiUrl, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${supabaseAnonKey}`,
+      },
+      body: JSON.stringify(emailData),
+    });
+
+    const result = await response.json();
+
+    if (!response.ok) {
+      throw new Error(result.error || 'Failed to send email');
+    }
+
+    if (result.success) {
+      alert(`Email sent successfully to ${quote.client_email}`);
+    } else if (result.message) {
+      alert(result.message);
+    }
+  } catch (error) {
+    console.error('Error sending email:', error);
+    alert(`Failed to send email: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  }
 };
