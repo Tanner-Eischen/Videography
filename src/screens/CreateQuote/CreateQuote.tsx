@@ -141,6 +141,12 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
     }
   };
 
+  const handleBack = () => {
+    if (currentStep > 1) {
+      setCurrentStep((currentStep - 1) as QuoteStep);
+    }
+  };
+
   const handleComplete = () => {
     setCurrentStep(3);
   };
@@ -261,6 +267,7 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
               formData={formData}
               updateFormData={updateFormData}
               onNext={handleComplete}
+              onBack={handleBack}
               onCancel={handleCancel}
               onSaveProgress={handleSaveProgress}
             />

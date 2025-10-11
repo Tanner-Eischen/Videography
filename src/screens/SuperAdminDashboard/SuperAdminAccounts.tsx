@@ -4,6 +4,7 @@ import { Card } from '../../components/ui/card';
 import { Avatar } from '../../components/ui/avatar';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../contexts/AuthContext';
 import { User, LogOut, Settings, HelpCircle, Trash2, RotateCcw, Plus, Mail } from 'lucide-react';
@@ -32,6 +33,8 @@ export const SuperAdminAccounts = (): JSX.Element => {
   const [accounts, setAccounts] = useState<AccountData[]>([]);
   const [loading, setLoading] = useState(true);
   const [showCreateModal, setShowCreateModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+  const [confirmAction, setConfirmAction] = useState<{ type: 'create' | 'delete' | 'reset'; data?: any }>({ type: 'create' });
   const [newAccount, setNewAccount] = useState({
     full_name: '',
     email: '',
@@ -70,16 +73,20 @@ export const SuperAdminAccounts = (): JSX.Element => {
     setLoading(false);
   };
 
-  const handleCreateAccount = async () => {
+  const handleCreateAccountClick = () => {
     if (!newAccount.email || !newAccount.password || !newAccount.full_name) {
       alert('Please fill in all fields');
       return;
     }
+    setConfirmAction({ type: 'create', data: { ...newAccount } });
+    setShowConfirmModal(true);
+  };
 
+  const handleCreateAccount = async () => {
     try {
       const { data: authData, error: signUpError } = await supabase.auth.signUp({
-        email: newAccount.email,
-        password: newAccount.password,
+        email: confirmAction.data.email,
+        password: confirmAction.data.password,
       });
 
       if (signUpError) throw signUpError;
@@ -88,7 +95,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
         const { error: profileError } = await supabase
           .from('profiles')
           .update({
-            full_name: newAccount.full_name,
+            full_name: confirmAction.data.full_name,
             role: 'admin',
           })
           .eq('id', authData.user.id);
@@ -97,58 +104,70 @@ export const SuperAdminAccounts = (): JSX.Element => {
 
         alert('Account created successfully!');
         setShowCreateModal(false);
+        setShowConfirmModal(false);
         setNewAccount({ full_name: '', email: '', password: '' });
         fetchAccounts();
       }
     } catch (error: any) {
       console.error('Error creating account:', error);
       alert(`Failed to create account: ${error.message}`);
+      setShowConfirmModal(false);
     }
   };
 
-  const handleResetPassword = async (accountId: string, email: string) => {
-    if (!confirm(`Send password reset email to ${email}?`)) return;
+  const handleResetPasswordClick = (accountId: string, email: string) => {
+    setConfirmAction({ type: 'reset', data: { accountId, email } });
+    setShowConfirmModal(true);
+  };
+
+  const handleResetPassword = async () => {
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      const { error } = await supabase.auth.resetPasswordForEmail(confirmAction.data.email, {
         redirectTo: `${window.location.origin}/reset-password`,
       });
 
       if (error) throw error;
 
       alert('Password reset email sent successfully!');
+      setShowConfirmModal(false);
     } catch (error: any) {
       console.error('Error resetting password:', error);
       alert(`Failed to send password reset: ${error.message}`);
+      setShowConfirmModal(false);
     }
   };
 
-  const handleDeleteAccount = async (accountId: string, accountName: string) => {
-    if (!confirm(`Are you sure you want to delete the account for ${accountName}? This will also delete all their quotes. This action cannot be undone.`)) {
-      return;
-    }
+  const handleDeleteAccountClick = (accountId: string, accountName: string) => {
+    setConfirmAction({ type: 'delete', data: { accountId, accountName } });
+    setShowConfirmModal(true);
+  };
+
+  const handleDeleteAccount = async () => {
 
     try {
       await supabase
         .from('quotes')
         .delete()
-        .eq('client_id', accountId);
+        .eq('client_id', confirmAction.data.accountId);
 
       await supabase
         .from('user_settings')
         .delete()
-        .eq('user_id', accountId);
+        .eq('user_id', confirmAction.data.accountId);
 
       await supabase
         .from('profiles')
         .delete()
-        .eq('id', accountId);
+        .eq('id', confirmAction.data.accountId);
 
       alert('Account deleted successfully!');
+      setShowConfirmModal(false);
       fetchAccounts();
     } catch (error: any) {
       console.error('Error deleting account:', error);
       alert(`Failed to delete account: ${error.message}`);
+      setShowConfirmModal(false);
     }
   };
 
@@ -326,7 +345,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                 Cancel
               </Button>
               <Button
-                onClick={handleCreateAccount}
+                onClick={handleCreateAccountClick}
                 className="bg-[#6b21a8] hover:bg-[#581c87] text-white px-6 py-2 rounded-lg"
               >
                 Create Account
@@ -384,7 +403,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <Button
-                          onClick={() => handleResetPassword(account.id, account.email)}
+                          onClick={() => handleResetPasswordClick(account.id, account.email)}
                           className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg flex items-center gap-2"
                           title="Reset Password"
                         >
@@ -392,7 +411,7 @@ export const SuperAdminAccounts = (): JSX.Element => {
                           Reset
                         </Button>
                         <Button
-                          onClick={() => handleDeleteAccount(account.id, account.full_name)}
+                          onClick={() => handleDeleteAccountClick(account.id, account.full_name)}
                           className="bg-red-600 hover:bg-red-700 text-white px-3 py-2 rounded-lg flex items-center gap-2"
                           title="Delete Account"
                         >
@@ -414,6 +433,43 @@ export const SuperAdminAccounts = (): JSX.Element => {
           </table>
         </Card>
       </div>
+
+      <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="[font-family:'Lexend',Helvetica] font-bold text-xl">
+              {confirmAction.type === 'create' && 'Create Account?'}
+              {confirmAction.type === 'delete' && 'Delete Account?'}
+              {confirmAction.type === 'reset' && 'Reset Password?'}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="[font-family:'Lexend',Helvetica] text-gray-700">
+              {confirmAction.type === 'create' && `Are you sure you want to create an account for ${confirmAction.data?.email}?`}
+              {confirmAction.type === 'delete' && `Are you sure you want to delete the account for ${confirmAction.data?.accountName}? This will also delete all their quotes. This action cannot be undone.`}
+              {confirmAction.type === 'reset' && `Send password reset email to ${confirmAction.data?.email}?`}
+            </p>
+          </div>
+          <div className="flex justify-end gap-3">
+            <Button
+              onClick={() => setShowConfirmModal(false)}
+              className="bg-gray-200 text-gray-800 hover:bg-gray-300 [font-family:'Lexend',Helvetica] font-semibold"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                if (confirmAction.type === 'create') handleCreateAccount();
+                if (confirmAction.type === 'delete') handleDeleteAccount();
+                if (confirmAction.type === 'reset') handleResetPassword();
+              }}
+              className={`${confirmAction.type === 'delete' ? 'bg-red-600 hover:bg-red-700' : 'bg-[#023c97] hover:bg-[#022d70]'} text-white [font-family:'Lexend',Helvetica] font-semibold`}
+            >
+              Confirm
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

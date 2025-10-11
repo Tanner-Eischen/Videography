@@ -8,6 +8,7 @@ interface ProjectInfoStepProps {
   formData: any;
   updateFormData: (data: any) => void;
   onNext: () => void;
+  onBack?: () => void;
   onCancel: () => void;
   onSaveProgress: () => void;
 }
@@ -16,6 +17,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
   formData,
   updateFormData,
   onNext,
+  onBack,
   onCancel,
   onSaveProgress,
 }) => {
@@ -88,6 +90,14 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
       [field]: value,
     };
     updateFormData({ filmingDetails: newDetails });
+  };
+
+  const removeLocation = (dayIndex: number, locationIndex: number) => {
+    const newDetails = [...formData.filmingDetails];
+    if (newDetails[dayIndex].locations.length > 1) {
+      newDetails[dayIndex].locations.splice(locationIndex, 1);
+      updateFormData({ filmingDetails: newDetails });
+    }
   };
 
   return (
@@ -359,14 +369,24 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                                 : '';
 
                               return (
-                                <LocationWithDistance
-                                  key={locationIndex}
-                                  locationIndex={locationIndex}
-                                  dayIndex={dayIndex}
-                                  location={location}
-                                  previousAddress={previousAddress}
-                                  updateLocation={updateLocation}
-                                />
+                                <div key={locationIndex} className="relative">
+                                  <LocationWithDistance
+                                    locationIndex={locationIndex}
+                                    dayIndex={dayIndex}
+                                    location={location}
+                                    previousAddress={previousAddress}
+                                    updateLocation={updateLocation}
+                                  />
+                                  {detail.locations.length > 1 && (
+                                    <button
+                                      onClick={() => removeLocation(dayIndex, locationIndex)}
+                                      className="absolute top-2 right-2 text-red-600 hover:text-red-800 bg-white rounded-full p-1 shadow-md"
+                                      title="Remove location"
+                                    >
+                                      <Minus className="w-4 h-4" />
+                                    </button>
+                                  )}
+                                </div>
                               );
                             }
                           )}
@@ -559,25 +579,37 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-end gap-3 md:gap-4 px-4 md:px-16 py-6 md:py-8 border-t border-gray-200">
-        <Button
-          onClick={onCancel}
-          className="h-[50px] px-8 rounded-lg bg-[#5a5a5a] hover:bg-[#4a4a4a] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
-        >
-          Cancel
-        </Button>
-        <Button
-          onClick={onSaveProgress}
-          className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
-        >
-          Save Progress
-        </Button>
-        <Button
-          onClick={onNext}
-          className="h-[50px] px-8 rounded-lg bg-[#023c97] hover:bg-[#022d70] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
-        >
-          Next
-        </Button>
+      <div className="flex flex-col md:flex-row justify-between gap-3 md:gap-4 px-4 md:px-16 py-6 md:py-8 border-t border-gray-200">
+        <div>
+          {onBack && (
+            <Button
+              onClick={onBack}
+              className="h-[50px] px-8 rounded-lg bg-[#5a5a5a] hover:bg-[#4a4a4a] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+            >
+              Back
+            </Button>
+          )}
+        </div>
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+          <Button
+            onClick={onCancel}
+            className="h-[50px] px-8 rounded-lg bg-[#5a5a5a] hover:bg-[#4a4a4a] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={onSaveProgress}
+            className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+          >
+            Save Progress
+          </Button>
+          <Button
+            onClick={onNext}
+            className="h-[50px] px-8 rounded-lg bg-[#023c97] hover:bg-[#022d70] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+          >
+            Next
+          </Button>
+        </div>
       </div>
     </div>
   );

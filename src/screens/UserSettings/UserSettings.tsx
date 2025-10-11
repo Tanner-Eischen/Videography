@@ -6,6 +6,7 @@ import { Card } from '../../components/ui/card';
 import { Input } from '../../components/ui/input';
 import { Label } from '../../components/ui/label';
 import { Button } from '../../components/ui/button';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '../../components/ui/dialog';
 import { ArrowLeft, Save, User, DollarSign, Building2, LogOut, Settings, HelpCircle } from 'lucide-react';
 import { Avatar } from '../../components/ui/avatar';
 import {
@@ -35,6 +36,7 @@ export const UserSettings: React.FC = () => {
   const { user, profile, signOut } = useAuth();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
   const [settings, setSettings] = useState<UserSettings>({
     director_of_photography_rate: 0,
     editor_rate: 0,
@@ -90,6 +92,10 @@ export const UserSettings: React.FC = () => {
     }
   };
 
+  const handleSaveSettingsClick = () => {
+    setShowConfirmModal(true);
+  };
+
   const handleSaveSettings = async () => {
     if (!user) return;
     setSaving(true);
@@ -112,9 +118,11 @@ export const UserSettings: React.FC = () => {
       if (profileError) throw profileError;
 
       alert('Settings saved successfully!');
+      setShowConfirmModal(false);
     } catch (error) {
       console.error('Error saving settings:', error);
       alert('Failed to save settings. Please try again.');
+      setShowConfirmModal(false);
     } finally {
       setSaving(false);
     }
@@ -522,7 +530,7 @@ export const UserSettings: React.FC = () => {
 
           <div className="flex justify-end">
             <Button
-              onClick={handleSaveSettings}
+              onClick={handleSaveSettingsClick}
               disabled={saving}
               className={`${isSuperAdmin ? 'bg-[#6b21a8] hover:bg-[#581c87]' : 'bg-[#023c97] hover:bg-[#023c97]/90'} text-white px-8 py-6 text-lg`}
             >
@@ -532,6 +540,36 @@ export const UserSettings: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="[font-family:'Lexend',Helvetica] font-bold text-xl">
+              Save Settings?
+            </DialogTitle>
+          </DialogHeader>
+          <div className="py-4">
+            <p className="[font-family:'Lexend',Helvetica] text-gray-700">
+              Are you sure you want to save these changes?
+            </p>
+          </div>
+          <div className="flex justify-end gap-3">
+            <Button
+              onClick={() => setShowConfirmModal(false)}
+              className="bg-gray-200 text-gray-800 hover:bg-gray-300 [font-family:'Lexend',Helvetica] font-semibold"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={handleSaveSettings}
+              disabled={saving}
+              className="bg-[#023c97] hover:bg-[#022d70] text-white [font-family:'Lexend',Helvetica] font-semibold"
+            >
+              {saving ? 'Saving...' : 'Confirm'}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

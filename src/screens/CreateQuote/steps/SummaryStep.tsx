@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../components/ui/dialog";
 import { supabase } from "../../../lib/supabase";
 import { useAuth } from "../../../contexts/AuthContext";
 
@@ -20,6 +21,7 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
   const [selectedPackage, setSelectedPackage] = useState<QuotePackage>("Standard");
   const [isSaving, setIsSaving] = useState(false);
   const [quoteSaved, setQuoteSaved] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   useEffect(() => {
     if (!quoteSaved && profile?.id) {
@@ -74,7 +76,18 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
     window.print();
   };
 
+  const handleCreateNewQuoteClick = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleConfirmCreateNewQuote = () => {
+    setShowConfirmModal(false);
+    onCreateNewQuote();
+    navigate('/dashboard');
+  };
+
   return (
+    <>
     <div className="flex-1 flex flex-col overflow-hidden">
       <div className="flex-1 px-4 md:px-16 py-6 md:py-12">
         <div className="flex items-center justify-between mb-8">
@@ -178,12 +191,42 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
           Print
         </Button>
         <Button
-          onClick={onCreateNewQuote}
+          onClick={handleCreateNewQuoteClick}
           className="h-[50px] px-8 rounded-lg bg-[#023c97] hover:bg-[#022d70] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
         >
           Create New Quote
         </Button>
       </div>
     </div>
+
+    <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
+      <DialogContent className="max-w-md">
+        <DialogHeader>
+          <DialogTitle className="[font-family:'Lexend',Helvetica] font-bold text-xl">
+            Create New Quote?
+          </DialogTitle>
+        </DialogHeader>
+        <div className="py-4">
+          <p className="[font-family:'Lexend',Helvetica] text-gray-700">
+            Are you sure you want to create a new quote? This will take you back to the dashboard.
+          </p>
+        </div>
+        <div className="flex justify-end gap-3">
+          <Button
+            onClick={() => setShowConfirmModal(false)}
+            className="bg-gray-200 text-gray-800 hover:bg-gray-300 [font-family:'Lexend',Helvetica] font-semibold"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={handleConfirmCreateNewQuote}
+            className="bg-[#023c97] hover:bg-[#022d70] text-white [font-family:'Lexend',Helvetica] font-semibold"
+          >
+            Confirm
+          </Button>
+        </div>
+      </DialogContent>
+    </Dialog>
+    </>
   );
 };
