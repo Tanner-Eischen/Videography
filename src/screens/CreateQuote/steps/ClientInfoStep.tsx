@@ -254,12 +254,12 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
 
           <div>
             <Label className="[font-family:'Lexend',Helvetica] font-bold text-black text-lg mb-3 block">
-              Production Company Name
+             Client Phone Number
             </Label>
             <Input
-              value={formData.productionCompanyName}
-              onChange={(e) => updateFormData({ productionCompanyName: e.target.value })}
-              placeholder="Production Company LLC"
+              value={formData.clientphonenumber}
+              onChange={(e) => updateFormData({ clientphonenumber: e.target.value })}
+              placeholder="(xxx)xxx-xxxx"
               className="h-[60px] rounded-xl border-2 border-[#5a5a5a] [font-family:'Lexend',Helvetica] text-lg px-6"
             />
           </div>
