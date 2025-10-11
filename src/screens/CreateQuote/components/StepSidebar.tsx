@@ -64,11 +64,7 @@ export const StepSidebar: React.FC<StepSidebarProps> = ({
         {steps.map((step, index) => (
           <div key={step.number} className="relative">
             <div
-              className={`flex items-center gap-4 px-6 py-4 rounded-xl transition-all cursor-pointer relative ml-[50px] ${
-                isStepActive(step.number)
-                  ? "bg-white shadow-lg"
-                  : "bg-white/40"
-              }`}
+              className="flex items-center gap-4 px-6 py-4 transition-all cursor-pointer relative ml-[50px]"
               onClick={() => {
                 onStepChange(step.number);
               }}
