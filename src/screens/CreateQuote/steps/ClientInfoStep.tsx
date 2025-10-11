@@ -184,7 +184,7 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
                   />
                 </svg>
                 <div className="flex items-center gap-2 flex-1">
-                  <span className="text-sm text-gray-500">Month</span>
+                  <span className="text-sm text-gray-500"></span>
                   <input
                     type="text"
                     placeholder="MM"
@@ -201,7 +201,7 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
                     maxLength={2}
                   />
                   <span className="text-gray-400">/</span>
-                  <span className="text-sm text-gray-500">Day</span>
+                  <span className="text-sm text-gray-500"></span>
                   <input
                     type="text"
                     placeholder="DD"
@@ -218,7 +218,7 @@ export const ClientInfoStep: React.FC<ClientInfoStepProps> = ({
                     maxLength={2}
                   />
                   <span className="text-gray-400">/</span>
-                  <span className="text-sm text-gray-500">Year</span>
+                  <span className="text-sm text-gray-500"></span>
                   <input
                     type="text"
                     placeholder="YYYY"
