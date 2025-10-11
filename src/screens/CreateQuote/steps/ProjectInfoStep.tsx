@@ -422,10 +422,10 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 </Label>
               </div>
               <div className="flex justify-between text-xs [font-family:'Lexend',Helvetica] text-gray-600 mb-2">
-                <span>0%</span>
                 <span>40%</span>
-                <span>60%</span>
-                <span>80%</span>
+                <span>55%</span>
+                <span>70%</span>
+                <span>85%</span>
                 <span>100%</span>
               </div>
               <div
@@ -438,7 +438,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
 
                   const handleMove = (moveEvent: MouseEvent) => {
                     const x = moveEvent.clientX - rect.left;
-                    const percentage = (x / rect.width) * 100;
+                    const percentage = 40 + ((x / rect.width) * 60);
                     const newWeight = Math.round(Math.max(40, Math.min(100, percentage)));
                     updateFormData({ weight: newWeight });
                   };
@@ -451,7 +451,7 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
 
                   // Initial position update
                   const x = e.clientX - rect.left;
-                  const percentage = (x / rect.width) * 100;
+                  const percentage = 40 + ((x / rect.width) * 60);
                   const newWeight = Math.round(Math.max(40, Math.min(100, percentage)));
                   updateFormData({ weight: newWeight });
 
@@ -463,14 +463,14 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                 <div
                   className="absolute top-0 h-full bg-[#4a4a4a] rounded-r-md"
                   style={{
-                    left: `${formData.weight || 60}%`,
-                    width: `${100 - (formData.weight || 60)}%`
+                    left: `${((formData.weight || 60) - 40) * (100 / 60)}%`,
+                    width: `${(100 - (formData.weight || 60)) * (100 / 60)}%`
                   }}
                 />
                 <div
                   className="absolute top-0 h-full w-1 bg-white shadow-lg transition-none"
                   style={{
-                    left: `${formData.weight || 60}%`,
+                    left: `${((formData.weight || 60) - 40) * (100 / 60)}%`,
                     transform: 'translateX(-50%)'
                   }}
                 >
