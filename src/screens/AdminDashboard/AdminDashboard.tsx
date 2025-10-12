@@ -547,16 +547,7 @@ export const AdminDashboard = (): JSX.Element => {
                 label={`$${(metrics.totalPotentialRevenue - metrics.actualRevenue).toLocaleString()} revenue drafted`}
                 color="#d1d5db"
               />
-            </div>
-            <div className="mt-4 pt-4 border-t border-gray-200">
-              <div className="flex items-center justify-between">
-                <span className="[font-family:'Lexend',Helvetica] text-sm text-gray-600">
-                  Conversion Rate
-                </span>
-                <span className="[font-family:'Lexend',Helvetica] text-xl font-bold text-[#003D82]">
-                  {completionRate}%
-                </span>
-              </div>
+            
             </div>
           </Card>
         </div>
