@@ -8,18 +8,15 @@ export const useGoogleMaps = ({ apiKey }: UseGoogleMapsOptions) => {
   const [isLoaded, setIsLoaded] = useState(false);
   const [loadError, setLoadError] = useState<Error | null>(null);
 
-  useEffect(() => {
+  useEffect(() => {                   
+                                                                                    
     if (!apiKey) {
       console.error('[useGoogleMaps] API key is missing');
       setLoadError(new Error('Google Maps API key is required'));
       return;
     }
 
-    if (apiKey === 'YOUR_API_KEY_HERE') {
-      console.error('[useGoogleMaps] API key is placeholder value');
-      setLoadError(new Error('Google Maps API key not configured'));
-      return;
-    }
+    
 
     console.log('[useGoogleMaps] Initializing Google Maps SDK');
 

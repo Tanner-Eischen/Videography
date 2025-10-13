@@ -17,63 +17,67 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
+  
+useEffect(() => {
+  let mounted = true;
 
-  useEffect(() => {
-    let mounted = true;
+  const initAuth = async () => {
+    try {
+      console.log('Starting auth initialization...');
+      const { data: { session }, error: sessionError } = await supabase.auth.getSession();
 
-    const initAuth = async () => {
-      try {
-        console.log('Starting auth initialization...');
-        const { data: { session }, error: sessionError } = await supabase.auth.getSession();
-
-        if (sessionError) {
-          console.error('Session error:', sessionError);
-          await supabase.auth.signOut();
-        }
-
-        console.log('Session retrieved:', session ? 'User found' : 'No session');
-
-        if (!mounted) return;
-
-        if (session?.user) {
-          console.log('Loading profile for user:', session.user.id);
-          setUser(session.user);
-          await loadProfile(session.user.id);
-        } else {
-          setUser(null);
-          setProfile(null);
-        }
-      } catch (error) {
-        console.error('Init auth error:', error);
-        if (mounted) {
-          setUser(null);
-          setProfile(null);
-        }
-      } finally {
-        if (mounted) {
-          console.log('Setting loading to false');
-          setLoading(false);
-        }
+      if (sessionError) {
+        console.error('Session error:', sessionError);
+        await supabase.auth.signOut();
       }
-    };
 
-    const timeoutId = setTimeout(() => {
-      if (mounted) {
-        console.warn('Auth initialization timeout - forcing loading to false');
-        setLoading(false);
+      console.log('Session retrieved:', session ? 'User found' : 'No session');
+
+      if (!mounted) return;
+
+      if (session?.user) {
+        console.log('Loading profile for user:', session.user.id);
+        setUser(session.user);
+        await loadProfile(session.user.id);
+      } else {
         setUser(null);
         setProfile(null);
       }
-    }, 5000);
+    } catch (error) {
+      console.error('Init auth error:', error);
+      if (mounted) {
+        setUser(null);
+        setProfile(null);
+      }
+    } finally {
+      if (mounted) {
+        console.log('Setting loading to false');
+        setLoading(false);
+      }
+    }
+  };
 
-    initAuth().finally(() => {
-      clearTimeout(timeoutId);
-    });
+  // Safety timeout so we never hang if something stalls
+  const timeoutId = setTimeout(() => {
+    if (mounted) {
+      console.warn('Auth initialization timeout - forcing loading to false');
+      setLoading(false);
+      setUser(null);
+      setProfile(null);
+    }
+  }, 5000);
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      (async () => {
-        if (!mounted) return;
+  // Initial check
+  initAuth().finally(() => {
+    clearTimeout(timeoutId);
+  });
 
+  // Subscribe to auth changes
+  const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    (async () => {
+      if (!mounted) return;
+
+      try {
         if (session?.user) {
           setUser(session.user);
           await loadProfile(session.user.id);
@@ -81,14 +85,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setUser(null);
           setProfile(null);
         }
-      })();
-    });
+      } catch (e) {
+        console.error('onAuthStateChange failed:', e);
+        setUser(null);
+        setProfile(null);
+      } finally {
+        if (mounted) setLoading(false); // never hang
+      }
+    })();
+  });
 
-    return () => {
-      mounted = false;
-      subscription.unsubscribe();
-    };
-  }, []);
+  return () => {
+    mounted = false;
+    subscription.unsubscribe();
+    clearTimeout(timeoutId);
+  };
+}, []);
+
+
 
   const loadProfile = async (userId: string) => {
     try {

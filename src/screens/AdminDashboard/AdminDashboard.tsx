@@ -31,11 +31,15 @@ export const AdminDashboard = (): JSX.Element => {
   const [editingQuote, setEditingQuote] = useState<Quote | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  useEffect(() => {
-    if (profile?.id) {
-      fetchClientQuotes();
-    }
-  }, [profile]);
+ useEffect(() => {
+  if (profile?.id) {
+    fetchClientQuotes();
+  } else {
+    // ✅ Prevent infinite spinner when profile isn't ready
+    setLoading(false);
+  }
+}, [profile]);
+
 
   const fetchClientQuotes = async () => {
     if (!profile?.id) return;
@@ -201,16 +205,16 @@ export const AdminDashboard = (): JSX.Element => {
             </div>
             <div className="space-y-3 mt-4">
               <ProgressBarGauge
-                current={metrics.quotesAccepted}
-                total={metrics.totalQuotes}
-                label="quotes accepted"
-                color="#10b981"
+              current={metrics.quotesAccepted}
+              total={metrics.totalQuotes}
+              label="quotes accepted"
+              color="#10b981"
               />
               <ProgressBarGauge
-                current={metrics.quotesDrafted}
-                total={metrics.totalQuotes}
-                label="quotes drafted"
-                color="#d1d5db"
+              current={metrics.totalQuotes - metrics.quotesAccepted}
+              total={metrics.totalQuotes}
+              label="quotes drafted"
+              color="#d1d5db"
               />
             </div>
           </Card>

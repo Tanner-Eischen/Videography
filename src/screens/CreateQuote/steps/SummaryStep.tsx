@@ -194,8 +194,10 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
     <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
       <DialogContent className="max-w-md">
         <DialogHeader>
-          <DialogTitle className="[font-family:'Lexend',Helvetica] font-bold text-xl">
-            Create New Quote?
+          <DialogTitle>
+            <span className="[font-family:'Lexend',Helvetica] font-bold text-xl">
+              Create New Quote?
+            </span>
           </DialogTitle>
         </DialogHeader>
         <div className="py-4">

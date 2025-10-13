@@ -43,9 +43,8 @@ export const useDistanceCalculation = (
       setError(null);
       return;
     }
-
-    const apiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
-    if (!apiKey || apiKey === 'YOUR_API_KEY_HERE') {
+    const apiKey='AIzaSyC3xLyoKaq-QwROrfOPhcKQm6IEddzQ3Qg'
+    if (!apiKey) {
       console.error('[Distance Calculation] API key not configured');
       setError('Google Maps API key not configured');
       return;

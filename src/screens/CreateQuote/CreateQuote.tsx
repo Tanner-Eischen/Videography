@@ -73,8 +73,6 @@ export const CreateQuote = ({ existingQuote, isEditMode = false }: CreateQuotePr
   const { profile, signOut } = useAuth();
   const [currentStep, setCurrentStep] = useState<QuoteStep>(1);
 
-  const googleMapsApiKey = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || '';
-  const { isLoaded: mapsLoaded } = useGoogleMaps({ apiKey: googleMapsApiKey });
 
   const getInitialFormData = (): QuoteFormData => {
     if (existingQuote?.form_data) {
