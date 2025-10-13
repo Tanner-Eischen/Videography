@@ -432,10 +432,12 @@ export const SuperAdminAccounts = (): JSX.Element => {
       <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="[font-family:'Lexend',Helvetica] font-bold text-xl">
-              {confirmAction.type === 'create' && 'Create Account?'}
-              {confirmAction.type === 'delete' && 'Delete Account?'}
-              {confirmAction.type === 'reset' && 'Reset Password?'}
+            <DialogTitle>
+              <span className="[font-family:'Lexend',Helvetica] font-bold text-xl">
+                {confirmAction.type === 'create' && 'Create Account?'}
+                {confirmAction.type === 'delete' && 'Delete Account?'}
+                {confirmAction.type === 'reset' && 'Reset Password?'}
+              </span>
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">

@@ -469,7 +469,6 @@ export const ProjectInfoStep: React.FC<ProjectInfoStepProps> = ({
                     document.removeEventListener('mouseup', handleUp);
                   };
 
-                  // Initial position update
                   const x = e.clientX - rect.left;
                   const percentage = 40 + ((x / rect.width) * 60);
                   const newWeight = Math.round(Math.max(40, Math.min(100, percentage)));

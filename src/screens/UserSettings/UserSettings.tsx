@@ -535,8 +535,10 @@ export const UserSettings: React.FC = () => {
       <Dialog open={showConfirmModal} onOpenChange={setShowConfirmModal}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="[font-family:'Lexend',Helvetica] font-bold text-xl">
-              Save Settings?
+            <DialogTitle>
+              <span className="[font-family:'Lexend',Helvetica] font-bold text-xl">
+                Save Settings?
+              </span>
             </DialogTitle>
           </DialogHeader>
           <div className="py-4">

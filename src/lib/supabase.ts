@@ -54,6 +54,8 @@ export type Profile = {
 };
 
 export type Quote = {
+  total_amount: any;
+  amount: any;
   id: string;
   client_id: string;
   client_name: string;

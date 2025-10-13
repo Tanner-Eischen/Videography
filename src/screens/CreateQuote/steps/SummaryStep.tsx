@@ -130,9 +130,7 @@ const handleConfirmCreateNewQuote = async () => {
   if (!ok) return;
 
   setShowConfirmModal(false);
-  // Skip form reset and navigate directly
   navigate("/dashboard");
-  // keep navigation behavior consistent
 };
 
   return (
@@ -210,7 +208,6 @@ const handleConfirmCreateNewQuote = async () => {
           </div>
         </div>
 
-        {/* Action bar — no Save Draft button */}
         <div className="flex flex-col md:flex-row justify-end gap-3 md:gap-4 px-4 md:px-16 py-6 md:py-8 border-t border-gray-200">
           <Button
             onClick={handleEmail}
