@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../components/ui/dialog";
@@ -22,12 +22,6 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
   const [isSaving, setIsSaving] = useState(false);
   const [quoteSaved, setQuoteSaved] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
-
-  useEffect(() => {
-    if (!quoteSaved && profile?.id) {
-      saveQuote();
-    }
-  }, [profile?.id]);
 
   const saveQuote = async () => {
     if (isSaving || quoteSaved || !profile?.id) return;
@@ -68,12 +62,26 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
     }
   };
 
-  const handleEmail = () => {
-    alert("Email functionality will be implemented");
+  const handleSaveQuote = async () => {
+    await saveQuote();
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handleEmail = async () => {
+    if (!quoteSaved) {
+      await saveQuote();
+    }
+    if (quoteSaved) {
+      alert("Email functionality will be implemented");
+    }
+  };
+
+  const handlePrint = async () => {
+    if (!quoteSaved) {
+      await saveQuote();
+    }
+    if (quoteSaved) {
+      window.print();
+    }
   };
 
   const handleCreateNewQuoteClick = () => {
@@ -169,25 +177,48 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
         </div>
       </div>
 
-      <div className="flex flex-col md:flex-row justify-end gap-3 md:gap-4 px-4 md:px-16 py-6 md:py-8 border-t border-gray-200">
-        <Button
-          onClick={handleEmail}
-          className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
-        >
-          Email
-        </Button>
-        <Button
-          onClick={handlePrint}
-          className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
-        >
-          Print
-        </Button>
-        <Button
-          onClick={handleCreateNewQuoteClick}
-          className="h-[50px] px-8 rounded-lg bg-[#003D82] hover:bg-[#002A5C] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
-        >
-          Create New Quote
-        </Button>
+      <div className="flex flex-col md:flex-row justify-between items-center gap-3 md:gap-4 px-4 md:px-16 py-6 md:py-8 border-t border-gray-200">
+        <div className="flex items-center gap-2">
+          {quoteSaved && (
+            <div className="flex items-center gap-2 text-green-600 [font-family:'Lexend',Helvetica] font-semibold">
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              Quote Saved
+            </div>
+          )}
+          {!quoteSaved && (
+            <Button
+              onClick={handleSaveQuote}
+              disabled={isSaving}
+              className="h-[50px] px-8 rounded-lg bg-[#003D82] hover:bg-[#002A5C] [font-family:'Lexend',Helvetica] font-bold text-white text-xl disabled:opacity-50"
+            >
+              {isSaving ? "Saving..." : "Save Quote"}
+            </Button>
+          )}
+        </div>
+        <div className="flex flex-col md:flex-row gap-3 md:gap-4">
+          <Button
+            onClick={handleEmail}
+            disabled={isSaving}
+            className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl disabled:opacity-50"
+          >
+            Email
+          </Button>
+          <Button
+            onClick={handlePrint}
+            disabled={isSaving}
+            className="h-[50px] px-8 rounded-lg bg-[#007c89] hover:bg-[#006670] [font-family:'Lexend',Helvetica] font-bold text-white text-xl disabled:opacity-50"
+          >
+            Print
+          </Button>
+          <Button
+            onClick={handleCreateNewQuoteClick}
+            className="h-[50px] px-8 rounded-lg bg-[#003D82] hover:bg-[#002A5C] [font-family:'Lexend',Helvetica] font-bold text-white text-xl"
+          >
+            Create New Quote
+          </Button>
+        </div>
       </div>
     </div>
 
