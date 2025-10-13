@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { LoadingSpinner } from './components/LoadingSpinner';
 import { Login } from './screens/Login/Login';
 import { SuperAdminAnalytics } from './screens/SuperAdminDashboard/SuperAdminAnalytics';
 import { SuperAdminAllQuotes } from './screens/SuperAdminDashboard/SuperAdminAllQuotes';
@@ -14,11 +16,7 @@ function ProtectedRoute({ children, allowedRoles }: { children: React.ReactNode;
   const { user, profile, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl [font-family:'Lexend',Helvetica]">Loading...</div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading..." />;
   }
 
   if (!user) {
@@ -36,11 +34,7 @@ function DashboardRouter() {
   const { profile, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl [font-family:'Lexend',Helvetica]">Loading...</div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading dashboard..." />;
   }
 
   if (profile?.role === 'superadmin') {
@@ -54,11 +48,7 @@ function AppRoutes() {
   const { user, loading } = useAuth();
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <div className="text-xl [font-family:'Lexend',Helvetica]">Loading...</div>
-      </div>
-    );
+    return <LoadingSpinner message="Initializing..." />;
   }
 
   return (
@@ -138,10 +128,12 @@ function AppRoutes() {
 
 export function App() {
   return (
-    <Router>
-      <AuthProvider>
-        <AppRoutes />
-      </AuthProvider>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <AuthProvider>
+          <AppRoutes />
+        </AuthProvider>
+      </Router>
+    </ErrorBoundary>
   );
 }
