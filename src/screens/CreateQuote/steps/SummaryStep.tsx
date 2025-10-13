@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../../components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../../../components/ui/dialog";
@@ -97,12 +98,26 @@ export const SummaryStep: React.FC<SummaryStepProps> = ({
     }
   };
 
-  const handleEmail = () => {
-    alert("Email functionality will be implemented");
+  const handleSaveQuote = async () => {
+    await saveQuote();
   };
 
-  const handlePrint = () => {
-    window.print();
+  const handleEmail = async () => {
+    if (!quoteSaved) {
+      await saveQuote();
+    }
+    if (quoteSaved) {
+      alert("Email functionality will be implemented");
+    }
+  };
+
+  const handlePrint = async () => {
+    if (!quoteSaved) {
+      await saveQuote();
+    }
+    if (quoteSaved) {
+      window.print();
+    }
   };
 
   const handleCreateNewQuoteClick = () => {
